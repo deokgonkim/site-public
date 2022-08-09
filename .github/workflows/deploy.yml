@@ -7,6 +7,7 @@ on:
 
 env:
   MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+  GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
 jobs:
   deploy:
