@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="ko-KR">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>전자서명 테스트</title>
+  <script language="javascript" type="text/javascript" src="./sign.js"></script>
+</head>
+<body>
+  <h2>전자서명 테스트</h2>
+  <form name="form0" action="#">
+    서명을 위한 원문<br />
+    <textarea id="plain" type="text" name="plain"></textarea><br />
+    <input type="button" onclick="document.getElementById('signed_msg').value = signDigest(document.getElementById('plain').value);" value="전자서명" /><br />
+    <hr />
+    전자서명문<br />
+    <textarea id="signed_msg"></textarea>
+  </form>
+</body>
+</html>

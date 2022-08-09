@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Deokgon Kim the DevOps engineer</title>
+
+		<meta name="description" content="About Deokgon Kim">
+		<meta name="author" content="Deokgon Kim">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>김덕곤 Deokgon Kim</h1>
+					<h3>DevOps Engineer</h3>
+					<h3>Backend Developer</h3>
+				</section>
+
+				<section>
+					<h2>What I have done</h2>
+					<ul>
+						<li>As a DevOps Engineer👷‍♂️
+							<ul>
+								<li>re-Designed LASTORDER Service Infrastructures on AWS Cloud (including ECS, Lambda)</li>
+								<li>Manage Deployment Pipelines with CI/CD</li>
+								<li>Design and Deploy Container based applications</li>
+								<li>Design and Deploy Lambda Functions</li>
+								<li>Service Monitoring(including APM, System metric monitoring)</li>
+								<li>Manage additional infrastructures(VPN, ...)</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>What I have done</h2>
+					<ul>
+						<li>As a Backend Developer🧑‍💻
+							<ul>
+								<li>Develop/Maintaining 13+ AWS Lambda Applications</li>
+								<li>Develop/Maintaining 6+ AWS ECS Applications</li>
+								<li>Managing 6+ tools applications</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>What I'm doing now</h2>
+					<ul>
+						<li>Internal API</li>
+						<li>Scheduler Re-design</li>
+						<li>API Gateway</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>What I'm doing now</h2>
+					<ul>
+						<li>Internal API <small>AWS CloudMap, AWS ECS, ...</small>
+							<ul>
+								<li>Problem : Hard to maintain Big Monolithic API</li>
+								<li>Solution : Deploy APIs as Smaller Functions</li>
+								<li>Already deployed : 
+									<ul>
+										<li>lastorder-device-api : Push notification send and topic subscriptions</li>
+										<li>lastorder-settlement : (need to re-designed)</li>
+										<li>lastorder-safenumber-api : SafeNumber assignment and unassignment</li>
+									</ul>
+								</li>
+								<li>But : Still uncertain about Async API(ex. SQS) vs Sync API(ex. HTTP)</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>What I'm doing now</h2>
+					<ul>
+						<li>Scheduler Re-design <small>Python <a href="https://apscheduler.readthedocs.io/">APScheduler</a></small>
+							<ul>
+								<li>Problem : there are too many scheduled jobs to be executed and monitored</li>
+								<li>Solution : Deploy a new Scheduler(based on <strong>APScheduler</strong>) which will replace
+									<ul>
+										<li>AWS Scheduler(AWS EventBridge) <small>(CRON style)</small></li>
+										<li>lastorder-scheduled-job-runner <small>(AT style)</small></li>
+									</ul>
+								</li>
+								<li>But : APScheduler seems lack in observability and management.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>What I'm doing now</h2>
+					<ul>
+						<li>API Gateway <small>AWS API Gateway</small>
+							<ul>
+								<li>Problem : Integrate several APIs into One Endpoint</li>
+								<li>Solution : Use AWS API Gateway as a Integrated API Proxy/Gateway</li>
+								<li>But :
+									<ul>
+										<li>AWS API Gateway has several limitations(ex. payload size limit 10MB, Security Group ...)</li>
+										<li>Have not yet tested Unified Deployment of API Gateway</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>What We need to do</h2>
+					<ul>
+						<li>Event Driven Archecture
+							<ul>
+								<li>To achieve a seamless integration between Services and Functions</li>
+								<li>But : 
+									<ul>
+										<li>Still uncertain about system design.</li>
+										<li>Can SNS + SQS be the solution?</li>
+										<li>Do we need another message broker?</li>
+										<li>How to observe the event message is flowing seamlessly</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>What We need to do</h2>
+					<ul>
+						<li>Micro Service Archeture
+							<ul>
+								<li>To Migrate Monolithic archecture to Micro-services</li>
+								<li>But :
+									<ul>
+										<li>How to choose which part of <strong>lastorder-api</strong> to be the <strong>Micro-services</strong>?</li>
+										<li>How do we separate shared data?</li>
+										<li>Do we need additional infrastructures to achieve MSA?</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Long term plan</h2>
+					<ul>
+						<li>Kubernetes / AWS EKS</li>
+						<li>Another high performance language or framework(ex. Go, Rust, ...)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>ETC</h2>
+					<ul>
+						<li>Need to separate Domain based roles (member domain, order domain, item domain)</li>
+						<li>How to achieve a <strong>🚀Fast Prototyping</strong></li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>The End</h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+	</body>
+</html>

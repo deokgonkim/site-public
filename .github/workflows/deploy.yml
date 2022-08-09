@@ -1,0 +1,33 @@
+name: Deploy public
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: aws
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build
+      run: script/build.sh
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Deploy static site to S3 bucket
+      run: aws s3 sync ./public/ s3://${{ secrets.AWS_S3_BUCKET_PUBLIC }}/ --delete --acl public-read
+
+    - name: Invalidate CloudFront cache
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CF_DISTRIBUTION_ID }} --paths "/*"

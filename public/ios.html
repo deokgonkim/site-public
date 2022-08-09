@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>ios.html</title>
+		<script type="text/javascript">
+		function webAlert() {
+			console.log('webAlert called');
+			alert("This message is inside html. javascript alert");
+		}
+		function iosAlert() {
+			console.log('iosAlert called');
+			console.log('webkit ' + window.webkit);
+			console.log('webkit.messageHandlers ' + window.webkit.messageHandlers);
+			window.webkit.messageHandlers.observe.postMessage('iosAlert');
+		}
+		function addtext(txt) {
+			console.log(txt);
+			document.getElementById('server').innerHTML=txt;
+		}
+		</script>
+	</head>
+	<body>
+		<button id="webAlert">Web Alert</button><br />
+		<button id="iosAlert">iOS Alert</button>
+		<p id="server">no response yet</p>
+		<script type="text/javascript">
+document.getElementById("webAlert").onclick = webAlert;
+document.getElementById("iosAlert").onclick = iosAlert;
+		</script>
+	</body>
+</html>
