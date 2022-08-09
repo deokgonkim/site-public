@@ -16,6 +16,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
+    - name: Pre-build
+      run: npm ci
+
     - name: Build
       run: cd script;./build.sh
 
