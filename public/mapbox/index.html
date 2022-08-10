@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Display a map on a webpage</title>
@@ -11,17 +12,52 @@
             margin: 0;
             padding: 0;
         }
+
         #map {
             position: absolute;
             top: 0;
             bottom: 0;
             width: 100%;
         }
+
+        #menu {
+            position: absolute;
+            background: #efefef;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #right_menu {
+            top: 120px;
+            right: 0;
+            position: absolute;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
     </style>
 </head>
 
 <body>
     <div id="map"></div>
+    <div id="menu">
+        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+        <!-- See a list of Mapbox-hosted public styles at -->
+        <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+        <label for="satellite-v9">satellite</label>
+        <input id="light-v10" type="radio" name="rtoggle" value="light">
+        <label for="light-v10">light</label>
+        <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+        <label for="dark-v10">dark</label>
+        <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+        <label for="streets-v11">streets</label>
+        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+        <label for="outdoors-v11">outdoors</label>
+    </div>
+    <!--
+    <div id="right_menu">
+        <button id="currentLocation">📍</button>
+    </div>
+    -->
     <script type="text/javascript">
         fetch("/config.json").then(async (response) => {
             const config = await response.json()
@@ -29,21 +65,59 @@
             // ADD YOUR ACCESS TOKEN FROM
             // https://account.mapbox.com
             mapboxgl.accessToken = config.MAK
-            const map = new mapboxgl.Map({
+            window.map = new mapboxgl.Map({
                 container: 'map', // container ID
                 //        style: 'mapbox://styles/mapbox/streets-v11', // style URL
                 style: 'mapbox://styles/mapbox/satellite-v9',
                 center: [126.839926, 37.565157], // starting position [lng, lat]
                 zoom: 15, // starting zoom
                 projection: 'globe' // display the map as a 3D globe
-            });
+            })
 
-            map.on('style.load', () => {
+            window.map.addControl(new mapboxgl.NavigationControl())
+            window.map.addControl(new mapboxgl.FullscreenControl({ container: document.querySelector('body') }))
+            window.map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true,
+                showUserHeading: true
+            }))
+            window.map.addControl(new mapboxgl.ScaleControl({
+                maxWidth: 80,
+                unit: 'imperial'
+            }))
+
+            window.map.on('style.load', () => {
                 map.setFog({}); // Set the default atmosphere style
             });
         })
     </script>
+    <script type="text/javascript">
+        const layerList = document.getElementById('menu')
+        const inputs = layerList.getElementsByTagName('input')
 
+        for (const input of inputs) {
+            input.onclick = (layer) => {
+                const layerId = layer.target.id;
+                window.map.setStyle('mapbox://styles/mapbox/' + layerId)
+            }
+        }
+
+        /*
+        const btnCurrentLocation = document.querySelector("#right_menu button#currentLocation")
+        btnCurrentLocation.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    window.map.setCenter([longitude, latitude])
+                })
+            }
+        })
+        */
+    </script>
 </body>
 
 </html>
