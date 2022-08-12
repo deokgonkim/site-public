@@ -1,0 +1,16 @@
+{
+  "name": "api-doc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watch -p \"**/*.yaml\" -c \"multi-file-swagger -o yaml index.yaml > doc.yaml\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "multi-file-swagger": "^2.3.0",
+    "watch-cli": "^0.2.3"
+  }
+}

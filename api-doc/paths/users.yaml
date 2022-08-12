@@ -1,0 +1,20 @@
+# LIST
+get:
+  tags:
+    - Users
+  summary: Get all users
+  description: >
+    Returns all users
+  responses:
+    200:
+      description: OK
+# CREATE
+post:
+  tags:
+    - Users
+  summary: Create new User
+  description: >
+    Creates new user
+  responses:
+    200:
+      description: OK

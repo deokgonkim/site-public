@@ -1,0 +1,9 @@
+type: object
+properties:
+  name:
+    type: string
+    description: "User name"
+  email:
+    type: string
+    example: "dgim@dgkim.net"
+    description: "User email"

@@ -1,0 +1,54 @@
+# READ
+get:
+  tags:
+    - Users
+  summary: Get user by Id
+  description: >
+    Returns user
+  parameters:
+    - name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    200:
+      description: OK
+# UPDATE
+put:
+  tags:
+    - Users
+  summary: Update user by Id
+  description: >
+    Updates user
+  parameters:
+    - name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    200:
+      description: OK
+# DELETE
+del:
+  tags:
+    - Users
+  summary: Delete user by Id
+  description: >
+    Deletes user
+  parameters:
+    - name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    200:
+      description: OK
