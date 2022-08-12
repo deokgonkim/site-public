@@ -22,6 +22,9 @@ jobs:
 
     - name: Build
       run: cd script;./build.sh
+    
+    - name: Build API DOC
+      run: cd api-doc;npm ci;npm run build;cp doc.yaml ../public/api-doc/swagger/
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1

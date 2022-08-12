@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watch -p \"**/*.yaml\" -c \"multi-file-swagger -o yaml index.yaml > doc.yaml\""
+    "watch": "watch -p \"**/*.yaml\" -c \"multi-file-swagger -o yaml index.yaml > doc.yaml\"",
+    "build": "multi-file-swagger -o yaml index.yaml > doc.yaml"
   },
   "author": "",
   "license": "ISC",
