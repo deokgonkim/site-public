@@ -2,3 +2,7 @@
   $ref: ./users.yaml
 '/users/{id}':
   $ref: ./users.id.yaml
+'/temperatures':
+  $ref: ./temperatures.yaml
+# '/temperatures/{id}':
+#   $ref: ./temperatures.id.yaml

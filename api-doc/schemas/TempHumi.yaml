@@ -1,0 +1,14 @@
+title: TemperatureHumidity
+type: object
+description: Temperature and Humidity value object
+properties:
+  temperature:
+    title: temperature
+    type: number
+    description: Temperature in celcius
+    example: 28.2
+  humidity:
+    title: humidity
+    type: number
+    description: Humidity in percent
+    example: 47.0

@@ -1,54 +1,48 @@
 # READ
 get:
   tags:
-    - Users
+    - User
   summary: Get user by Id
   description: >
     Returns user
   parameters:
-    - name: id
-      in: path
-      description: User ID
-      required: true
-      schema:
-        type: integer
-        format: int64
+    - $ref: '../schemas/parameters.yaml#/userId'
   responses:
     200:
       description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
 # UPDATE
 put:
   tags:
-    - Users
+    - User
   summary: Update user by Id
   description: >
     Updates user
   parameters:
-    - name: id
-      in: path
-      description: User ID
-      required: true
-      schema:
-        type: integer
-        format: int64
+    - $ref: '../schemas/parameters.yaml#/userId'
   responses:
     200:
       description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
 # DELETE
-del:
+delete:
   tags:
-    - Users
+    - User
   summary: Delete user by Id
   description: >
     Deletes user
   parameters:
-    - name: id
-      in: path
-      description: User ID
-      required: true
-      schema:
-        type: integer
-        format: int64
+    - $ref: '../schemas/parameters.yaml#/userId'
   responses:
     200:
       description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'

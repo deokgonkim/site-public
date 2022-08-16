@@ -4,15 +4,31 @@ info:
   $ref: ./info/index.yaml
 servers:
   $ref: ./info/servers.yaml
+tags:
+  $ref: ./tags/index.yaml
 paths:
   $ref: ./paths/index.yaml
-definitions:
-  $ref: ./definitions/index.yaml
 components:
+  schemas:
+    $ref: ./schemas/index.yaml
   securitySchemes:
     oauth2:
       type: oauth2
       flows:
+        implicit:
+          authorizationUrl: /oauth/dialog
+          scopes:
+            write:temperatures: record temperature
+            read:temperatures: read temperatures
         authorizationCode:
           authorizationUrl: /oauth/dialog
           tokenUrl: /oauth/token
+          scopes:
+            write:temperatures: record temperature
+            read:temperatures: read temperatures
+    apiKey:
+      type: apiKey
+      name: api_key
+      in: header
+# security:
+#   - oauth2: []

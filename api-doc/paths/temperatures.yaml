@@ -1,0 +1,54 @@
+# LIST
+get:
+  tags:
+    - Temperature
+  summary: Get all temperatures
+  description: >
+    Returns all temperatures
+  security:
+    - oauth2:
+      - write:temperatures
+      - read:temperatures
+    - apiKey: {}
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/Temperature'
+                - type: object
+                  properties:
+                    createdAt:
+                      $ref: '../fields/common.yaml#/createdAt'
+# CREATE
+post:
+  tags:
+    - Temperature
+  summary: Create new temperature
+  description: >
+    Creates new temperature
+  security:
+    - oauth2:
+      - write:temperatures
+      - read:temperatures
+    - apiKey: {}
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Temperature'
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: '#/components/schemas/Temperature'
+          # type: object
+          # properties:
+          #   temperature:
+          #     type: number
+          #     format: float
+  responses:
+    200:
+      description: OK

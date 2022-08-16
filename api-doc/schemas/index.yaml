@@ -1,0 +1,6 @@
+User:
+  $ref: ./User.yaml
+TempHumi:
+  $ref: ./TempHumi.yaml
+Temperature:
+  $ref: ./Temperature.yaml

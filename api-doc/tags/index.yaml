@@ -1,0 +1,9 @@
+- name: User
+  description: |
+    **User management API**
+- name: Temperature
+  description: |
+    **Temperature management API**
+# - name: Humi
+#   description: |
+#     **Humidity management API**

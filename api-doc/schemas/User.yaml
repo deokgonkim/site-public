@@ -1,9 +1,14 @@
+title: User
 type: object
+required:
+  - name
 properties:
   name:
+    title: name
     type: string
     description: "User name"
   email:
+    title: email
     type: string
     example: "dgim@dgkim.net"
     description: "User email"

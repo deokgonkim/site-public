@@ -1,0 +1,21 @@
+## Path Parameters
+userId:
+  in: path
+  name: id
+  description: User ID
+  required: true
+  schema:
+    type: integer
+    format: int64
+
+## Query Parameters
+queryLimit:
+  in: query
+  name: _limit
+  description: 페이지당 아이템 개수
+  schema:
+    type: integer
+    minimum: 0
+    maximum: 100
+    default: 10
+  example: 20

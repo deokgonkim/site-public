@@ -1,0 +1,9 @@
+title: Temperature
+type: object
+description: Temperature response
+properties:
+  temperature:
+    title: temperature
+    type: number
+    format: double
+    example: 28.5
