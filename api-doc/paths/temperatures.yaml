@@ -6,9 +6,9 @@ get:
   description: >
     Returns all temperatures
   security:
-    - oauth2:
-      - write:temperatures
-      - read:temperatures
+    # - oauth2:
+    #   - write:temperatures
+    #   - read:temperatures
     - apiKey: {}
   responses:
     200:
@@ -32,9 +32,9 @@ post:
   description: >
     Creates new temperature
   security:
-    - oauth2:
-      - write:temperatures
-      - read:temperatures
+    # - oauth2:
+    #   - write:temperatures
+    #   - read:temperatures
     - apiKey: {}
   requestBody:
     content:
