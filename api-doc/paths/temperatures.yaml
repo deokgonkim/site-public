@@ -23,7 +23,7 @@ get:
                 - type: object
                   properties:
                     createdAt:
-                      $ref: '../fields/common.yaml#/createdAt'
+                      $ref: '#/definitions/fields/createdAt'
 # CREATE
 post:
   tags:

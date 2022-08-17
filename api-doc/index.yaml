@@ -8,6 +8,11 @@ tags:
   $ref: ./tags/index.yaml
 paths:
   $ref: ./paths/index.yaml
+definitions:
+  fields:
+    $ref: './fields/common.yaml'
+  parameters:
+    $ref: './schemas/parameters.yaml'
 components:
   schemas:
     $ref: ./schemas/index.yaml
