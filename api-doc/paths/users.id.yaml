@@ -6,7 +6,7 @@ get:
   description: >
     Returns user
   parameters:
-    - $ref: '../schemas/parameters.yaml#/userId'
+    - $ref: '#/components/parameters/userId'
   responses:
     200:
       description: OK
@@ -22,7 +22,7 @@ put:
   description: >
     Updates user
   parameters:
-    - $ref: '../schemas/parameters.yaml#/userId'
+    - $ref: '#/components/parameters/userId'
   responses:
     200:
       description: OK
@@ -38,7 +38,7 @@ delete:
   description: >
     Deletes user
   parameters:
-    - $ref: '../schemas/parameters.yaml#/userId'
+    - $ref: '#/components/parameters/userId'
   responses:
     200:
       description: OK

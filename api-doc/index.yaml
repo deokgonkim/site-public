@@ -8,14 +8,16 @@ tags:
   $ref: ./tags/index.yaml
 paths:
   $ref: ./paths/index.yaml
-definitions:
-  fields:
-    $ref: './fields/common.yaml'
-  parameters:
-    $ref: './schemas/parameters.yaml'
 components:
   schemas:
-    $ref: ./schemas/index.yaml
+    $ref: './schemas/index.yaml'
+  responses: {}
+  parameters:
+    $ref: './schemas/parameters.yaml'
+  examples:
+    $ref: './examples/index.yaml'
+  requestBodies: {}
+  headers: {}
   securitySchemes:
     oauth2:
       type: oauth2
@@ -35,5 +37,7 @@ components:
       type: apiKey
       name: api_key
       in: header
+  links: {}
+  callbacks: {}
 # security:
 #   - oauth2: []

@@ -18,7 +18,7 @@ get:
                 - type: object
                   properties:
                     createdAt:
-                      $ref: '#/definitions/fields/createdAt'
+                      $ref: '#/components/examples/createdAt'
 # CREATE
 post:
   tags:
