@@ -23,7 +23,10 @@ get:
                 - type: object
                   properties:
                     createdAt:
-                      $ref: '#/components/examples/createdAt'
+                      type: string
+                      format: date-time
+                      # examples:
+                      #   $ref: '#/components/examples/createdAt'
 # CREATE
 post:
   tags:
