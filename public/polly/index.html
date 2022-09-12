@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>AWS SDK for JavaScript - Browser Getting Started Application</title>
+  </head>
+
+  <body>
+    <button id="login" value="login">Login</button>
+    <button id="getToken" value="getToken">GetToken</button>
+    <button id="logout" value="logout">Logout</button>
+    <div id="textToSynth">
+      <input autofocus size="23" type="text" id="textEntry" value="It's very good to meet you."/>
+      <button class="btn default" onClick="speakText()">Synthesize</button>
+      <p id="result">Enter text above then click Synthesize</p>
+    </div>
+    <audio id="audioPlayback" controls>
+      <source id="audioSource" type="audio/mp3" src="">
+    </audio>
+    <!-- (script elements go here) -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1213.0.min.js"></script>
+    <script src="./node_modules/amazon-cognito-identity-js/dist/amazon-cognito-identity.min.js"></script>
+    <script>
+AWS.config.region = 'ap-northeast-2'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'IDENTITY_POOL_ID',
+});
+
+const identityPoolId = 'IDENTITY_POOL_ID'
+const client_id = 'CLIENT_ID'
+const user_pool_id = 'USER_POOL_ID'
+const redirect_uri = encodeURIComponent('http://localhost:8080/polly/')
+
+
+      function login() {
+        const client_id = 'CLIENT_ID'
+        const redirect_uri = encodeURIComponent('http://localhost:8080/polly/')
+        const login_url = `https://YOUR_DOMAIN.auth.ap-northeast-2.amazoncognito.com/authorize?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&scope=email`
+        document.location.href = login_url
+      }
+
+      function logout() {
+        const client_id = 'CLIENT_ID'
+        const redirect_uri = encodeURIComponent('http://localhost:8080/polly/')
+        document.location.href = `https://YOUR_DOMAIN.auth.ap-northeast-2.amazoncognito.com/logout?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}`
+      }
+
+      function getAccessToken() {
+        const url = 'https://YOUR_DOMAIN.auth.ap-northeast-2.amazoncognito.com/oauth2/token'
+        const client_id = 'CLIENT_ID'
+        const identityPoolId = 'IDENTITY_POOL_ID'
+        const user_pool_id = 'USER_POOL_ID'
+        const code = document.location.href.substring(document.location.href.indexOf('code=') + 5)
+        const redirect_uri = encodeURIComponent('http://localhost:8080/polly/')
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: `grant_type=authorization_code&client_id=${client_id}&code=${code}&redirect_uri=${redirect_uri}`
+        }).then((result) => {
+          console.log("success")
+          console.log(JSON.stringify(result))
+          result.json().then((json) => {
+            console.log(json)
+
+
+            var params = {
+  IdentityPoolId: identityPoolId, /* required */
+  Logins: {
+    // 'www.amazon.com': 'AMAZONTOKEN',
+    'cognito-idp.ap-northeast-2.amazonaws.com/USER_POOL_ID': json.refresh_token,
+    /* '<IdentityProviderName>': ... */
+  }
+};
+
+// const { CognitoJwtVerifier } = require("./node_modules/aws-jwt-verify/dist/cjs/jwt.js")
+
+
+var cognitoidentity = new AWS.CognitoIdentity();
+cognitoidentity.getId(params, function(err, data) {
+  if (err) console.log(err, err.stack); // an error occurred
+  else     console.log(data);           // successful response
+});
+
+
+
+
+            return
+
+            var authenticationData = {
+	Username: 'USERNAME',
+	Password: 'PASSWORD',
+};
+var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+	json
+);
+
+console.log('autneicationDetail', JSON.stringify(authenticationDetails))
+
+cognitoUser.authenticateUser(authenticationDetails, {
+	onSuccess: function(result) {
+		var accessToken = result.getAccessToken().getJwtToken();
+    console.log('onSuccess')
+
+		//POTENTIAL: Region needs to be set if not already set previously elsewhere.
+		AWS.config.region = 'ap-northeast-2';
+
+		// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+		// 	IdentityPoolId: '...', // your identity pool id here
+		// 	Logins: {
+		// 		// Change the key below according to the specific region your user pool is in.
+		// 		'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>': result
+		// 			.getIdToken()
+		// 			.getJwtToken(),
+		// 	},
+		// });
+
+		//refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
+		AWS.config.credentials.refresh(error => {
+			if (error) {
+				console.error(error);
+			} else {
+				// Instantiate aws sdk service objects now that the credentials have been updated.
+				// example: var s3 = new AWS.S3();
+				console.log('Successfully logged!');
+			}
+		});
+	},
+
+	onFailure: function(err) {
+		alert(err.message || JSON.stringify(err));
+	},
+});
+
+
+
+
+
+            poolData = {
+	UserPoolId: user_pool_id, // Your user pool id here
+	ClientId: client_id, // Your client id here
+};
+
+            const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+            var userData = {
+	Username: 'USERNAME',
+	Pool: userPool,
+};
+            var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+            // var cognitoUser = userPool.getCurrentUser();
+            console.log('cognitoUser', cognitoUser)
+
+            if (cognitoUser != null) {
+	cognitoUser.getSession(function(err, session) {
+		if (err) {
+			alert(err.message || JSON.stringify(err));
+			return;
+		}
+		console.log('session validity: ' + session.isValid());
+
+		// NOTE: getSession must be called to authenticate user before calling getUserAttributes
+		cognitoUser.getUserAttributes(function(err, attributes) {
+			if (err) {
+				// Handle error
+			} else {
+				// Do something with attributes
+			}
+		});
+
+		// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+		// 	IdentityPoolId: '...', // your identity pool id here
+		// 	Logins: {
+		// 		// Change the key below according to the specific region your user pool is in.
+		// 		'cognito-idp.ap-northeast-2.amazonaws.com/USER_POOL_ID': session
+		// 			.getIdToken()
+		// 			.getJwtToken(),
+		// 	},
+		// });
+
+		// Instantiate aws sdk service objects now that the credentials have been updated.
+		// example: var s3 = new AWS.S3();
+	});
+}
+
+
+            // AWS.config.credentials.sessionToken = json.access_token
+            const credential_logins = {
+              'cognito-idp.ap-northeast-2.amazonaws.com/USER_POOL_ID': json
+            }
+            // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            //   IdentityPoolId: 'IDENTITY_POOL_ID',
+            //   Logins: {
+
+            //   }
+            // })
+          })
+return
+
+var authenticationData = {
+	Username: 'username',
+	Password: 'password',
+};
+var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+	authenticationData
+);
+var poolData = {
+	UserPoolId: '...', // Your user pool id here
+	ClientId: '...', // Your client id here
+};
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var userData = {
+	Username: 'username',
+	Pool: userPool,
+};
+var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+cognitoUser.authenticateUser(authenticationDetails, {
+	onSuccess: function(result) {
+		var accessToken = result.getAccessToken().getJwtToken();
+
+		//POTENTIAL: Region needs to be set if not already set previously elsewhere.
+		AWS.config.region = '<region>';
+
+		// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+		// 	IdentityPoolId: '...', // your identity pool id here
+		// 	Logins: {
+		// 		// Change the key below according to the specific region your user pool is in.
+		// 		'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>': result
+		// 			.getIdToken()
+		// 			.getJwtToken(),
+		// 	},
+		// });
+
+		//refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
+		AWS.config.credentials.refresh(error => {
+			if (error) {
+				console.error(error);
+			} else {
+				// Instantiate aws sdk service objects now that the credentials have been updated.
+				// example: var s3 = new AWS.S3();
+				console.log('Successfully logged!');
+			}
+		});
+	},
+
+	onFailure: function(err) {
+		alert(err.message || JSON.stringify(err));
+	},
+});
+
+
+        }).catch((err) => {
+          console.log("error")
+          console.log(JSON.stringify(err))
+        })
+      }
+
+function speakText() {
+console.log("Starting")
+            // Create the JSON parameters for getSynthesizeSpeechUrl
+            var speechParams = {
+                OutputFormat: "mp3",
+                SampleRate: "16000",
+                Text: "",
+                TextType: "text",
+                VoiceId: "Seoyeon"
+            };
+            speechParams.Text = document.getElementById("textEntry").value;
+
+// Create the Polly service object and presigner object
+            var polly = new AWS.Polly({apiVersion: '2016-06-10'});
+            var signer = new AWS.Polly.Presigner(speechParams, polly)
+
+            // Create presigned URL of synthesized speech file
+            signer.getSynthesizeSpeechUrl(speechParams, function(error, url) {
+console.log("done,", url)
+            if (error) {
+                document.getElementById('result').innerHTML = error;
+            } else {
+                document.getElementById('audioSource').src = url;
+                document.getElementById('audioPlayback').load();
+                document.getElementById('result').innerHTML = "Speech ready to play.";
+            }
+          });
+        }
+        document.querySelector('#login').addEventListener('click', login)
+        document.querySelector('#getToken').addEventListener('click', getAccessToken)
+        document.querySelector('#logout').addEventListener('click', logout)
+    </script>
+ </body>
+</html>
