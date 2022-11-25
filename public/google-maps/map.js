@@ -58,6 +58,10 @@ const initGoogleMap = (domId, coord, zoomLevel) => {
     info.open(map)
 
     window.markers = []
+    window.map.data.setStyle({
+        fillColor: '#00FF00',
+        editable: false
+    })
 
     // Configure the click listener.
     window.map.addListener("click", async (mapsMouseEvent) => {
