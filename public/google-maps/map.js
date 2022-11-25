@@ -159,7 +159,7 @@ function showGeoJson(data) {
                         lng: feature.geometry.coordinates[0]
                     },
                     label: `${i}`,
-                    properties: feature.properties,
+                    properties: { label: i, ...feature.properties },
                     map: window.map
                 })
                 window.markers.push(marker)
