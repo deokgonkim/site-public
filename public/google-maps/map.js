@@ -5,6 +5,8 @@ const data = {
     circles: []
 }
 
+let info;
+
 /**
  * crete google map on `domId`
  * @param {*} domId 
@@ -24,10 +26,10 @@ const initGoogleMap = (domId, coord, zoomLevel) => {
         zoom: zoom,
         center: center
     })
-    window.map.data.setStyle({
-        fillColor: '#00FF00',
-        editable: true
-    })
+    // window.map.data.setStyle({
+    //     fillColor: '#00FF00',
+    //     editable: true
+    // })
 
     // if (navigator.geolocation) {
     //     navigator.geolocation.getCurrentPosition(function(position) {
@@ -44,12 +46,18 @@ const initGoogleMap = (domId, coord, zoomLevel) => {
     //     })
     // }
 
-    let infoWindow = new google.maps.InfoWindow({
+    // let infoWindow = new google.maps.InfoWindow({
+    //     content: "Click the map to get Lat/Lng!",
+    //     position: center,
+    // })
+    info = new google.maps.InfoWindow({
         content: "Click the map to get Lat/Lng!",
         position: center,
     })
 
-    infoWindow.open(map)
+    info.open(map)
+
+    window.markers = []
 
     // Configure the click listener.
     window.map.addListener("click", async (mapsMouseEvent) => {
@@ -57,17 +65,17 @@ const initGoogleMap = (domId, coord, zoomLevel) => {
         const latlng = mapsMouseEvent.latLng.toJSON()
         if (drawmode == 'dong') {
             console.log('Get Dong')
-            infoWindow.close()
+            info.close()
             // Create a new InfoWindow.
-            infoWindow = new google.maps.InfoWindow({
+            info = new google.maps.InfoWindow({
                 position: mapsMouseEvent.latLng,
             })
             document.form1.lat.value = latlng.lat
             document.form1.lng.value = latlng.lng
-            infoWindow.setContent(
+            info.setContent(
                 `LAT LNG: ${latlng.lat} ${latlng.lng}`
             )
-            infoWindow.open(window.map)
+            info.open(window.map)
             console.log(latlng)
             return
 
@@ -112,11 +120,18 @@ const initGoogleMap = (domId, coord, zoomLevel) => {
     window.sample_data = { "id": "807", "type": "Feature", "properties": { "EMD_CD": "27260104", "EMD_ENG_NM": "Suseong-dong 2(i)-ga", "EMD_KOR_NM": "\uc218\uc131\ub3d92\uac00" }, "geometry": { "type": "Polygon", "coordinates": [[[128.6132732784135, 35.85113899945861], [128.61410788409898, 35.859773498500566], [128.61763129693347, 35.85959554439207], [128.61676622240017, 35.850922109231455], [128.6132732784135, 35.85113899945861]]] } };
 }
 
+function toggleEditable() {
+    window.map.data.setStyle({
+        fillColor: '#00FF00',
+        editable: !window.map.data.getStyle().editable
+    })
+}
 
 function clearMap(dataonly) {
     window.map.data.forEach((feature) => {
         window.map.data.remove(feature)
     })
+    window.markers.map((marker) => marker.setMap(null));
     if (dataonly) {
         return
     }
@@ -131,29 +146,37 @@ function clearMap(dataonly) {
 }
 
 function showGeoJson(data) {
-    let editable = true
-    if (data.forEach) {
-        const dotCount = data.map((e) => e.geometry.coordinates.flat(5)).flat().length
-        console.log('Dot Count :', dotCount)
-        if (dotCount > Number(document.querySelector('[name=dotCount]').value)) {
-            editable = false
+    
+    if (data.type == 'FeatureCollection') {
+        let i = 1
+        for (const feature of data.features) {
+            const geometryType = feature.geometry.type
+            if (geometryType == 'Point') {
+                // const info = new google.maps.InfoWindow()
+                const marker = new google.maps.Marker({
+                    position: {
+                        lat: feature.geometry.coordinates[1],
+                        lng: feature.geometry.coordinates[0]
+                    },
+                    label: `${i}`,
+                    properties: feature.properties,
+                    map: window.map
+                })
+                window.markers.push(marker)
+                google.maps.event.addListener(marker, 'click', function() {
+                    // info.setContent(this.getPosition().toUrlValue(6));
+                    info.setContent(JSON.stringify(this.properties, null, 4))
+                    info.open(map, this)
+                });
+                i ++
+            } else {
+                window.map.data.addGeoJson(feature)
+            }
+
         }
-        data.forEach((element) => {
-            window.map.data.addGeoJson(element)
-        })
     } else {
-        const dotCount = data.geometry.coordinates.flat(5).length
-        console.log('Dot Count :', dotCount)
-        if (dotCount > Number(document.querySelector('[name=dotCount]').value)) {
-            editable = true
-        }
         window.map.data.addGeoJson(data)
     }
-    // reduce dots
-    window.map.data.setStyle({
-        fillColor: '#00FF00',
-        editable: editable
-    })
 }
 
 function switchLatLng(coordinates) {
