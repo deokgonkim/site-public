@@ -148,7 +148,7 @@ function clearMap(dataonly) {
 function showGeoJson(data) {
     
     if (data.type == 'FeatureCollection') {
-        let i = 1
+        let i = 0
         for (const feature of data.features) {
             const geometryType = feature.geometry.type
             if (geometryType == 'Point') {
