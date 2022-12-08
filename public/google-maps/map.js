@@ -8,8 +8,34 @@ const data = {
 let info;
 let pause = false;
 
+const intervalKey = (event) => {
+    let currentInterval = Number(document.querySelector('input[name=interval]').value);
+    let delta = 0;
+    switch(event.keyCode) {
+        case 37: // left
+            break
+        case 38: // up
+            delta = 100
+            break
+        case 39: // right
+            break
+        case 40: // down
+            delta = -100
+            break
+    }
+    document.querySelector('input[name=interval]').value = currentInterval + delta;
+}
+
+const increaseInterval = () => {
+    document.querySelector('input[name=interval]').value = Number(document.querySelector('input[name=interval]').value) + 100
+}
+
+const decreaseInterval = () => {
+    document.querySelector('input[name=interval]').value = Number(document.querySelector('input[name=interval]').value) - 100
+}
+
 const togglePause = () => {
-    pause = !pause;
+    pause = !pause
 }
 
 /**
@@ -155,7 +181,6 @@ function clearMap(dataonly) {
 }
 
 async function showGeoJson(data) {
-    const interval = Number(document.querySelector('input[name=interval]').value);
     if (data.type == 'FeatureCollection') {
         let i = 0
         for (const feature of data.features) {
@@ -178,10 +203,11 @@ async function showGeoJson(data) {
                     info.open(map, this)
                 });
                 i ++
+                const interval = Number(document.querySelector('input[name=interval]').value)
                 if (interval > 0) {
-                    await sleep(interval);
+                    await sleep(interval)
                     while (pause) {
-                        await sleep(100);
+                        await sleep(100)
                     }
                 }
             } else {
