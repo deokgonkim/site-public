@@ -68,9 +68,13 @@
                         <textarea name="textarea">
 { "id": "807", "type": "Feature", "properties": { "EMD_CD": "27260104", "EMD_ENG_NM": "Suseong-dong 2(i)-ga", "EMD_KOR_NM": "\uc218\uc131\ub3d92\uac00" }, "geometry": { "type": "Polygon", "coordinates": [[[128.6132732784135, 35.85113899945861], [128.61410788409898, 35.859773498500566], [128.61763129693347, 35.85959554439207], [128.61676622240017, 35.850922109231455], [128.6132732784135, 35.85113899945861]]] } }
                         </textarea>
+                        <br />
+                        Interval <input type="text" value="0" name="interval" /> ms
+                        <br />
                         <input type="button"
                             onclick="return showGeoJson(JSON.parse(document.form4.textarea.value)); return false;"
                             value="Display" />
+                        <button onclick="togglePause();">Pause / Resume</button>
                     </form>
                 </td>
                 <td width="80%">
