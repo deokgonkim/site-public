@@ -178,9 +178,11 @@ async function showGeoJson(data) {
                     info.open(map, this)
                 });
                 i ++
-                await sleep(interval);
-                while (pause) {
-                    await sleep(100);
+                if (interval > 0) {
+                    await sleep(interval);
+                    while (pause) {
+                        await sleep(100);
+                    }
                 }
             } else {
                 window.map.data.addGeoJson(feature)
