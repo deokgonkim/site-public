@@ -1,0 +1,11 @@
+title: HelloResponse
+type: object
+properties:
+  message:
+    title: message
+    type: string
+    description: Message
+  data:
+    title: data
+    type: string
+    description: Data

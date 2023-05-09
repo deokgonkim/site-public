@@ -1,0 +1,17 @@
+# LIST
+get:
+  tags:
+    - Hello
+  summary: Greets
+  security: 
+    - apiKey: []
+  description: |
+    Returns greeting message
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HelloResponse'
+

@@ -4,3 +4,6 @@ TempHumi:
   $ref: ./TempHumi.yaml
 Temperature:
   $ref: ./Temperature.yaml
+
+HelloResponse:
+  $ref: ./HelloResponse.yaml

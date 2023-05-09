@@ -6,3 +6,6 @@
   $ref: ./temperatures.yaml
 # '/temperatures/{id}':
 #   $ref: ./temperatures.id.yaml
+
+'/hello':
+  $ref: ./hello.yaml

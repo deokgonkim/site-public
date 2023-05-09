@@ -35,7 +35,7 @@ components:
             read:temperatures: read temperatures
     apiKey:
       type: apiKey
-      name: api_key
+      name: X-API-KEY
       in: header
   links: {}
   callbacks: {}
