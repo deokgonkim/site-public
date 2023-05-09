@@ -8,6 +8,8 @@ on:
 env:
   MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
   GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+  README_KEY: ${{ secrets.README_KEY }}
+  README_DOC_ID: ${{ secrets.README_DOC_ID }}
 
 jobs:
   deploy:
@@ -35,6 +37,9 @@ jobs:
 
     - name: Deploy static site to S3 bucket
       run: aws s3 sync ./public/ s3://${{ secrets.AWS_S3_BUCKET_PUBLIC }}/ --delete --acl public-read
+
+    - name: Deploy to readme
+      run: npm install rdme@latest && npx rdme openapi --version=v1.0 --key=${{ secrets.README_KEY }} --id=${{ secrets.README_DOC_ID }}
 
     - name: Invalidate CloudFront cache
       run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CF_DISTRIBUTION_ID }} --paths "/*"
