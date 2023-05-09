@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watch -p \"**/*.yaml\" -c \"multi-file-swagger -o yaml index.yaml > doc.yaml\"",
-    "build": "multi-file-swagger -o yaml index.yaml > doc.yaml"
+    "watch": "watch -p \"**/*.yaml\" -c \"multi-file-swagger -o json index.yaml > doc.json && json2yaml doc.json > doc.yaml && rm doc.json\"",
+    "build": "multi-file-swagger -o json index.yaml > doc.json && json2yaml doc.json > doc.yaml && rm doc.json"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "json2yaml": "^1.1.0",
     "multi-file-swagger": "^2.3.0",
     "watch-cli": "^0.2.3"
   }
