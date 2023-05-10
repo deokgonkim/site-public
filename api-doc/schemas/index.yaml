@@ -7,3 +7,6 @@ Temperature:
 
 HelloResponse:
   $ref: ./HelloResponse.yaml
+
+TrialResponse:
+  $ref: ./TrialResponse.yaml

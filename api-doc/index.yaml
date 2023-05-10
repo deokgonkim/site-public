@@ -14,8 +14,8 @@ components:
   responses: {}
   parameters:
     $ref: './schemas/parameters.yaml'
-  # examples:
-  #   $ref: './examples/index.yaml'
+  examples:
+    $ref: './examples/index.yaml'
   requestBodies: {}
   headers: {}
   securitySchemes:

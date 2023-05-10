@@ -1,0 +1,11 @@
+title: TrialResponse
+type: object
+properties:
+  version:
+    title: version
+    type: number
+    description: Readme API Version
+  apiKey:
+    title: apiKey
+    type: string
+    description: API KEY (for trial)

@@ -1,0 +1,15 @@
+# LIST
+get:
+  tags:
+    - Trial
+  summary: Request Trial
+  description: |
+    Returns trial key
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TrialResponse'
+

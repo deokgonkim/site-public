@@ -9,3 +9,6 @@
 
 '/hello':
   $ref: ./hello.yaml
+
+'/trial':
+  $ref: ./trial.yaml
