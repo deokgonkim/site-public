@@ -50,23 +50,6 @@
   <label>username</label>
   <input name="username" value=""/>
   <input type="submit" />
-  <script type="text/javascript">
-    document.querySelector('input[type=submit]').addEventListener('click', () => {
-      const username = document.querySelector('input[name=username]').value;
-      console.log('clicked');
-      localStorage.setItem('username', username);
-      Notification.requestPermission().then((permission) => {
-        if (permission !== "granted") {
-          // 푸시 거부됐을 때 처리할 내용
-          alert('push requested')
-        } else {
-          // 푸시 승인됐을 때 처리할 내용
-          alert('push not granted');
-        }
-      });
-    });
-    document.querySelector('input[name=username]').value = localStorage.getItem('username');
-  </script>
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
@@ -92,35 +75,48 @@
     const analytics = getAnalytics(app);
     const messaging = getMessaging(app);
 
-    // Add the public key generated from the console here.
-    getToken(messaging, { vapidKey: "BOxvbl4f6mMCIgEkmITsHODNUjxJIwdmDvjIaSiCSvDtssGNS9moI3hRNxpPNTY6OfgcJW0LNYPr2HVilEoWLJ0" }).then((currentToken) => {
-      if (currentToken) {
-        // Send the token to your server and update the UI if necessary
-        console.log('GotToken', currentToken);
-        fetch('https://public-api.dgkim.net/v1/fcm-tokens', {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            datetime: new Date().toISOString(),
-            fcmToken: currentToken,
-            username: localStorage.getItem('username')
-          })
-        }).then((response) => {
-          console.log(response);
-        })
-      } else {
-        // Show permission request UI
-        console.log('No registration token available. Request permission to generate one.');
-        // ...
-      }
-    }).catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
-      // ...
-    });;
-
     console.log("Firebase initialized");
+
+    document.querySelector('input[type=submit]').addEventListener('click', () => {
+      const username = document.querySelector('input[name=username]').value;
+      console.log('clicked');
+      localStorage.setItem('username', username);
+      Notification.requestPermission().then((permission) => {
+        if (permission !== "granted") {
+          // 푸시 거부됐을 때 처리할 내용
+          alert('push not granted');
+        } else {
+          // Add the public key generated from the console here.
+          getToken(messaging, { vapidKey: "BOxvbl4f6mMCIgEkmITsHODNUjxJIwdmDvjIaSiCSvDtssGNS9moI3hRNxpPNTY6OfgcJW0LNYPr2HVilEoWLJ0" }).then((currentToken) => {
+            if (currentToken) {
+              // Send the token to your server and update the UI if necessary
+              console.log('GotToken', currentToken);
+              fetch('https://public-api.dgkim.net/v1/fcm-tokens', {
+                method: 'POST',
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  datetime: new Date().toISOString(),
+                  fcmToken: currentToken,
+                  username: localStorage.getItem('username')
+                })
+              }).then((response) => {
+                console.log(response);
+              })
+            } else {
+              // Show permission request UI
+              console.log('No registration token available. Request permission to generate one.');
+              // ...
+            }
+          }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+            // ...
+          });;
+        }
+      });
+    });
+    document.querySelector('input[name=username]').value = localStorage.getItem('username');
   </script>
 </body>
 </html>
