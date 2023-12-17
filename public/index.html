@@ -54,7 +54,16 @@
     document.querySelector('input[type=submit]').addEventListener('click', () => {
       const username = document.querySelector('input[name=username]').value;
       console.log('clicked');
-      localStorage.setItem('username', username)
+      localStorage.setItem('username', username);
+      Notification.requestPermission().then((permission) => {
+        if (permission !== "granted") {
+          // 푸시 거부됐을 때 처리할 내용
+          alert('push requested')
+        } else {
+          // 푸시 승인됐을 때 처리할 내용
+          alert('push not granted');
+        }
+      });
     });
     document.querySelector('input[name=username]').value = localStorage.getItem('username');
   </script>
