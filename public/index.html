@@ -64,6 +64,22 @@
     <input name="username" value=""/>
     <input name="fcmSubmit" type="submit" />
   </form>
+  <hr />
+  <h2>Send SMS</h2>
+  <label>Phone Number</label>
+  <input type="phone" name="phone" />
+  <br />
+  <label>Body</label>
+  <textarea name="sms" rows="4" cols="50">Hello, World!</textarea>
+  <a href="sms:/" onclick="return sendSms();">Send</a>
+  <script type="text/javascript">
+    function sendSms() {
+      const phoneNumber = document.querySelector('input[name=phone]').value;
+      const sms = document.querySelector('textarea[name=sms]').value;
+      window.location.href = `sms:/${phoneNumber}&body=${sms}`;
+      return false;
+    }
+  </script>
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
