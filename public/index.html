@@ -20,6 +20,14 @@
       window.location.href = document.querySelector('input[name=url]').value;
       return false;
     }
+    const onvibrate = () => {
+      if (navigator.vibrate) {
+        // navigator.vibrate(200);
+        navigator.vibrate([200, 100, 200, 100, 200, 100, 200]);
+      } else {
+        alert('Vibration not supported');
+      }
+    }
   </script>
 </head>
 
@@ -81,13 +89,7 @@
     }
   </script>
   <button
-  onclick="() => {
-    if (navigator.vibrate) {
-      navigator.vibrate(200);
-    } else {
-      alert('Vibration not supported');
-    }
-  }"
+  onclick="return onvibrate();"
   >
     Vibrate
   </button>
