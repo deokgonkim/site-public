@@ -20,6 +20,11 @@ jobs:
       uses: actions/checkout@v4
     - name: 'Build guest app'
       uses: './.github/actions/build-guest'
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: guest-app-build
+        path: apps/guest/build
 
   deploy:
     needs:
@@ -41,8 +46,14 @@ jobs:
     - name: Build
       run: cd script;./build.sh
 
-    - name: Copy GuestApp
-      run: cp -r apps/guest/build public/guest
+    - name: Download guest app build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: guest-app-build
+        path: public/guest
+
+    # - name: Copy GuestApp
+    #   run: cp -r apps/guest/build public/guest
     
     - name: Build API DOC
       run: cd api-doc;npm ci;npm run build;cp doc.yaml ../public/api-doc/
