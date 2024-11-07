@@ -14,10 +14,6 @@ inputs:
 #     description: Stage to be deployed to
 #     required: true
 
-env:
-  REACT_APP_COGNITO_CLIENT_ID: ${{ inputs.cognito-client-id }}
-  REACT_APP_COGNITO_LOGIN_URL: ${{ inputs.cognito-login-url }}
-
 runs:
   using: "composite"
   steps:
@@ -29,5 +25,8 @@ runs:
     - name: "Build app"
       working-directory: ${{ inputs.app-folder }}
       shell: bash
+      env:
+        REACT_APP_COGNITO_CLIENT_ID: ${{ inputs.cognito-client-id }}
+        REACT_APP_COGNITO_LOGIN_URL: ${{ inputs.cognito-login-url }}
       run: |
         npm run build
