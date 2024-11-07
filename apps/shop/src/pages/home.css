@@ -1,0 +1,53 @@
+/* HomePage.css */
+
+.container {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+p {
+  font-size: 1em;
+  margin-bottom: 1.5em;
+}
+
+.logout-button {
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  p {
+    font-size: 0.9em;
+  }
+
+  .logout-button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
