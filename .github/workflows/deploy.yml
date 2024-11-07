@@ -16,32 +16,33 @@ jobs:
     runs-on: ubuntu-latest
     environment: aws
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: 'Build guest app'
-      uses: './.github/actions/build-guest'
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: guest-app-build
-        path: apps/guest/build
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: "Build guest app"
+        uses: "./.github/actions/build-guest"
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: guest-app-build
+          path: apps/guest/build
 
   build-shop:
     runs-on: ubuntu-latest
     environment: aws
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: 'Build shop app'
-      uses: './.github/actions/build-app'
-      with:
-        app-folder: apps/shop
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: shop-app-build
-        path: apps/shop/build
-
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: "Build shop app"
+        uses: "./.github/actions/build-app"
+        with:
+          app-folder: apps/shop
+          cognito-client-id: ${{ secrets.REACT_APP_COGNITO_CLIENT_ID }}
+          cognito-login-url: ${{ secrets.REACT_APP_COGNITO_LOGIN_URL }}
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: shop-app-build
+          path: apps/shop/build
 
   deploy:
     needs:
@@ -50,50 +51,50 @@ jobs:
     runs-on: ubuntu-latest
     environment: aws
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-    - name: Pre-build
-      run: npm ci
+      - name: Pre-build
+        run: npm ci
 
-    - name: Build
-      run: cd script;./build.sh
+      - name: Build
+        run: cd script;./build.sh
 
-    - name: Download guest app build artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: guest-app-build
-        path: public/guest
+      - name: Download guest app build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: guest-app-build
+          path: public/guest
 
-    # - name: Copy GuestApp
-    #   run: cp -r apps/guest/build public/guest
+      # - name: Copy GuestApp
+      #   run: cp -r apps/guest/build public/guest
 
-    - name: Download shop app build artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: shop-app-build
-        path: public/shop
-    
-    - name: Build API DOC
-      run: cd api-doc;npm ci;npm run build;cp doc.yaml ../public/api-doc/
+      - name: Download shop app build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: shop-app-build
+          path: public/shop
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+      - name: Build API DOC
+        run: cd api-doc;npm ci;npm run build;cp doc.yaml ../public/api-doc/
 
-    - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./public/ s3://${{ secrets.AWS_S3_BUCKET_PUBLIC }}/ --delete --acl public-read
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Deploy to readme
-      run: cd api-doc;npm install rdme@latest && node --version && npx rdme openapi doc.yaml --version=v1.0 --key=${{ secrets.README_KEY }} --id=${{ secrets.README_DOC_ID }}
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./public/ s3://${{ secrets.AWS_S3_BUCKET_PUBLIC }}/ --delete --acl public-read
 
-    - name: Invalidate CloudFront cache
-      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CF_DISTRIBUTION_ID }} --paths "/*"
+      - name: Deploy to readme
+        run: cd api-doc;npm install rdme@latest && node --version && npx rdme openapi doc.yaml --version=v1.0 --key=${{ secrets.README_KEY }} --id=${{ secrets.README_DOC_ID }}
+
+      - name: Invalidate CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CF_DISTRIBUTION_ID }} --paths "/*"
