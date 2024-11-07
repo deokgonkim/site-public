@@ -26,9 +26,27 @@ jobs:
         name: guest-app-build
         path: apps/guest/build
 
+  build-shop:
+    runs-on: ubuntu-latest
+    environment: aws
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: 'Build shop app'
+      uses: './.github/actions/build-app'
+      with:
+        app-folder: apps/shop
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: shop-app-build
+        path: apps/shop/build
+
+
   deploy:
     needs:
       - build-guest
+      - build-shop
     runs-on: ubuntu-latest
     environment: aws
     steps:
@@ -54,6 +72,12 @@ jobs:
 
     # - name: Copy GuestApp
     #   run: cp -r apps/guest/build public/guest
+
+    - name: Download shop app build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: shop-app-build
+        path: public/shop
     
     - name: Build API DOC
       run: cd api-doc;npm ci;npm run build;cp doc.yaml ../public/api-doc/

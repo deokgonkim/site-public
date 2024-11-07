@@ -1,0 +1,23 @@
+name: build-app
+description: Build app
+inputs:
+  app-folder:
+    description: Folder containing react app to be built
+    required: true
+#   stage:
+#     description: Stage to be deployed to
+#     required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Pre-build
+      # should specify working-directory, shell for every step (in composite run)
+      working-directory: ${{ inputs.app-folder }}
+      shell: bash
+      run: npm ci
+    - name: 'Build app'
+      working-directory: ${{ inputs.app-folder }}
+      shell: bash
+      run: |
+        npm run build
