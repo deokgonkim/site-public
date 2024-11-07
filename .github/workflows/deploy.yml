@@ -20,7 +20,8 @@ jobs:
       uses: './.github/actions/build-guest'
 
   deploy:
-    depends-on: build-guest
+    needs:
+      - build-guest
     runs-on: ubuntu-latest
     environment: aws
     steps:
