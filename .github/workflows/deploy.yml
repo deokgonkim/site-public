@@ -12,7 +12,15 @@ env:
   README_DOC_ID: ${{ secrets.README_DOC_ID }}
 
 jobs:
+  build-guest:
+    runs-on: ubuntu-latest
+    environment: aws
+    steps:
+    - name: 'Build guest app'
+      uses: './.github/actions/build-guest'
+
   deploy:
+    depends-on: build-guest
     runs-on: ubuntu-latest
     environment: aws
     steps:
@@ -29,6 +37,9 @@ jobs:
 
     - name: Build
       run: cd script;./build.sh
+
+    - name: Copy GuestApp
+      run: cp -r apps/guest/build public/guest
     
     - name: Build API DOC
       run: cd api-doc;npm ci;npm run build;cp doc.yaml ../public/api-doc/

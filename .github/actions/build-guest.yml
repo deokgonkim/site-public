@@ -1,0 +1,20 @@
+name: build-guest
+description: Build guest app
+# inputs:
+#   service-folder:
+#     description: Folder containing serverless.yml to be deployed
+#     required: true
+#   stage:
+#     description: Stage to be deployed to
+#     required: true
+
+runs:
+  using: 'composite'
+  working-directory: apps/guest
+  steps:
+    - name: Pre-build
+      run: npm ci
+    - name: 'Build guest app'
+      shell: bash
+      run: |
+        npm run build
