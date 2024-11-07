@@ -10,11 +10,13 @@ description: Build guest app
 
 runs:
   using: 'composite'
-  working-directory: apps/guest
+  defaults:
+    shell: bash
+    run:
+      working-directory: apps/guest
   steps:
     - name: Pre-build
       run: npm ci
     - name: 'Build guest app'
-      shell: bash
       run: |
         npm run build
