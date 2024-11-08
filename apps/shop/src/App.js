@@ -7,6 +7,7 @@ import HomePage from './pages/home';
 import './App.css';
 import { MainLayout } from './layout/layout';
 import { BlankLayout } from './layout/blankLayout';
+import { AccountPage } from './pages/account';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               )
             }
           />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="/return" element={<ReturnPage />} />
         </Route>
       </Routes>

@@ -4,12 +4,6 @@ inputs:
   app-folder:
     description: Folder containing react app to be built
     required: true
-  cognito-client-id:
-    description: Cognito client id
-    required: true
-  cognito-login-url:
-    description: Cognito login url
-    required: true
 #   stage:
 #     description: Stage to be deployed to
 #     required: true
@@ -25,8 +19,5 @@ runs:
     - name: "Build app"
       working-directory: ${{ inputs.app-folder }}
       shell: bash
-      env:
-        REACT_APP_COGNITO_CLIENT_ID: ${{ inputs.cognito-client-id }}
-        REACT_APP_COGNITO_LOGIN_URL: ${{ inputs.cognito-login-url }}
       run: |
         DISABLE_ESLINT_PLUGIN=true npm run build

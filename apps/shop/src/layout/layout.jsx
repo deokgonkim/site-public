@@ -1,5 +1,5 @@
 import { Container, Typography } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -10,6 +10,33 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState } from 'react';
 
 export const MainLayout = () => {
+  const navigate = useNavigate();
+  const bottomNaviationItems = [
+    {
+      label: 'Home',
+      icon: <HomeIcon />,
+      onClick: () => {
+        console.log('Home Clicked');
+        navigate('/');
+      },
+    },
+    {
+      label: 'Orders',
+      icon: <EditCalendarIcon />,
+      onClick: () => {
+        console.log('Orders Clicked');
+        navigate('/orders');
+      },
+    },
+    {
+      label: 'Account',
+      icon: <AccountCircleIcon />,
+      onClick: () => {
+        console.log('Account Clicked');
+        navigate('/account');
+      },
+    },
+  ];
   const [value, setValue] = useState(0);
   return (
     <Container
@@ -31,13 +58,18 @@ export const MainLayout = () => {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
+          bottomNaviationItems[newValue].onClick();
         }}
         showLabels
         style={{ marginTop: 'auto' }}
       >
-        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Orders" icon={<EditCalendarIcon />} />
-        <BottomNavigationAction label="Account" icon={<AccountCircleIcon />} />
+        {bottomNaviationItems.map((item, index) => (
+          <BottomNavigationAction
+            key={index}
+            label={item.label}
+            icon={item.icon}
+          />
+        ))}
       </BottomNavigation>
     </Container>
   );
