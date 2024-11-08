@@ -11,6 +11,11 @@ export const config = {
 
 export const basePath = packageJson.homepage || '';
 
+export const logout = async () => {
+  sessionStorage.clear();
+  document.location.href = `${basePath}/`;
+};
+
 export const oauth2Token = async (code) => {
   const url = config.hostedUiUrl + '/oauth2/token';
   const params = new URLSearchParams({
