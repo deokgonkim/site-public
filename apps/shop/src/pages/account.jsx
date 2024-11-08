@@ -8,16 +8,16 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getProfile } from '../shopApi';
 import { logout } from '../api';
 import { toHumanReadable } from '../util/date';
+import shopApi from '../shopApi';
 
 export const AccountPage = () => {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const data = await getProfile();
+      const data = await shopApi.getProfile();
       setProfile(data);
     };
     fetchProfile();

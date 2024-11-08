@@ -8,6 +8,7 @@ import './App.css';
 import { MainLayout } from './layout/layout';
 import { BlankLayout } from './layout/blankLayout';
 import { AccountPage } from './pages/account';
+import { OrdersPage } from './pages/orders';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               )
             }
           />
+          <Route path="/orders" element={<OrdersPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/return" element={<ReturnPage />} />
         </Route>
