@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { basePath, oauth2Token } from '../api';
+import shopApi from '../shopApi';
+import { Helmet } from 'react-helmet';
 
 const ReturnPage = () => {
   const [searchParams] = useSearchParams();
@@ -17,13 +19,22 @@ const ReturnPage = () => {
           sessionStorage.setItem('accessToken', response.access_token || '');
           sessionStorage.setItem('refreshToken', response.refresh_token || '');
         }
-
-        document.location.href = `${basePath}/home`;
+        shopApi.getProfile().then(() => {
+          window.location.href = `${basePath}/home`;
+        });
       });
     }
   }, [searchParams]);
 
-  return <h1>return</h1>;
+  return (
+    <>
+      <Helmet>
+        <title>Return Page</title>
+        <meta name="description" content="This is a return page" />
+      </Helmet>
+      <h1>return</h1>
+    </>
+  );
 };
 
 export default ReturnPage;

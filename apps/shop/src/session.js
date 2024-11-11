@@ -41,3 +41,19 @@ export const currentUser = () => {
   }
   return parseJwt(idToken);
 };
+
+export const setProfile = (profile) => {
+  sessionStorage.setItem('profile', JSON.stringify(profile, null, 2));
+};
+
+export const getProfile = () => {
+  return JSON.parse(sessionStorage.getItem('profile'));
+};
+
+export const setCurrentShopUid = (shopUid) => {
+  sessionStorage.setItem('currentShop', shopUid);
+};
+
+export const getCurrentShopUid = () => {
+  return sessionStorage.getItem('currentShop');
+};

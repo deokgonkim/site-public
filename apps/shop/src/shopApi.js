@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { isValidAccessToken, refresh } from './api';
+import { setCurrentShopUid, setProfile } from './session';
 
 export class ShopApi {
   constructor() {
@@ -23,6 +24,9 @@ export class ShopApi {
   async getProfile() {
     await this.preCheck();
     const response = await this.api.get('/shop/profile');
+    setProfile(response.data);
+    const firstShop = response.data.userShops[0];
+    setCurrentShopUid(firstShop.shopUid);
     return response.data;
   }
 
