@@ -34,7 +34,7 @@ jobs:
       - name: "Build guest app"
         uses: "./.github/actions/build-app"
         with:
-          app-folder: apps/shop
+          app-folder: apps/guest
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
