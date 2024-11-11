@@ -8,7 +8,6 @@ export class ShopApi {
       baseURL: process.env.REACT_APP_SHOP_API_URL || 'https://api.example.com',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
       },
     });
   }
@@ -18,6 +17,8 @@ export class ShopApi {
       await refresh().then(() => {
         this.api.defaults.headers.Authorization = `Bearer ${sessionStorage.getItem('accessToken')}`;
       });
+    } else {
+      this.api.defaults.headers.Authorization = `Bearer ${sessionStorage.getItem('accessToken')}`;
     }
   }
 

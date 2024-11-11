@@ -26,7 +26,7 @@ const HomePage = () => {
         style={{ textAlign: 'center', marginTop: '20px' }}
       >
         <Typography variant="h1">Hello World</Typography>
-        <Typography variant="h2">Welcome {userProfile.username}</Typography>
+        <Typography variant="h2">Welcome {userProfile?.username}</Typography>
         <Button variant="contained" color="primary" onClick={handleLogout}>
           Logout
         </Button>
