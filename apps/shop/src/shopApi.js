@@ -2,6 +2,11 @@ import axios from 'axios';
 import { isValidAccessToken, refresh } from './api';
 import { setCurrentShopUid, setProfile } from './session';
 
+export const NEXT_ACTION_MAP = {
+  created: 'confirm',
+  confirmed: 'complete',
+};
+
 export class ShopApi {
   constructor() {
     this.api = axios.create({
@@ -31,9 +36,32 @@ export class ShopApi {
     return response.data;
   }
 
+  async updateShop(shopUid, data) {
+    await this.preCheck();
+    const response = await this.api.patch(`/shop/${shopUid}`, data);
+    return response.data;
+  }
+
   async getOrders(shopUid) {
     await this.preCheck();
     const response = await this.api.get(`/shop/${shopUid}/orders`);
+    return response.data;
+  }
+
+  async getOrder(shopUid, orderId) {
+    await this.preCheck();
+    const response = await this.api.get(`/shop/${shopUid}/orders/${orderId}`);
+    return response.data;
+  }
+
+  async processOrder(shopUid, orderId, action) {
+    await this.preCheck();
+    const response = await this.api.patch(
+      `/shop/${shopUid}/orders/${orderId}`,
+      {
+        action,
+      }
+    );
     return response.data;
   }
 }

@@ -4,6 +4,7 @@ import HomePage from "./pages/home";
 import "./App.css";
 import BlankLayout from "./layout/blank";
 import FinalPage from "./pages/final";
+import FirstPage from "./pages/first";
 
 function App() {
   return (
@@ -11,8 +12,8 @@ function App() {
       <Routes>
         <Route element={<BlankLayout />}>
           <Route path="/" element={<Navigate replace to="/home" />} />
-          {/* <Route path="/home" element={<HomePage />} /> */}
-          <Route path="/:shopUid" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/:shopUid" element={<FirstPage />} />
           <Route path="/:shopUid/final" element={<FinalPage />} />
         </Route>
       </Routes>

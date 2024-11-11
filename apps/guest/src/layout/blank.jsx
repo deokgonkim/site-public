@@ -12,11 +12,13 @@ const BlankLayout = () => {
 
   useEffect(() => {
     const fetchShopName = async () => {
-      const data = await shopApi.getShop(shopUid);
-      setShopName(data.shopId);
+      if (shopUid) {
+        const data = await shopApi.getShop(shopUid);
+        setShopName(data.shopId);
+      }
     };
     fetchShopName();
-  }, [shopName]);
+  }, [shopUid, shopName]);
 
   return (
     <Container
@@ -28,7 +30,7 @@ const BlankLayout = () => {
         padding: 0,
       }}
     >
-      <AppBar>
+      <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">{shopName}</Typography>
         </Toolbar>

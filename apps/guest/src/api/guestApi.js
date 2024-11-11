@@ -12,6 +12,11 @@ export class GuestApi {
     });
   }
 
+  async getAllShops() {
+    const response = await this.api.get("/guest");
+    return response.data;
+  }
+
   async getShop(shopUid) {
     const response = await this.api.get(`/guest/${shopUid}`);
     return response.data;

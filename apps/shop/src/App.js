@@ -9,6 +9,7 @@ import { MainLayout } from './layout/layout';
 import { BlankLayout } from './layout/blankLayout';
 import { AccountPage } from './pages/account';
 import { OrdersPage } from './pages/orders';
+import { OrderDetailPage } from './pages/order-detail';
 
 function App() {
   return (
@@ -38,6 +39,10 @@ function App() {
             }
           />
           <Route path="/orders" element={<OrdersPage />} />
+          <Route
+            path="/orders/:shopUid/:orderId"
+            element={<OrderDetailPage />}
+          />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/return" element={<ReturnPage />} />
         </Route>

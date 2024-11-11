@@ -8,6 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState } from 'react';
+import { SnackbarProvider } from 'notistack';
 
 export const MainLayout = () => {
   const navigate = useNavigate();
@@ -53,7 +54,9 @@ export const MainLayout = () => {
           <Typography variant="h6">My Shop</Typography>
         </Toolbar>
       </AppBar>
-      <Outlet />
+      <SnackbarProvider>
+        <Outlet />
+      </SnackbarProvider>
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
