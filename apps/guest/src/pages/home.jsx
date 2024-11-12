@@ -10,6 +10,9 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchShops = async () => {
+      if (shops.length > 0) {
+        return;
+      }
       const data = await guestApi.getAllShops();
       setShops(data);
     };

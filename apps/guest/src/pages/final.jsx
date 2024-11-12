@@ -40,7 +40,7 @@ const FinalPage = () => {
         }
         if (shop.useWhatsapp) {
           setWhatsappLink(
-            `https://wa.me/${shop.whatsappId}?text=${encodeURIComponent(
+            `https://wa.me/${WHATSAPP_ID}?text=${encodeURIComponent(
               "My Order is " + lastOrder.customerId + "," + lastOrder.orderId
             )}`
           );
