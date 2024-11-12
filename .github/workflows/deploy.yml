@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/*
 
 env:
   MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
