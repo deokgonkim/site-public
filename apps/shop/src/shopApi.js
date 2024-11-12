@@ -64,6 +64,14 @@ export class ShopApi {
     );
     return response.data;
   }
+
+  async registerFcmToken(fcmToken) {
+    await this.preCheck();
+    const response = await this.api.post(`/shop/fcm/register`, {
+      fcmToken,
+    });
+    return response.data;
+  }
 }
 
 const shopApi = new ShopApi();
