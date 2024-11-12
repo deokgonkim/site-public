@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import guestApi from "../api/guestApi";
 import { basePath } from "../config";
+import { FormattedMessage } from "react-intl";
 
 const HomePage = () => {
   const [shops, setShops] = useState([]);
@@ -24,15 +25,19 @@ const HomePage = () => {
       <Helmet>
         <title>Homepage</title>
       </Helmet>
-      <Container>
-        <Typography variant="h4">Hello World</Typography>
+      <Container
+        sx={{
+          padding: "1em",
+        }}
+      >
+        <Typography variant="h4">
+          <FormattedMessage id="greeting" values={{ name: "" }} />
+        </Typography>
         <List>
           {shops.map((shop, index) => {
             return (
               <ListItem key={index}>
-                <Link href={`${basePath}/${shop.shopUid}`} target={"self"}>
-                  {shop.shopUid}
-                </Link>
+                <Link href={`${basePath}/${shop.shopUid}`}>{shop.shopUid}</Link>
               </ListItem>
             );
           })}

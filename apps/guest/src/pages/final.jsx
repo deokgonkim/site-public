@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useParams } from "react-router-dom";
 import { Button, Container, Typography } from "@mui/material";
 import { List, ListItem, Link } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { getLastOrder } from "../api/session";
 import guestApi from "../api/guestApi";
 
@@ -13,6 +16,7 @@ const WHATSAPP_ID =
 
 const FinalPage = () => {
   //   const { shopUid } = useParams();
+  const intl = useIntl();
   const lastOrder = getLastOrder();
   const [shop, setShop] = useState(null);
 
@@ -52,25 +56,50 @@ const FinalPage = () => {
   return (
     <>
       <Helmet>
-        <title>Final</title>
+        <title>{intl.formatMessage({ id: "final.title" })}</title>
       </Helmet>
-      <Container>
-        <Typography variant="h4">Notify me</Typography>
+      <Container
+        sx={{
+          padding: "1em",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h4">
+          <FormattedMessage id="final.title" />
+        </Typography>
         <Typography variant="h6">
-          예약에 대한 알림 사항을 아래 채널을 통해 받으실 수 있습니다.
+          <FormattedMessage id="final.guide" />
         </Typography>
         <List>
           {shop && shop.useTelegram && (
             <ListItem>
+              <FontAwesomeIcon
+                size="2x"
+                icon={faTelegram}
+                style={{ marginRight: "0.5em" }}
+              />
               <Link href={telegramLink} target="_blank" rel="noopener">
-                Telegram으로 받기
+                <FormattedMessage
+                  id="final.enter"
+                  values={{ name: "Telegram" }}
+                />
               </Link>
             </ListItem>
           )}
           {shop && shop.useWhatsapp && (
             <ListItem>
+              <FontAwesomeIcon
+                size="2x"
+                icon={faWhatsapp}
+                style={{ marginRight: "0.5em" }}
+              />
               <Link href={whatsappLink} target="_blank" rel="noopener">
-                WhatsApp으로 받기
+                <FormattedMessage
+                  id="final.enter"
+                  values={{ name: "WhatsApp" }}
+                />
               </Link>
             </ListItem>
           )}

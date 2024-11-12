@@ -4,8 +4,10 @@ import { Link, Outlet } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import shopApi from "../api/guestApi";
 import { Header } from "../api/session";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const BlankLayout = () => {
+  const intl = useIntl();
   const [shopName, setShopName] = useState("");
 
   // get :shopUid paramter from
@@ -43,7 +45,11 @@ const BlankLayout = () => {
             return (
               <>
                 <Typography key={i} variant="h6">
-                  &nbsp;<Link to={e.link}>{e.label}</Link>&nbsp;
+                  &nbsp;
+                  <Link to={e.link}>
+                    <FormattedMessage id={e.label} />
+                  </Link>
+                  &nbsp;
                 </Typography>
                 {i != breadcrums.length - 1 && (
                   <Typography variant="h6"> &gt; </Typography>

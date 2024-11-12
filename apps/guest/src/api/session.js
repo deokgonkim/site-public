@@ -9,9 +9,9 @@ export const getLastOrder = () => {
 export const Header = () => {
   const nameOf = (index, str) => {
     if (index == 2) {
-      return "홈";
+      return "breadcrumb.home";
     } else {
-      return "상세";
+      return "breadcrumb." + str;
     }
   };
 

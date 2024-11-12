@@ -7,8 +7,10 @@ import { useState } from "react";
 import guestApi from "../api/guestApi";
 import { basePath } from "../config";
 import { setLastOrder } from "../api/session";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const FirstPage = () => {
+  const intl = useIntl();
   console.log("FirstPage");
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
@@ -33,7 +35,11 @@ const FirstPage = () => {
       })
       .then((response) => {
         console.log(response);
-        window.alert("Order placed successfully");
+        window.alert(
+          intl.formatMessage({
+            id: "first.orderPlaced",
+          })
+        );
         setLastOrder(response);
         window.location.href = `${basePath}/${shopUid}/final`;
       });
@@ -44,32 +50,44 @@ const FirstPage = () => {
       <Helmet>
         <title>Homepage</title>
       </Helmet>
-      <Container>
-        <Typography variant="h4">Hello World</Typography>
+      <Container sx={{ paddingTop: "1em" }}>
+        <Typography variant="h4">
+          <FormattedMessage id="first.title" />
+        </Typography>
         <Box
           component="form"
-          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+          sx={{
+            padding: "1em",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            alignContent: "center",
+          }}
         >
           <TextField
-            label="Name"
+            label={intl.formatMessage({ id: "field.name" })}
             value={customerName}
+            autoComplete="name"
             onChange={(e) => setCustomerName(e.target.value)}
             required
           />
           <TextField
-            label="Phone"
+            label={intl.formatMessage({ id: "field.phone" })}
+            autoComplete="mobile tel"
             value={customerPhone}
             onChange={(e) => setCustomerPhone(e.target.value)}
             required
           />
           <TextField
-            label="Order Item"
+            label={intl.formatMessage({ id: "field.orderItem" })}
             value={orderItem}
             onChange={(e) => setOrderItem(e.target.value)}
             required
           />
+          <Button onClick={placeOrder}>
+            <FormattedMessage id="first.placeOrder" />
+          </Button>
         </Box>
-        <Button onClick={placeOrder}>Place Order</Button>
       </Container>
     </>
   );

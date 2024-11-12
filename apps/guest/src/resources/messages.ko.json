@@ -1,0 +1,15 @@
+{
+    "breadcrumb.final": "완료",
+    "breadcrumb.home": "샵",
+    "breadcrumb.reservation": "예약",
+    "field.name": "이름",
+    "field.phone": "전화번호",
+    "field.orderItem": "예약 항목",
+    "first.title": "예약 하기",
+    "first.placeOrder": "예약",
+    "first.orderPlaced": "예약 성공",
+    "final.title": "예약 완료",
+    "final.guide": "예약에 대한 알림 사항을 아래 채널을 통해 받으실 수 있습니다.",
+    "final.enter": "{name}으로 받기",
+    "greeting": "안녕하세요!"
+}
