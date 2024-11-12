@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 import {
   Button,
   Container,
+  FormControl,
   InputAdornment,
+  InputLabel,
   MenuItem,
   Select,
   Typography,
@@ -79,27 +81,36 @@ const FirstPage = () => {
             onChange={(e) => setCustomerName(e.target.value)}
             required
           />
-          <Select
-            labelId="country-code-label"
-            id="country-code"
-            value={countryCode}
-            onChange={(e) => {
-              setCountryCode(e.target.value);
-              setCustomerPhone("");
-            }}
-            label="Country Code"
-          >
-            <MenuItem value="+82">🇰🇷 +82 (South Korea)</MenuItem>
-            <MenuItem value="+1">🇺🇸 +1 (USA)</MenuItem>
-            <MenuItem value="+44">🇬🇧 +44 (UK)</MenuItem>
-            <MenuItem value="+49">🇩🇪 +49 (Germany)</MenuItem>
-            {/* Add more countries as needed */}
-          </Select>
+          <FormControl variant="outlined">
+            <InputLabel id="country-code-label">
+              {intl.formatMessage({ id: "field.countryCode" })}
+            </InputLabel>
+            <Select
+              label={intl.formatMessage({ id: "field.countryCode" })}
+              labelId="country-code-label"
+              id="country-code"
+              value={countryCode}
+              onChange={(e) => {
+                setCountryCode(e.target.value);
+                setCustomerPhone("");
+              }}
+            >
+              <MenuItem value="+82">🇰🇷 +82 (South Korea)</MenuItem>
+              <MenuItem value="+1">🇺🇸 +1 (USA)</MenuItem>
+              <MenuItem value="+44">🇬🇧 +44 (UK)</MenuItem>
+              <MenuItem value="+49">🇩🇪 +49 (Germany)</MenuItem>
+              <MenuItem value="">
+                {intl.formatMessage({ id: "other" })}
+              </MenuItem>
+              {/* Add more countries as needed */}
+            </Select>
+          </FormControl>
           {/* 뭔가 마음에 안드는 전화번호 핸들링이다. */}
           {/* iOS Safari에서 countryCode가 포함된 번호 Auto fill 할 때, */}
           {/* 국가코드가 날라가서, 국가코드 컬럼이 들어가고, 값에 대한 조작이 발생하고 있다. */}
           <TextField
             label={intl.formatMessage({ id: "field.phone" })}
+            name="phone"
             autoComplete="mobile tel"
             type="tel"
             value={
@@ -109,16 +120,19 @@ const FirstPage = () => {
             }
             onChange={(e) => {
               if (
-                e.target.value.startsWith("+") &&
+                e.target.value.match(/^\+\d/) &&
                 !e.target.value.startsWith(countryCode)
               ) {
                 setCustomerPhone("");
                 return;
               }
+              const cleanNumber = e.target.value.startsWith("+")
+                ? "+" + e.target.value.replace(/\D/g, "")
+                : e.target.value.replace(/\D/g, "");
               setCustomerPhone(
                 e.target.value.startsWith(countryCode)
-                  ? e.target.value
-                  : countryCode + e.target.value
+                  ? cleanNumber
+                  : countryCode + cleanNumber
               );
             }}
             required
