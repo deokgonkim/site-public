@@ -43,7 +43,7 @@ export const OrdersPage = () => {
               <ListItem key={index} style={{ padding: 0 }}>
                 <ListItemButton
                   onClick={() => {
-                    navigate(`/orders/${shopUid}/${order?.orderId}`);
+                    navigate(`/${shopUid}/orders/${order?.orderId}`);
                   }}
                 >
                   <Grid2 container spacing={2} style={{ width: '100%' }}>

@@ -40,7 +40,7 @@ function App() {
           />
           <Route path="/orders" element={<OrdersPage />} />
           <Route
-            path="/orders/:shopUid/:orderId"
+            path="/:shopUid/orders/:orderId"
             element={<OrderDetailPage />}
           />
           <Route
