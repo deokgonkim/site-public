@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { basePath, oauth2Token } from '../api';
 import shopApi from '../shopApi';
 import { Helmet } from 'react-helmet';
+import { setItemToStorage } from '../session';
 
 const ReturnPage = () => {
   const [searchParams] = useSearchParams();
@@ -15,9 +16,9 @@ const ReturnPage = () => {
       oauth2Token(code).then((response) => {
         // navigate("/home");
         if (response) {
-          sessionStorage.setItem('idToken', response.id_token || '');
-          sessionStorage.setItem('accessToken', response.access_token || '');
-          sessionStorage.setItem('refreshToken', response.refresh_token || '');
+          setItemToStorage('idToken', response.id_token || '');
+          setItemToStorage('accessToken', response.access_token || '');
+          setItemToStorage('refreshToken', response.refresh_token || '');
         }
         shopApi.getProfile().then(() => {
           window.location.href = `${basePath}/home`;

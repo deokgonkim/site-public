@@ -1,5 +1,6 @@
 import packageJson from '../package.json';
 import { parseJwt } from './jwt';
+import { clearSession, getItemFromStorage, setItemToStorage } from './session';
 
 export const config = {
   hostedUiUrl:
@@ -13,12 +14,12 @@ export const config = {
 export const basePath = packageJson.homepage || '';
 
 export const logout = async () => {
-  sessionStorage.clear();
+  clearSession();
   document.location.href = `${basePath}/`;
 };
 
 export const isValidAccessToken = () => {
-  const accessToken = sessionStorage.getItem('accessToken');
+  const accessToken = getItemFromStorage('accessToken');
   const parsed = parseJwt(accessToken);
   return parsed && parsed.exp * 1000 > Date.now();
 };
@@ -28,7 +29,7 @@ export const refresh = async () => {
   const params = new URLSearchParams({
     grant_type: 'refresh_token',
     client_id: config.clientId,
-    refresh_token: sessionStorage.getItem('refreshToken'),
+    refresh_token: getItemFromStorage('refreshToken'),
   });
   const response = await fetch(url, {
     method: 'POST',
@@ -40,13 +41,13 @@ export const refresh = async () => {
   const body = await response.json();
   // console.log("Refresh token response: ", body);
   if (body.id_token) {
-    sessionStorage.setItem('idToken', body.id_token);
+    setItemToStorage('idToken', body.id_token);
   }
   if (body.access_token) {
-    sessionStorage.setItem('accessToken', body.access_token);
+    setItemToStorage('accessToken', body.access_token);
   }
   if (body.refresh_token) {
-    sessionStorage.setItem('refreshToken', body.refresh_token);
+    setItemToStorage('refreshToken', body.refresh_token);
   }
   return body;
 };

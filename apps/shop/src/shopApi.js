@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { isValidAccessToken, refresh } from './api';
-import { setCurrentShopUid, setProfile } from './session';
+import { getItemFromStorage, setCurrentShopUid, setProfile } from './session';
 
 export const NEXT_ACTION_MAP = {
   created: 'confirm',
@@ -20,10 +20,10 @@ export class ShopApi {
   async preCheck() {
     if (!isValidAccessToken()) {
       await refresh().then(() => {
-        this.api.defaults.headers.Authorization = `Bearer ${sessionStorage.getItem('accessToken')}`;
+        this.api.defaults.headers.Authorization = `Bearer ${getItemFromStorage('accessToken')}`;
       });
     } else {
-      this.api.defaults.headers.Authorization = `Bearer ${sessionStorage.getItem('accessToken')}`;
+      this.api.defaults.headers.Authorization = `Bearer ${getItemFromStorage('accessToken')}`;
     }
   }
 

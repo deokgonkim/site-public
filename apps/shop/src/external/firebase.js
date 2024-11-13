@@ -22,34 +22,22 @@ export const app = initializeApp(firebaseConfig);
 
 // https://github.com/firebase/quickstart-js/blob/master/messaging/main.ts
 
-let swRegistration = undefined;
-
-export const getServiceWorker = async () => {
-  return navigator.serviceWorker.getRegistration().then((worker) => {
-    if (worker) {
-      swRegistration = worker;
-      return worker;
-    }
-  });
-};
-
 export const registerServiceWorker = async () => {
   try {
     // webview에서는, 동작하지 않지 않겠냐?
     console.log('registering service worker', process.env.PUBLIC_URL);
-    debugger;
-    navigator.serviceWorker
+    return navigator.serviceWorker
       .getRegistration()
       .then((worker) => {
         if (worker) {
-          swRegistration = worker;
+          return worker;
         } else {
-          navigator.serviceWorker
+          return navigator.serviceWorker
             .register(`${process.env.PUBLIC_URL}/firebase-messaging-sw.js`)
-            .then((result) => {
+            .then((worker) => {
               console.log('Service worker registered');
-              console.log(result);
-              swRegistration = result;
+              console.log(worker);
+              return worker;
             });
         }
       })
@@ -61,46 +49,44 @@ export const registerServiceWorker = async () => {
   }
 };
 
-export const getFcmToken = async () => {
-  return getServiceWorker().then((worker) => {
-    if (!worker) {
-      alert('not supported');
-      return;
-    }
-    try {
-      const messaging = fcm.getMessaging(app);
-      return fcm
-        .getToken(messaging, {
-          serviceWorkerRegistration: swRegistration,
-          vapidKey: VAPIDKEY,
-        })
-        .then((currentToken) => {
-          if (currentToken) {
-            // Send the token to your server and update the UI if necessary
-            console.log('GotToken');
-            console.log(currentToken);
-            return currentToken;
-          } else {
-            // Show permission request UI
-            alert('no registration token available');
-            console.error(
-              'No registration token available. Request permission to generate one.'
-            );
-          }
-        })
-        .catch((err) => {
-          console.error('An error occurred while retrieving token. ');
-          alert(err);
-          console.error(err);
-        });
-    } catch (e) {
-      console.log(e);
-      alert(e);
-    }
-  });
+export const getFcmToken = async (swRegistration) => {
+  if (!swRegistration) {
+    alert('not supported');
+    return;
+  }
+  try {
+    const messaging = fcm.getMessaging(app);
+    return fcm
+      .getToken(messaging, {
+        serviceWorkerRegistration: swRegistration,
+        vapidKey: VAPIDKEY,
+      })
+      .then((currentToken) => {
+        if (currentToken) {
+          // Send the token to your server and update the UI if necessary
+          console.log('GotToken');
+          console.log(currentToken);
+          return currentToken;
+        } else {
+          // Show permission request UI
+          alert('no registration token available');
+          console.error(
+            'No registration token available. Request permission to generate one.'
+          );
+        }
+      })
+      .catch((err) => {
+        console.error('An error occurred while retrieving token. ');
+        alert(err);
+        console.error(err);
+      });
+  } catch (e) {
+    console.log(e);
+    alert(e);
+  }
 };
 
-export const deleteFcmToken = async () => {
+export const deleteFcmToken = async (swRegistration) => {
   if (!swRegistration) {
     alert('not supported');
     return;

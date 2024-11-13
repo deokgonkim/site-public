@@ -43,7 +43,10 @@ function App() {
             path="/orders/:shopUid/:orderId"
             element={<OrderDetailPage />}
           />
-          <Route path="/account" element={<AccountPage />} />
+          <Route
+            path="/account"
+            element={isAuthenticated() ? <AccountPage /> : <LoginPage />}
+          />
           <Route path="/return" element={<ReturnPage />} />
         </Route>
       </Routes>
