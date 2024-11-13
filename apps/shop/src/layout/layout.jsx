@@ -1,4 +1,4 @@
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -38,15 +38,26 @@ export const MainLayout = () => {
       },
     },
   ];
+
+  // https://dev.to/nirazanbasnet/dont-use-100vh-for-mobile-responsive-3o97
+  const documentHeight = () => {
+    const doc = document.documentElement;
+    doc.style.setProperty('--doc-height', `${window.innerHeight}px`);
+  };
+  window.addEventListener('resize', documentHeight);
+  documentHeight();
+
   const [value, setValue] = useState(0);
   return (
     <Container
       style={{
-        minHeight: '100vh',
+        // minHeight: '100vh',
+        height: 'calc(var(--doc-height) - env(safe-area-inset-bottom, 45px))',
         display: 'flex',
         flexDirection: 'column',
-        border: '1px solid black',
+        // border: '1px solid black',
         padding: 0,
+        overflow: 'hidden',
       }}
     >
       <AppBar position="static">
@@ -55,7 +66,9 @@ export const MainLayout = () => {
         </Toolbar>
       </AppBar>
       <SnackbarProvider>
-        <Outlet />
+        <Box style={{ flex: 1, overflowY: 'auto' }}>
+          <Outlet />
+        </Box>
       </SnackbarProvider>
       <BottomNavigation
         value={value}

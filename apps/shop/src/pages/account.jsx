@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardHeader,
   Container,
@@ -85,33 +86,43 @@ export const AccountPage = () => {
       >
         <Typography variant="h5">Account</Typography>
         <Typography variant="h6">Welcome! {profile?.username}</Typography>
-        <Divider />
-        <List>
-          <ListItem>
-            <FormLabel sx={{ marginRight: 1 }}>Email</FormLabel>
-            <Typography>{profile?.email}</Typography>
-          </ListItem>
-          <ListItem>
-            <FormLabel sx={{ marginRight: 1 }}>Phone</FormLabel>
-            <Typography>{profile?.phone}</Typography>
-          </ListItem>
-          <ListItem>
-            <FormLabel sx={{ marginRight: 1 }}>Joined At</FormLabel>
-            <Typography>{toHumanReadable(profile?.createdAt)}</Typography>
-          </ListItem>
-        </List>
-        <Divider />
-        <Card variant="outlined" sx={{ marginTop: '0.5em', padding: '0.5em' }}>
+        <Card
+          sx={{
+            width: { xs: '100%', md: '30%' },
+          }}
+        >
+          <CardContent>
+            <List>
+              <ListItem>
+                <FormLabel sx={{ marginRight: 1 }}>Email</FormLabel>
+                <Typography>{profile?.email}</Typography>
+              </ListItem>
+              <ListItem>
+                <FormLabel sx={{ marginRight: 1 }}>Phone</FormLabel>
+                <Typography>{profile?.phone}</Typography>
+              </ListItem>
+              <ListItem>
+                <FormLabel sx={{ marginRight: 1 }}>Joined At</FormLabel>
+                <Typography>{toHumanReadable(profile?.createdAt)}</Typography>
+              </ListItem>
+            </List>
+          </CardContent>
+        </Card>
+        <Card
+          variant="outlined"
+          sx={{
+            marginTop: '0.5em',
+            width: { xs: '100%', md: '30%' },
+          }}
+        >
           <CardHeader title="Notification Settings" />
           <CardContent>
             <List>
               <ListItem>
-                <Grid2 container spacing={2} style={{ width: '100%' }}>
-                  <Grid2 item size={4}>
-                    <FormLabel sx={{ marginRight: 1 }}>Telegram ID</FormLabel>
-                  </Grid2>
-                  <Grid2 item size={4}>
+                <Grid2 container spacing={2}>
+                  <Grid2 item size={6}>
                     <TextField
+                      label={'Telegram ID'}
                       size="small"
                       variant="outlined"
                       sx={{ padding: 0 }}
@@ -134,8 +145,10 @@ export const AccountPage = () => {
                       }}
                     />
                   </Grid2>
-                  <Grid2 item size={4}>
+                  <Grid2 item size={6}>
+                    <FormLabel>Use</FormLabel>
                     <Switch
+                      label={'Use Telegram'}
                       checked={notificationSettings?.useTelegram}
                       disabled={!notificationSettings?.telegramId}
                       onChange={(e) => {
@@ -152,11 +165,9 @@ export const AccountPage = () => {
               </ListItem>
               <ListItem>
                 <Grid2 container spacing={2} style={{ width: '100%' }}>
-                  <Grid2 item size={4}>
-                    <FormLabel sx={{ marginRight: 1 }}>Whatsapp ID</FormLabel>
-                  </Grid2>
-                  <Grid2 item size={4}>
+                  <Grid2 item size={6}>
                     <TextField
+                      label={'Whatsapp ID'}
                       size="small"
                       variant="outlined"
                       sx={{ padding: 0 }}
@@ -179,8 +190,10 @@ export const AccountPage = () => {
                       }}
                     />
                   </Grid2>
-                  <Grid2 item size={4}>
+                  <Grid2 item size={6}>
+                    <FormLabel>Use</FormLabel>
                     <Switch
+                      label={'Use Whatsapp'}
                       checked={notificationSettings?.useWhatsapp}
                       disabled={!notificationSettings?.whatsappId}
                       onChange={(e) => {
@@ -197,7 +210,7 @@ export const AccountPage = () => {
               </ListItem>
             </List>
           </CardContent>
-          <CardActionArea>
+          <CardActions>
             <Button
               variant="contained"
               color="primary"
@@ -206,9 +219,8 @@ export const AccountPage = () => {
             >
               Save
             </Button>
-          </CardActionArea>
+          </CardActions>
         </Card>
-        <Divider />
         <Button
           sx={{
             marginTop: 2,
