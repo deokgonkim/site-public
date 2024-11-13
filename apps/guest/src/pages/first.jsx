@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { TextField, Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import guestApi from "../api/guestApi";
 import { basePath } from "../config";
@@ -27,6 +27,7 @@ const FirstPage = () => {
   const [orderItem, setOrderItem] = useState("");
 
   const { shopUid } = useParams();
+  const [shop, setShop] = useState(null);
 
   const placeOrder = async () => {
     guestApi
@@ -55,12 +56,23 @@ const FirstPage = () => {
       });
   };
 
+  useEffect(() => {
+    if (shopUid) {
+      guestApi.getShop(shopUid).then((response) => {
+        setShop(response);
+      });
+    }
+  }, [shopUid]);
+
   return (
     <>
       <Helmet>
         <title>Homepage</title>
       </Helmet>
       <Container sx={{ paddingTop: "1em" }}>
+        <Typography variant="h4">
+          {shopUid} - {shop?.shopName}
+        </Typography>
         <Typography variant="h4">
           <FormattedMessage id="first.title" />
         </Typography>

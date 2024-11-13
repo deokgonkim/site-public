@@ -15,11 +15,12 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { enqueueSnackbar, SnackbarProvider } from 'notistack';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { getFcmToken, registerServiceWorker } from '../external/firebase';
 import shopApi from '../shopApi';
+import { setCurrentShopUid } from '../session';
 
 export const MainLayout = () => {
   const navigate = useNavigate();
@@ -51,6 +52,8 @@ export const MainLayout = () => {
     },
   ];
 
+  const [myShops, setMyShops] = useState([]);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenu = (event) => {
@@ -80,6 +83,17 @@ export const MainLayout = () => {
     });
   };
 
+  const switchShop = (shopUid) => () => {
+    console.log('Switch Shop', shopUid);
+    setAnchorEl(null);
+    setCurrentShopUid(shopUid);
+    enqueueSnackbar(`Switched to shop ${shopUid}`, {
+      variant: 'info',
+    });
+    // trigger reload
+    document.location.reload();
+  };
+
   // https://dev.to/nirazanbasnet/dont-use-100vh-for-mobile-responsive-3o97
   const documentHeight = () => {
     const doc = document.documentElement;
@@ -89,6 +103,15 @@ export const MainLayout = () => {
   documentHeight();
 
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const fetchMyShops = async () => {
+      const data = await shopApi.getMyShops();
+      setMyShops(data);
+    };
+    fetchMyShops();
+  }, []);
+
   return (
     <Container
       style={{
@@ -113,6 +136,18 @@ export const MainLayout = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                <MenuItem disabled>Choose My Shop</MenuItem>
+                {myShops.map((userShop, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      onClick={switchShop(userShop.shop?.shopUid)}
+                    >
+                      {userShop.shop?.shopUid}
+                    </MenuItem>
+                  );
+                })}
+                <Divider />
                 <MenuItem onClick={enablePushNotication}>
                   Enable Push Notification
                 </MenuItem>

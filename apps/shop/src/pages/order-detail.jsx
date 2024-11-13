@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import shopApi, { NEXT_ACTION_MAP } from '../shopApi';
+import { getCurrentShopUid, setCurrentShopUid } from '../session';
 
 const OrderDisplayKeys = [
   {
@@ -80,6 +81,12 @@ export const OrderDetailPage = () => {
       setAction(NEXT_ACTION_MAP[data.status]);
     };
     fetchOrder();
+    if (getCurrentShopUid() !== shopUid) {
+      setCurrentShopUid(shopUid);
+      enqueueSnackbar(`Switched to shop ${shopUid}`, {
+        variant: 'info',
+      });
+    }
   }, [shopUid, orderId]);
 
   return (
