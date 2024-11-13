@@ -1,6 +1,14 @@
 import axios from 'axios';
 import { isValidAccessToken, refresh } from './api';
-import { setCurrentShopUid, setProfile } from './session';
+import {
+  getCurrentShopUid,
+  getItemFromStorage,
+  setCurrentShopUid,
+  setProfile,
+} from './session';
+
+export const GUEST_URL_BASE =
+  process.env.REACT_APP_GUEST_URL_BASE || 'https://example.com';
 
 export const NEXT_ACTION_MAP = {
   created: 'confirm',
@@ -20,10 +28,10 @@ export class ShopApi {
   async preCheck() {
     if (!isValidAccessToken()) {
       await refresh().then(() => {
-        this.api.defaults.headers.Authorization = `Bearer ${sessionStorage.getItem('accessToken')}`;
+        this.api.defaults.headers.Authorization = `Bearer ${getItemFromStorage('accessToken')}`;
       });
     } else {
-      this.api.defaults.headers.Authorization = `Bearer ${sessionStorage.getItem('accessToken')}`;
+      this.api.defaults.headers.Authorization = `Bearer ${getItemFromStorage('accessToken')}`;
     }
   }
 
@@ -31,8 +39,22 @@ export class ShopApi {
     await this.preCheck();
     const response = await this.api.get('/shop/profile');
     setProfile(response.data);
-    const firstShop = response.data.userShops[0];
-    setCurrentShopUid(firstShop.shopUid);
+    if (!getCurrentShopUid()) {
+      const firstShop = response.data.userShops[0];
+      setCurrentShopUid(firstShop.shopUid);
+    }
+    return response.data;
+  }
+
+  async getShop(shopUid) {
+    await this.preCheck();
+    const response = await this.api.get(`/shop/${shopUid}`);
+    return response.data;
+  }
+
+  async getMyShops() {
+    await this.preCheck();
+    const response = await this.api.get('/shop/my-shops');
     return response.data;
   }
 
@@ -62,6 +84,14 @@ export class ShopApi {
         action,
       }
     );
+    return response.data;
+  }
+
+  async registerFcmToken(fcmToken) {
+    await this.preCheck();
+    const response = await this.api.post(`/shop/fcm/register`, {
+      fcmToken,
+    });
     return response.data;
   }
 }

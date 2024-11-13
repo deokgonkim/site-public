@@ -18,10 +18,12 @@ import {
 import { useEffect, useState } from 'react';
 import { logout } from '../api';
 import { toHumanReadable } from '../util/date';
-import shopApi from '../shopApi';
+import shopApi, { GUEST_URL_BASE } from '../shopApi';
 import { Helmet } from 'react-helmet';
 import { getCurrentShopUid } from '../session';
 import { useSnackbar } from 'notistack';
+import ShopEditCard from './account/shopCard';
+import { Link } from 'react-router-dom';
 
 export const AccountPage = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -56,8 +58,15 @@ export const AccountPage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       const data = await shopApi.getProfile();
+      setProfile(data);
 
-      const shop = data?.userShops?.[0]?.shop;
+      const currentShopUid = getCurrentShopUid();
+      let shop;
+      if (!currentShopUid) {
+        shop = data?.userShops?.[0]?.shop;
+      } else {
+        shop = data?.userShops?.find((s) => s.shopUid === currentShopUid)?.shop;
+      }
       if (shop) {
         setNotificationSettings({
           telegramId: shop.telegramId,
@@ -67,8 +76,6 @@ export const AccountPage = () => {
         });
         console.log(notificationSettings);
       }
-
-      setProfile(data);
     };
     fetchProfile();
   }, []);
@@ -86,8 +93,13 @@ export const AccountPage = () => {
       >
         <Typography variant="h5">Account</Typography>
         <Typography variant="h6">Welcome! {profile?.username}</Typography>
+        <Typography>My Shop URL:</Typography>
+        <Link to={`${GUEST_URL_BASE}/${getCurrentShopUid()}`} target={'_blank'}>
+          {GUEST_URL_BASE}/{getCurrentShopUid()}
+        </Link>
         <Card
           sx={{
+            marginTop: '1em',
             width: { xs: '100%', md: '30%' },
           }}
         >
@@ -108,6 +120,12 @@ export const AccountPage = () => {
             </List>
           </CardContent>
         </Card>
+        <ShopEditCard
+          sx={{
+            marginTop: '0.5em',
+            width: { xs: '100%', md: '30%' },
+          }}
+        />
         <Card
           variant="outlined"
           sx={{

@@ -40,10 +40,13 @@ function App() {
           />
           <Route path="/orders" element={<OrdersPage />} />
           <Route
-            path="/orders/:shopUid/:orderId"
+            path="/:shopUid/orders/:orderId"
             element={<OrderDetailPage />}
           />
-          <Route path="/account" element={<AccountPage />} />
+          <Route
+            path="/account"
+            element={isAuthenticated() ? <AccountPage /> : <LoginPage />}
+          />
           <Route path="/return" element={<ReturnPage />} />
         </Route>
       </Routes>

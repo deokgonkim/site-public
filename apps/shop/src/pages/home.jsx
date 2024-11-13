@@ -1,19 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-import { Container, Typography, Button } from '@mui/material';
-import { currentUser, getProfile } from '../session';
-import { logout } from '../api';
-import './home.css';
 import { Helmet } from 'react-helmet';
+import { Container, Typography } from '@mui/material';
+import { getProfile } from '../session';
+import './home.css';
 
 const HomePage = () => {
-  const navigate = useNavigate();
   // const user = currentUser();
 
   const userProfile = getProfile();
-
-  const handleLogout = () => {
-    logout();
-  };
 
   return (
     <>
@@ -27,9 +20,6 @@ const HomePage = () => {
       >
         <Typography variant="h1">Hello World</Typography>
         <Typography variant="h2">Welcome {userProfile?.username}</Typography>
-        <Button variant="contained" color="primary" onClick={handleLogout}>
-          Logout
-        </Button>
       </Container>
     </>
   );
