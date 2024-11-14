@@ -41,6 +41,7 @@ const FirstPage = () => {
             name: orderItem,
             price: 0,
             quantity: 1,
+            subtotal: 0,
           },
         ],
       })
