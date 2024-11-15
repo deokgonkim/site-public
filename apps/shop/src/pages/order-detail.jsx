@@ -73,6 +73,13 @@ export const OrderDetailPage = () => {
     });
   };
 
+  const printOrder = () => {
+    shopApi.printOrder(shopUid, orderId).then((response) => {
+      console.log('printOrder', response);
+      enqueueSnackbar('Order printed requested', { variant: 'success' });
+    });
+  };
+
   useEffect(() => {
     const fetchOrder = async () => {
       const data = await shopApi.getOrder(shopUid, orderId);
@@ -117,6 +124,13 @@ export const OrderDetailPage = () => {
               onClick={() => processOrder('cancel')}
             >
               Cancel Order
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => printOrder()}
+            >
+              Print Order
             </Button>
           </div>
         </Paper>

@@ -87,6 +87,14 @@ export class ShopApi {
     return response.data;
   }
 
+  async printOrder(shopUid, orderId) {
+    await this.preCheck();
+    const response = await this.api.post(
+      `/shop/${shopUid}/orders/${orderId}/print`
+    );
+    return response.data;
+  }
+
   async registerFcmToken(fcmToken) {
     await this.preCheck();
     const response = await this.api.post(`/shop/fcm/register`, {
