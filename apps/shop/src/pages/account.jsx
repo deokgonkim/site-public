@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
@@ -24,36 +25,12 @@ import { getCurrentShopUid } from '../session';
 import { useSnackbar } from 'notistack';
 import ShopEditCard from './account/shopCard';
 import { Link } from 'react-router-dom';
+import { NotificationSettingCard } from './account/notificationSettingCard';
+import { MyAccountCard } from './account/myAccountCard';
 
 export const AccountPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [profile, setProfile] = useState(null);
-  const [notificationSettings, setNotificationSettings] = useState({});
-
-  const updateShop = () => {
-    shopApi
-      .updateShop(getCurrentShopUid(), {
-        telegramId:
-          notificationSettings?.telegramId?.length > 0
-            ? notificationSettings?.telegramId
-            : null,
-        useTelegram:
-          (notificationSettings.telegramId &&
-            notificationSettings?.useTelegram) ||
-          false,
-        whatsappId:
-          notificationSettings?.whatsappId?.length > 0
-            ? notificationSettings?.whatsappId
-            : null,
-        useWhatsapp:
-          (notificationSettings?.whatsappId &&
-            notificationSettings?.useWhatsapp) ||
-          false,
-      })
-      .then((newShop) => {
-        enqueueSnackbar('Shop updated', { variant: 'success' });
-      });
-  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -66,15 +43,6 @@ export const AccountPage = () => {
         shop = data?.userShops?.[0]?.shop;
       } else {
         shop = data?.userShops?.find((s) => s.shopUid === currentShopUid)?.shop;
-      }
-      if (shop) {
-        setNotificationSettings({
-          telegramId: shop.telegramId,
-          useTelegram: shop.useTelegram,
-          whatsappId: shop.whatsappId,
-          useWhatsapp: shop.useWhatsapp,
-        });
-        console.log(notificationSettings);
       }
     };
     fetchProfile();
@@ -92,153 +60,64 @@ export const AccountPage = () => {
         }}
       >
         <Typography variant="h5">Account</Typography>
-        <Typography variant="h6">Welcome! {profile?.username}</Typography>
-        <Typography>My Shop URL:</Typography>
-        <Link to={`${GUEST_URL_BASE}/${getCurrentShopUid()}`} target={'_blank'}>
-          {GUEST_URL_BASE}/{getCurrentShopUid()}
-        </Link>
-        <Card
+        <Box
           sx={{
             marginTop: '1em',
-            width: { xs: '100%', md: '30%' },
+            display: { xs: 'block', md: 'flex' },
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: '1em',
           }}
         >
-          <CardContent>
-            <List>
-              <ListItem>
-                <FormLabel sx={{ marginRight: 1 }}>Email</FormLabel>
-                <Typography>{profile?.email}</Typography>
-              </ListItem>
-              <ListItem>
-                <FormLabel sx={{ marginRight: 1 }}>Phone</FormLabel>
-                <Typography>{profile?.phone}</Typography>
-              </ListItem>
-              <ListItem>
-                <FormLabel sx={{ marginRight: 1 }}>Joined At</FormLabel>
-                <Typography>{toHumanReadable(profile?.createdAt)}</Typography>
-              </ListItem>
-            </List>
-          </CardContent>
-        </Card>
-        <ShopEditCard
+          <Card
+            variant="outlined"
+            sx={{
+              marginTop: { xs: '1em', md: 0 },
+              width: { xs: '100%', md: '50%' },
+            }}
+          >
+            <CardContent>
+              <Typography variant="h6">Welcome! {profile?.username}</Typography>
+              <Typography>My Shop URL:</Typography>
+              <Link
+                to={`${GUEST_URL_BASE}/${getCurrentShopUid()}`}
+                target={'_blank'}
+              >
+                {GUEST_URL_BASE}/{getCurrentShopUid()}
+              </Link>
+            </CardContent>
+          </Card>
+          <MyAccountCard
+            profile={profile}
+            variant="outlined"
+            sx={{
+              marginTop: { xs: '1em', md: 0 },
+              width: { xs: '100%', md: '50%' },
+            }}
+          />
+        </Box>
+        <Box
           sx={{
-            marginTop: '0.5em',
-            width: { xs: '100%', md: '30%' },
-          }}
-        />
-        <Card
-          variant="outlined"
-          sx={{
-            marginTop: '0.5em',
-            width: { xs: '100%', md: '30%' },
+            marginTop: '1em',
+            display: { xs: 'block', md: 'flex' },
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: '1em',
           }}
         >
-          <CardHeader title="Notification Settings" />
-          <CardContent>
-            <List>
-              <ListItem>
-                <Grid2 container spacing={2}>
-                  <Grid2 item size={6}>
-                    <TextField
-                      label={'Telegram ID'}
-                      size="small"
-                      variant="outlined"
-                      sx={{ padding: 0 }}
-                      value={notificationSettings.telegramId || ''}
-                      onChange={(e) => {
-                        setNotificationSettings((prev) => {
-                          return {
-                            ...prev,
-                            telegramId: e.target.value,
-                          };
-                        });
-                        if (e.target.value.length === 0) {
-                          setNotificationSettings((prev) => {
-                            return {
-                              ...prev,
-                              useTelegram: false,
-                            };
-                          });
-                        }
-                      }}
-                    />
-                  </Grid2>
-                  <Grid2 item size={6}>
-                    <FormLabel>Use</FormLabel>
-                    <Switch
-                      label={'Use Telegram'}
-                      checked={notificationSettings?.useTelegram}
-                      disabled={!notificationSettings?.telegramId}
-                      onChange={(e) => {
-                        setNotificationSettings((prev) => {
-                          return {
-                            ...prev,
-                            useTelegram: e.target.checked,
-                          };
-                        });
-                      }}
-                    />
-                  </Grid2>
-                </Grid2>
-              </ListItem>
-              <ListItem>
-                <Grid2 container spacing={2} style={{ width: '100%' }}>
-                  <Grid2 item size={6}>
-                    <TextField
-                      label={'Whatsapp ID'}
-                      size="small"
-                      variant="outlined"
-                      sx={{ padding: 0 }}
-                      value={notificationSettings.whatsappId || ''}
-                      onChange={(e) => {
-                        setNotificationSettings((prev) => {
-                          return {
-                            ...prev,
-                            whatsappId: e.target.value,
-                          };
-                        });
-                        if (e.target.value.length === 0) {
-                          setNotificationSettings((prev) => {
-                            return {
-                              ...prev,
-                              useWhatsapp: false,
-                            };
-                          });
-                        }
-                      }}
-                    />
-                  </Grid2>
-                  <Grid2 item size={6}>
-                    <FormLabel>Use</FormLabel>
-                    <Switch
-                      label={'Use Whatsapp'}
-                      checked={notificationSettings?.useWhatsapp}
-                      disabled={!notificationSettings?.whatsappId}
-                      onChange={(e) => {
-                        setNotificationSettings((prev) => {
-                          return {
-                            ...prev,
-                            useWhatsapp: e.target.checked,
-                          };
-                        });
-                      }}
-                    />
-                  </Grid2>
-                </Grid2>
-              </ListItem>
-            </List>
-          </CardContent>
-          <CardActions>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => updateShop()}
-              // disabled={!action}
-            >
-              Save
-            </Button>
-          </CardActions>
-        </Card>
+          <ShopEditCard
+            variant="outlined"
+            sx={{
+              marginTop: { xs: '1em', md: 0 },
+              width: { xs: '100%', md: '50%' },
+            }}
+          />
+          <NotificationSettingCard
+            variant="outlined"
+            sx={{
+              marginTop: { xs: '1em', md: 0 },
+              width: { xs: '100%', md: '50%' },
+            }}
+          />
+        </Box>
         <Button
           sx={{
             marginTop: 2,

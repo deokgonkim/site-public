@@ -64,7 +64,9 @@ const ShopEditCard = (props) => {
         </List>
       </CardContent>
       <CardActions>
-        <Button onClick={updateShop}>Update</Button>
+        <Button variant="contained" color="primary" onClick={updateShop}>
+          Update
+        </Button>
       </CardActions>
     </Card>
   );

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
+  Box,
   Button,
   Card,
   Container,
@@ -15,6 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import { LinearProgress } from '@mui/material';
 import shopApi, { NEXT_ACTION_MAP } from '../shopApi';
 import { getCurrentShopUid, setCurrentShopUid } from '../session';
 
@@ -60,6 +62,8 @@ const OrderDisplayKeys = [
 
 export const OrderDetailPage = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const [progress, setProgress] = useState(0);
   const { shopUid, orderId } = useParams();
   const [order, setOrder] = useState({});
   const [action, setAction] = useState('');
@@ -71,6 +75,22 @@ export const OrderDetailPage = () => {
       setAction(NEXT_ACTION_MAP[response.order.status]);
       enqueueSnackbar('Order processed successfully', { variant: 'success' });
     });
+  };
+
+  const deleteOrder = () => {
+    shopApi.deleteOrder(shopUid, orderId).then((response) => {
+      console.log('deleteOrder', response);
+      enqueueSnackbar('Order deleted', { variant: 'success' });
+    });
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => prevProgress + 0.5);
+    }, 10);
+
+    const duration = setTimeout(() => {
+      clearInterval(interval);
+      setProgress(0);
+      navigate(-1);
+    }, 1000);
   };
 
   const printOrder = () => {
@@ -109,7 +129,7 @@ export const OrderDetailPage = () => {
           <Typography variant="h6" gutterBottom>
             Actions
           </Typography>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <Box style={{ display: 'flex', gap: '8px' }}>
             <Button
               variant="contained"
               color="primary"
@@ -127,12 +147,19 @@ export const OrderDetailPage = () => {
             </Button>
             <Button
               variant="contained"
+              color="error"
+              onClick={() => deleteOrder()}
+            >
+              Delete Order
+            </Button>
+            <Button
+              variant="contained"
               color="secondary"
               onClick={() => printOrder()}
             >
               Print Order
             </Button>
-          </div>
+          </Box>
         </Paper>
         <TableContainer component={Paper} sx={{ marginTop: '1em' }}>
           <Table>
@@ -149,6 +176,13 @@ export const OrderDetailPage = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        {progress > 0 && (
+          <LinearProgress
+            value={progress}
+            valueBuffer={progress}
+            variant="determinate"
+          />
+        )}
       </Container>
     </>
   );

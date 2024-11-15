@@ -18,6 +18,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useEffect, useState } from 'react';
 import { enqueueSnackbar, SnackbarProvider } from 'notistack';
 import { Menu as MenuIcon } from '@mui/icons-material';
+import Face6Icon from '@mui/icons-material/Face6';
 import { getFcmToken, registerServiceWorker } from '../external/firebase';
 import shopApi from '../shopApi';
 import { setCurrentShopUid } from '../session';
@@ -40,6 +41,14 @@ export const MainLayout = () => {
       onClick: () => {
         console.log('Orders Clicked');
         navigate('/orders');
+      },
+    },
+    {
+      label: 'Customers',
+      icon: <Face6Icon />,
+      onClick: () => {
+        console.log('Customers Clicked');
+        navigate('/customers');
       },
     },
     {

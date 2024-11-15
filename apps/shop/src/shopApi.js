@@ -64,6 +64,28 @@ export class ShopApi {
     return response.data;
   }
 
+  async getCustomers(shopUid) {
+    await this.preCheck();
+    const response = await this.api.get(`/shop/${shopUid}/customers`);
+    return response.data;
+  }
+
+  async getCustomer(shopUid, customerId) {
+    await this.preCheck();
+    const response = await this.api.get(
+      `/shop/${shopUid}/customers/${customerId}`
+    );
+    return response.data;
+  }
+
+  async deleteCustomer(shopUid, customerId) {
+    await this.preCheck();
+    const response = await this.api.delete(
+      `/shop/${shopUid}/customers/${customerId}`
+    );
+    return response.data;
+  }
+
   async getOrders(shopUid) {
     await this.preCheck();
     const response = await this.api.get(`/shop/${shopUid}/orders`);
@@ -83,6 +105,14 @@ export class ShopApi {
       {
         action,
       }
+    );
+    return response.data;
+  }
+
+  async deleteOrder(shopUid, orderId) {
+    await this.preCheck();
+    const response = await this.api.delete(
+      `/shop/${shopUid}/orders/${orderId}`
     );
     return response.data;
   }

@@ -10,6 +10,8 @@ import { BlankLayout } from './layout/blankLayout';
 import { AccountPage } from './pages/account';
 import { OrdersPage } from './pages/orders';
 import { OrderDetailPage } from './pages/order-detail';
+import { CustomersPage } from './pages/customers';
+import { CustomerDetailPage } from './pages/customer-detail';
 
 function App() {
   return (
@@ -37,6 +39,11 @@ function App() {
                 <Navigate replace to="/login" />
               )
             }
+          />
+          <Route path="/customers" element={<CustomersPage />} />
+          <Route
+            path="/:shopUid/customers/:customerId"
+            element={<CustomerDetailPage />}
           />
           <Route path="/orders" element={<OrdersPage />} />
           <Route
