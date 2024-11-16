@@ -181,6 +181,7 @@ self.addEventListener('notificationclick', (event) => {
         return allClients[0]
           .navigate(url + '#navigate')
           .then((client) => {
+            self.registration.showNotification('navigated', {});
             return client.focus();
           })
           .catch((err) => {
