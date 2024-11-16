@@ -135,6 +135,7 @@ self.addEventListener('notificationclick', (event) => {
   console.log(event);
 
   event.notification.close();
+  self.registration.showNotification('choosing how to open window', {});
 
   // ios에서는 아래 `.focus`  사용에 제한이 있다.
   // ios에서는, openWindow가 잘 동작하지만, chrome safari 등에서는, 기존 창을 재활용하지 않는다.
@@ -164,7 +165,6 @@ self.addEventListener('notificationclick', (event) => {
       const allClients = await self.clients.matchAll({
         type: 'window',
       });
-      self.registration.showNotification('choosing how to open window', {});
       let matchingClient = null;
       for (const client of allClients) {
         console.log('client', client);
