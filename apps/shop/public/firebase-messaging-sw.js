@@ -164,6 +164,7 @@ self.addEventListener('notificationclick', (event) => {
       const allClients = await self.clients.matchAll({
         type: 'window',
       });
+      self.registration.showNotification('choosing how to open window', {});
       let matchingClient = null;
       for (const client of allClients) {
         console.log('client', client);
