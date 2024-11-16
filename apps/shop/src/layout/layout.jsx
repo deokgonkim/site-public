@@ -124,7 +124,6 @@ export const MainLayout = () => {
       setMyShops(data);
     };
     fetchMyShops();
-    registerServiceWorker();
   }, []);
 
   return (

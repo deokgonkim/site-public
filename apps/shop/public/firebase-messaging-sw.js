@@ -131,11 +131,6 @@ self.addEventListener('notificationclick', (event) => {
   // ios 앱을 homeScreen에서 따로 띄운 경우는 여기로 안 들어온다?
   // https://github.com/firebase/firebase-js-sdk/issues/7309#issuecomment-1913171616
   // https://github.com/firebase/firebase-js-sdk/wiki/Known-Issues
-  /*
-  2024/11/17
-  iOS HomeScreen에서 앱을 띄운경우, 이쪽으로 들어오지 않는 문제와 관련해서,
-  layout/layout.jsx 에서 `registerServiceWorker();`를 호출하여 개선된 것으로 보인다.
-  */
 
   console.log('onnotificationclick');
   console.log(event);
