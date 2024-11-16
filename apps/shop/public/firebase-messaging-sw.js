@@ -183,8 +183,8 @@ self.addEventListener('notificationclick', (event) => {
       console.log('got error in notificationclick');
       console.log(err);
       // const stackFirst = err?.stack?.split('\n')?.[1];
-      self.registration.showNotification('Error', {
-        body: `Something went wrong. ${err}`,
+      self.registration.showNotification(`Error ${err}`, {
+        body: err.stack,
       });
     })
   );
