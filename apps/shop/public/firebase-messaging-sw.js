@@ -163,7 +163,6 @@ self.addEventListener('notificationclick', (event) => {
     (async () => {
       const allClients = await self.clients.matchAll({
         type: 'window',
-        includeUncontrolled: true, // 이게 없으면, ios에서 따로 띄운 Cake 창에서는, navigate가 동작하지 않는다.
       });
       let matchingClient = null;
       for (const client of allClients) {
@@ -174,22 +173,13 @@ self.addEventListener('notificationclick', (event) => {
         }
       }
       if (matchingClient) {
+        // if there is already open window, focus it.
         return matchingClient.focus();
-        // } else if (allClients.length > 0) {
-        //   return allClients[0]
-        //     .navigate(url + '#nav')
-        //     .then((openedWindow) => {
-        //       if ('focus' in openedWindow) {
-        //         return openedWindow.focus();
-        //       }
-        //     })
-        //     .catch((err) => {
-        //       console.log('onnaviate error');
-        //       console.log(err);
-        //       throw err;
-        //     });
+      } else if (allClients.length > 0) {
+        // when there is open window, but not matching url. navigate to the url.
+        return allClients[0].navigate(url);
       } else {
-        // 창이 없는 경우, 새창을 띄운다.
+        // if there is no window, open new window.
         // https://bugs.webkit.org/show_bug.cgi?id=263687
         return self.clients.openWindow(url + '#open');
       }
