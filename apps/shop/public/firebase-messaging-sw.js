@@ -1,3 +1,4 @@
+/* eslint-env serviceworker */
 // https://firebase.google.com/docs/cloud-messaging/js/receive
 
 // Import and configure the Firebase SDK
@@ -10,21 +11,7 @@ importScripts(
   'https://www.gstatic.com/firebasejs/10.1.0/firebase-messaging-compat.js'
 );
 
-// dev
-// const firebaseConfig = {
-//     apiKey: 'AIzaSyBA-YB0EnAupLkhLRTW_qe1tlF6_x4ak2U',
-//     authDomain: 'book-it-now-dev.firebaseapp.com',
-//     projectId: 'book-it-now-dev',
-//     storageBucket: 'book-it-now-dev.appspot.com',
-//     messagingSenderId: 1018858166395,
-//     appId: '1:1018858166395:web:1620f8395d6dfc7ae56ade',
-//     measurementId: 'G-W0BQDWMFRX'
-// };
-
-// Initialize Firebase
-// const app = firebase.initializeApp(firebaseConfig);
-
-// const messaging = firebase.messaging();
+const defaultUrlToOpen = '/shop/';
 
 // If you would like to customize notifications that are received in the
 // background (Web app is closed or not in browser focus) then you should
@@ -69,7 +56,7 @@ async function backgroundHandler(payload) {
   if (payload.data && payload.data.link) {
     notificationOptions.tag = payload.data.link;
   } else {
-    notificationOptions.tag = '/shop/';
+    notificationOptions.tag = defaultUrlToOpen;
   }
 
   if (payload.data && payload.data.imageUrl) {
@@ -147,12 +134,7 @@ self.addEventListener('notificationclick', (event) => {
   console.log('onnotificationclick');
   console.log(event);
 
-  try {
-    event.notification.close();
-  } catch (e) {
-    console.log('error while closing notification');
-    console.log(e);
-  }
+  event.notification.close();
 
   // ios에서는 아래 `.focus`  사용에 제한이 있다.
   // ios에서는, openWindow가 잘 동작하지만, chrome safari 등에서는, 기존 창을 재활용하지 않는다.
@@ -168,99 +150,42 @@ self.addEventListener('notificationclick', (event) => {
   // 그래서, tag를 우선 활용한다.
   // const url = event.notification?.data?.link ?? '/cake/shop/';
   // const url = event.notification?.tag ?? '/cake/shop';
-  let url;
-  if (event.notification && event.notification.tag) {
-    url = event.notification.tag;
-  } else {
-    url = '/shop/?';
-  }
-  let allClients;
+  const url = event.notification?.tag ?? defaultUrlToOpen;
 
-  // 그리고, ios에 client.focus에도 문제가 있는 것 같다.
-  // event.waitUntil(
-  //     // clients.matchAll({ type: "window" }).then((clientsArr) => {
-  //     clients.matchAll({ }).then((clientsArr) => {
-  //         // If a Window tab matching the targeted URL already exists, focus that;
-  //         const hadWindowToFocus = clientsArr.some((windowClient) =>
-  //           windowClient.url === url
-  //             ? (windowClient.focus && windowClient.focus(), true)
-  //             : false,
-  //         );
-  //         // Otherwise, open a new tab to the applicable URL and focus it.
-  //         if (!hadWindowToFocus)
-  //           clients
-  //             .openWindow(url)
-  //             .then((windowClient) => (windowClient && windowClient.focus ? windowClient.focus() : null));
-  //     }),
-  // );
-  // TODO event.waitUntil 필요한지 안 필요한지 잘 모르겠다.
-  // 일단, chrome에서, notification을 클릭했을 때, 페이지가 이동하지 않고, loading 도는 상태가 있어서 바꿔본다.
   event.waitUntil(
     (async () => {
-      allClients = await clients.matchAll({
+      const allClients = await self.clients.matchAll({
         type: 'window',
         includeUncontrolled: true, // 이게 없으면, ios에서 따로 띄운 Cake 창에서는, navigate가 동작하지 않는다.
       });
-      console.log('allClients.length', allClients.length);
-      console.log(allClients);
-      // 창이 없는 경우 새창을 띄운다.
-      if (allClients.length == 0) {
-        // https://bugs.webkit.org/show_bug.cgi?id=263687
-        // 아직 잘 안된다..
-        return clients.openWindow(url + '#open0').then((result) => {
-          console.log('opened');
-          console.log(result);
-          if (!result) {
-            throw new Error('openedWindow null');
-          }
-          return result;
-        }); // chrome에서 앱이 안열려 있을 때,는 event.waitUntil 안 하면 안 열린다.
-      } else {
-        const windowClient = allClients[0];
-        // 위 [0]나 아래 .at(-1)나 별 차이 없지 싶다?
-        // const windowClient = allClients.at(-1);
-        console.log('type', windowClient.type);
-        console.log('url', windowClient.url);
-        console.log('focused', windowClient.focused);
-        console.log('visibilityState', windowClient.visibilityState);
-        return windowClient
-          .navigate(url + '#nav')
-          .then((openedWindow) => {
-            // console.log('navigated');
-            // if (openedWindow) {
-            //     return openedWindow.focus();
-            // }
-            // safari에서 focus 안 된다.
-            return openedWindow;
-          })
-          .then((result) => {
-            console.log('focused');
-            return result;
-          });
-        // // ios에 앱이 내려진 경우, 여기로 온다.
-        // return allClients[0].navigate(url + '#nav'); // navigate and focus 하면 좋지 싶긴 한다.
+      let matchingClient = null;
+      for (const client of allClients) {
+        console.log('client', client);
+        if (client.url === url && 'focus' in client) {
+          matchingClient = client;
+          break;
+        }
       }
-
-      // url 비교시, full url 비교를 할지, path 비교만할지가 문제라.
-      // 위조건(allClients.length)에서 창이 있는 경우, 무조건 navigate만 하도록 한다.
-      // // 창이 있고, 해당 URL인 경우, focus만 한다.
-      // const hadWindowToFocus = allClients.find((windowClient) =>
-      //   windowClient.url === url
-      // );
-      // if (hadWindowToFocus) {
-      //     // 해당 URL이 열려있으면, 창을 띄우기만 하고,
-      //     return hadWindowToFocus.focus();
-      // } else {
-      //     // 창은 열려 있으나, 다른 URL이면, 페이지 이동을 하고,
-      //     return allClients[0].navigate(url);
-      // }
+      if (matchingClient) {
+        return matchingClient.focus();
+      } else if (allClients.length > 0) {
+        return allClients[0].navigate(url + '#nav').then((openedWindow) => {
+          if ('focus' in openedWindow) {
+            return openedWindow.focus();
+          }
+        });
+      } else {
+        // 창이 없는 경우, 새창을 띄운다.
+        // https://bugs.webkit.org/show_bug.cgi?id=263687
+        return self.clients.openWindow(url + '#open');
+      }
     })().catch((err) => {
       console.log('got error in notificationclick');
       console.log(err);
       // const stackFirst = err?.stack?.split('\n')?.[1];
-      return clients.openWindow(
-        `${url}#openWithError|${err}|allClients.length=${allClients.length}`
-      );
+      self.registration.showNotification('Error', {
+        body: `Something went wrong. ${err}`,
+      });
     })
   );
 });
