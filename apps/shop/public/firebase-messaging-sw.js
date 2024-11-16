@@ -189,6 +189,7 @@ self.addEventListener('notificationclick', (event) => {
     })().catch((err) => {
       console.log('got error in notificationclick');
       console.log(err);
+      console.log(err.stack);
       // const stackFirst = err?.stack?.split('\n')?.[1];
       self.registration.showNotification(`Error ${err}`, {
         body: err.stack,
