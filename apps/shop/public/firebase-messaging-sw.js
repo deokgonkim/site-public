@@ -173,6 +173,7 @@ self.addEventListener('notificationclick', (event) => {
         }
       }
       if (matchingClient) {
+        self.registration.showNotification('focusing', {});
         // if there is already open window, focus it.
         return matchingClient.focus();
       } else if (allClients.length > 0) {
@@ -185,9 +186,11 @@ self.addEventListener('notificationclick', (event) => {
           .catch((err) => {
             console.log('navigate error');
             console.log(err);
+            self.registration.showNotification('fallback open window', {});
             return self.clients.openWindow(url + '#navigateFail');
           });
       } else {
+        self.registration.showNotification('new open window', {});
         // if there is no window, open new window.
         // https://bugs.webkit.org/show_bug.cgi?id=263687
         return self.clients.openWindow(url + '#open');
