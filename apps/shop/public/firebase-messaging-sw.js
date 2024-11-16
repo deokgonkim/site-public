@@ -150,11 +150,14 @@ self.addEventListener('notificationclick', (event) => {
   // 그래서, tag를 우선 활용한다.
   // const url = event.notification?.data?.link ?? '/cake/shop/';
   // const url = event.notification?.tag ?? '/cake/shop';
-  const url = event.notification?.tag?.includes(
-    'user_visible_auto_notification'
-  )
-    ? defaultUrlToOpen + `#${event.notification.tag}`
-    : (event.notification.tag ?? defaultUrlToOpen);
+  let url;
+  if (event.notification?.tag?.includes('user_visible_auto_notification')) {
+    url = defaultUrlToOpen + '#' + event.notification.tag;
+  } else if (event.notification?.tag) {
+    url = event.notification.tag;
+  } else {
+    url = defaultUrlToOpen;
+  }
 
   event.waitUntil(
     (async () => {
