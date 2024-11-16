@@ -175,19 +175,19 @@ self.addEventListener('notificationclick', (event) => {
       }
       if (matchingClient) {
         return matchingClient.focus();
-      } else if (allClients.length > 0) {
-        return allClients[0]
-          .navigate(url + '#nav')
-          .then((openedWindow) => {
-            if ('focus' in openedWindow) {
-              return openedWindow.focus();
-            }
-          })
-          .catch((err) => {
-            console.log('onnaviate error');
-            console.log(err);
-            throw err;
-          });
+        // } else if (allClients.length > 0) {
+        //   return allClients[0]
+        //     .navigate(url + '#nav')
+        //     .then((openedWindow) => {
+        //       if ('focus' in openedWindow) {
+        //         return openedWindow.focus();
+        //       }
+        //     })
+        //     .catch((err) => {
+        //       console.log('onnaviate error');
+        //       console.log(err);
+        //       throw err;
+        //     });
       } else {
         // 창이 없는 경우, 새창을 띄운다.
         // https://bugs.webkit.org/show_bug.cgi?id=263687
