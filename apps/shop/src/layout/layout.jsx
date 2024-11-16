@@ -125,12 +125,16 @@ export const MainLayout = () => {
     };
     fetchMyShops();
     try {
-      const notification = new Notification('Hello, World!', {
-        body: 'This is a notification from the browser context.',
-        icon: 'icon.png', // Optional icon
-        tag: 'simple-notification', // Ensures a single notification for the tag
-      });
-      enqueueSnackbar('Notification sent', { variant: 'success' });
+      if ('Notification' in window) {
+        const notification = new Notification('Hello, World!', {
+          body: 'This is a notification from the browser context.',
+          icon: 'icon.png', // Optional icon
+          tag: 'simple-notification', // Ensures a single notification for the tag
+        });
+        enqueueSnackbar('Notification sent', { variant: 'success' });
+      } else {
+        enqueueSnackbar('Notification not supported', { variant: 'error' });
+      }
     } catch (e) {
       console.error(e);
       enqueueSnackbar(`Notification failed ${e}`, { variant: 'error' });
