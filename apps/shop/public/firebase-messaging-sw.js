@@ -177,9 +177,16 @@ self.addEventListener('notificationclick', (event) => {
         return matchingClient.focus();
       } else if (allClients.length > 0) {
         // when there is open window, but not matching url. navigate to the url.
-        return allClients[0].navigate(url).then((client) => {
-          return client.focus();
-        });
+        return allClients[0]
+          .navigate(url + '#navigate')
+          .then((client) => {
+            return client.focus();
+          })
+          .catch((err) => {
+            console.log('navigate error');
+            console.log(err);
+            return self.clients.openWindow(url + '#navigateFail');
+          });
       } else {
         // if there is no window, open new window.
         // https://bugs.webkit.org/show_bug.cgi?id=263687
