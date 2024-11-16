@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -17,6 +17,8 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { LinearProgress } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import shopApi, { NEXT_ACTION_MAP } from '../shopApi';
 import { getCurrentShopUid, setCurrentShopUid } from '../session';
 
@@ -93,6 +95,50 @@ export const CustomerDetailPage = () => {
             Actions
           </Typography>
           <Box style={{ display: 'flex', gap: '8px' }}>
+            <Button
+              variant="contained"
+              component={Link}
+              to={`tel:${customer.phone}`}
+            >
+              Call {customer.phone}
+            </Button>
+            <Button
+              variant="contained"
+              component={Link}
+              to={`sms:${customer.phone}?body=Hello`}
+            >
+              Send SMS
+            </Button>
+            {customer.telegramLink && (
+              <Button
+                variant="contained"
+                component={Link}
+                to={`${customer.telegramLink}`}
+                target="_blank"
+              >
+                Contact via Telegram&nbsp;
+                <FontAwesomeIcon
+                  size="2x"
+                  icon={faTelegram}
+                  style={{ marginRight: '0.5em' }}
+                />
+              </Button>
+            )}
+            {customer.whatsappLink && (
+              <Button
+                variant="contained"
+                component={Link}
+                to={`${customer.whatsappLink}`}
+                target="_blank"
+              >
+                Contact via WhatsApp&nbsp;
+                <FontAwesomeIcon
+                  size="2x"
+                  icon={faWhatsapp}
+                  style={{ marginRight: '0.5em' }}
+                />
+              </Button>
+            )}
             <Button
               variant="contained"
               color="error"
