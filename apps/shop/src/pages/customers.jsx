@@ -31,11 +31,11 @@ export const CustomersPage = () => {
   return (
     <>
       <Helmet>
-        <title>Orders Page</title>
+        <title>Customers Page</title>
         <meta name="description" content="This is a orders page" />
       </Helmet>
       <Container sx={{ paddingTop: '0.5em' }}>
-        <Typography variant="h5">Orders</Typography>
+        <Typography variant="h5">Customers</Typography>
         <Divider />
         <List>
           {customers.map((customer, index) => {
@@ -47,13 +47,26 @@ export const CustomersPage = () => {
                   }}
                 >
                   <Grid2 container spacing={2} style={{ width: '100%' }}>
-                    <Grid2 item size={4} sx={{ textAlign: 'center' }}>
+                    <Grid2
+                      item
+                      size={{ xs: 6, md: 4 }}
+                      sx={{ textAlign: 'center' }}
+                    >
                       {customer?.name}
                     </Grid2>
-                    <Grid2 item size={4} sx={{ textAlign: 'center' }}>
+                    <Grid2
+                      item
+                      display={{ xs: 'none', md: 'block' }}
+                      size={{ md: 4 }}
+                      sx={{ textAlign: 'center' }}
+                    >
                       {customer?.phone}
                     </Grid2>
-                    <Grid2 item size={4} sx={{ textAlign: 'center' }}>
+                    <Grid2
+                      item
+                      size={{ xs: 6, md: 4 }}
+                      sx={{ textAlign: 'center' }}
+                    >
                       {toHumanReadable(customer?.createdAt)}
                     </Grid2>
                   </Grid2>
