@@ -84,22 +84,12 @@ export const MainLayout = () => {
           // });
           shopApi.registerFcmToken(token).then((response) => {
             console.log(response);
-            enqueueSnackbar('FCM Token registered', { variant: 'success' });
+            enqueueSnackbar('FCM Token registered, Refreshing required', {
+              variant: 'success',
+            });
             setTimeout(() => {
-              navigator.serviceWorker.getRegistration().then((registration) => {
-                if (registration && registration.waiting) {
-                  // Skip waiting to activate the new service worker
-                  registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-                  console.log('Update applied! Refreshing...');
-                  enqueueSnackbar('Update applied! refreshing needed...', {
-                    variant: 'info',
-                  });
-                  // window.location.reload();
-                } else {
-                  alert('No updates available.');
-                }
-              });
-            }, 1000);
+              window.location.reload();
+            }, 2000);
           });
         }
         // enqueueSnackbar('FCM Token: ' + token, { variant: 'success' });
