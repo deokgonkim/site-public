@@ -6,6 +6,8 @@ import {
   Button,
   Card,
   Container,
+  Divider,
+  Grid2,
   Paper,
   Table,
   TableBody,
@@ -94,59 +96,136 @@ export const CustomerDetailPage = () => {
           <Typography variant="h6" gutterBottom>
             Actions
           </Typography>
-          <Box style={{ display: 'flex', gap: '8px' }}>
-            <Button
-              variant="contained"
-              component={Link}
-              to={`tel:${customer.phone}`}
-            >
-              Call {customer.phone}
-            </Button>
-            <Button
-              variant="contained"
-              component={Link}
-              to={`sms:${customer.phone}?body=Hello`}
-            >
-              Send SMS
-            </Button>
+          <Grid2 container>
             {customer.telegramLink && (
-              <Button
-                variant="contained"
-                component={Link}
-                to={`${customer.telegramLink}`}
-                target="_blank"
+              <Grid2
+                item
+                alignContent={'center'}
+                size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }}
               >
-                Contact via Telegram&nbsp;
-                <FontAwesomeIcon
-                  size="2x"
-                  icon={faTelegram}
-                  style={{ marginRight: '0.5em' }}
-                />
-              </Button>
+                <Box
+                  sx={{
+                    margin: { xs: '0.5em' },
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    component={Link}
+                    to={`${customer.telegramLink}`}
+                    style={{ width: '100%' }}
+                    target="_blank"
+                  >
+                    Telegram&nbsp;
+                    <FontAwesomeIcon
+                      size="2x"
+                      icon={faTelegram}
+                      style={{ marginRight: '0.5em' }}
+                    />
+                  </Button>
+                </Box>
+              </Grid2>
             )}
             {customer.whatsappLink && (
-              <Button
-                variant="contained"
-                component={Link}
-                to={`${customer.whatsappLink}`}
-                target="_blank"
+              <Grid2
+                item
+                alignContent={'center'}
+                size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }}
               >
-                Contact via WhatsApp&nbsp;
-                <FontAwesomeIcon
-                  size="2x"
-                  icon={faWhatsapp}
-                  style={{ marginRight: '0.5em' }}
-                />
-              </Button>
+                <Box
+                  sx={{
+                    margin: { xs: '0.5em' },
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    component={Link}
+                    to={`${customer.whatsappLink}`}
+                    style={{ width: '100%' }}
+                    target="_blank"
+                  >
+                    WhatsApp&nbsp;
+                    <FontAwesomeIcon
+                      size="2x"
+                      icon={faWhatsapp}
+                      style={{ marginRight: '0.5em' }}
+                    />
+                  </Button>
+                </Box>
+              </Grid2>
             )}
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => deleteCustomer()}
+
+            <Grid2
+              item
+              alignContent={'center'}
+              size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }}
             >
-              Delete Customer
-            </Button>
-          </Box>
+              <Box
+                sx={{
+                  margin: { xs: '0.5em' },
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  component={Link}
+                  style={{ width: '100%' }}
+                  to={`tel:${customer.phone}`}
+                >
+                  Call {customer.phone}
+                </Button>
+              </Box>
+            </Grid2>
+            <Grid2
+              item
+              alignContent={'center'}
+              size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }}
+            >
+              <Box
+                sx={{
+                  margin: { xs: '0.5em' },
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  component={Link}
+                  style={{ width: '100%' }}
+                  to={`sms:${customer.phone}?body=Hello`}
+                >
+                  Send SMS
+                </Button>
+              </Box>
+            </Grid2>
+            <Grid2
+              item
+              sx={{ alignContent: 'center' }}
+              size={{ xs: 12, sm: 6, md: 3 }}
+            >
+              <Box
+                sx={{
+                  margin: { xs: '0.5em' },
+                  display: 'flex',
+
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="error"
+                  style={{ width: '100%' }}
+                  onClick={() => deleteCustomer()}
+                >
+                  Delete Customer
+                </Button>
+              </Box>
+            </Grid2>
+          </Grid2>
         </Paper>
         <TableContainer component={Paper} sx={{ marginTop: '1em' }}>
           <Table>
