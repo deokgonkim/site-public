@@ -129,13 +129,13 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   // ios 앱 종료상태에서는 여기로 들어온다.
   // ios 앱을 따로 띄운 경우는 여기로 안 들어온다?
+  // https://github.com/firebase/firebase-js-sdk/wiki/Known-Issues
   // https://github.com/firebase/firebase-js-sdk/issues/7309#issuecomment-1913171616
 
   console.log('onnotificationclick');
   console.log(event);
 
   event.notification.close();
-  self.registration.showNotification('choosing how to open window', {});
 
   // ios에서는 아래 `.focus`  사용에 제한이 있다.
   // ios에서는, openWindow가 잘 동작하지만, chrome safari 등에서는, 기존 창을 재활용하지 않는다.
@@ -174,7 +174,6 @@ self.addEventListener('notificationclick', (event) => {
         }
       }
       if (matchingClient) {
-        self.registration.showNotification('focusing', {});
         // if there is already open window, focus it.
         return matchingClient.focus();
       } else if (allClients.length > 0) {
@@ -182,17 +181,14 @@ self.addEventListener('notificationclick', (event) => {
         return allClients[0]
           .navigate(url + '#navigate')
           .then((client) => {
-            self.registration.showNotification('navigated', {});
             return client.focus();
           })
           .catch((err) => {
             console.log('navigate error');
             console.log(err);
-            self.registration.showNotification('fallback open window', {});
             return self.clients.openWindow(url + '#navigateFail');
           });
       } else {
-        self.registration.showNotification('new open window', {});
         // if there is no window, open new window.
         // https://bugs.webkit.org/show_bug.cgi?id=263687
         return self.clients.openWindow(url + '#open');
