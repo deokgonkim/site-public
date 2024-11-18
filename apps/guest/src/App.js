@@ -8,6 +8,8 @@ import FinalPage from "./pages/final";
 import FirstPage from "./pages/first";
 import en from "./resources/messages.en.json";
 import ko from "./resources/messages.ko.json";
+import { PaymentPage } from "./pages/payment";
+import { PaymentCallbackPage } from "./pages/payment-callback";
 
 function App() {
   const locale = navigator.language || navigator.userLanguage;
@@ -22,6 +24,14 @@ function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/:shopUid" element={<FirstPage />} />
             <Route path="/:shopUid/final" element={<FinalPage />} />
+            <Route
+              path="/:shopUid/payment/:orderId"
+              element={<PaymentPage />}
+            />
+            <Route
+              path="/:shopUid/payment/:orderId/callback"
+              element={<PaymentCallbackPage />}
+            />
           </Route>
         </Routes>
       </IntlProvider>

@@ -29,6 +29,19 @@ export class GuestApi {
     );
     return response.data;
   }
+
+  async getOrder(shopUid, orderId) {
+    const response = await this.api.get(`/guest/${shopUid}/orders/${orderId}`);
+    return response.data;
+  }
+
+  async processPayment(shopUid, orderId, payload) {
+    const response = await this.api.post(
+      `/guest/${shopUid}/orders/${orderId}/payment`,
+      JSON.stringify(payload, null, 4)
+    );
+    return response.data;
+  }
 }
 
 const guestApi = new GuestApi();

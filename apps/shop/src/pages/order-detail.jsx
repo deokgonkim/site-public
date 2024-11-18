@@ -100,6 +100,33 @@ export const OrderDetailPage = () => {
     });
   };
 
+  const requestPayment = () => {
+    const amount = prompt('Enter amount to request payment');
+    if (window.confirm(`Request payment of ${amount}?`)) {
+      shopApi.requestPayment(shopUid, orderId, { amount }).then((response) => {
+        console.log('requestPayment', response);
+        setOrder(response.order);
+        enqueueSnackbar('Payment requested', { variant: 'success' });
+      });
+    }
+  };
+
+  const cancelPayment = (paymentId) => {
+    shopApi.cancelPayment(shopUid, orderId, paymentId).then((response) => {
+      console.log('cancelPayment', response);
+      setOrder(response.order);
+      enqueueSnackbar('Payment canceled', { variant: 'success' });
+    });
+  };
+
+  const deletePayment = (paymentId) => {
+    shopApi.deletePayment(shopUid, orderId, paymentId).then((response) => {
+      console.log('deletePayment', response);
+      setOrder(response.order);
+      enqueueSnackbar('Payment deleted', { variant: 'success' });
+    });
+  };
+
   useEffect(() => {
     const fetchOrder = async () => {
       const data = await shopApi.getOrder(shopUid, orderId);
@@ -159,6 +186,13 @@ export const OrderDetailPage = () => {
             >
               Print Order
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => requestPayment()}
+            >
+              Request Payment
+            </Button>
           </Box>
         </Paper>
         <TableContainer component={Paper} sx={{ marginTop: '1em' }}>
@@ -183,6 +217,41 @@ export const OrderDetailPage = () => {
             variant="determinate"
           />
         )}
+        <TableContainer component={Paper} sx={{ marginTop: '1em' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>PaymentId</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>TossKey</TableCell>
+                <TableCell>Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {order.payments &&
+                order.payments.map((item, i) => (
+                  <TableRow key={i}>
+                    <TableCell>{item.paymentId}</TableCell>
+                    <TableCell>{item.amount}</TableCell>
+                    <TableCell>{item.status}</TableCell>
+                    <TableCell>{item.tossPaymentKey}</TableCell>
+                    <TableCell>
+                      <Button
+                        disabled={!item.tossPaymentKey}
+                        onClick={() => cancelPayment(item.paymentId)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button onClick={() => deletePayment(item.paymentId)}>
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Container>
     </>
   );

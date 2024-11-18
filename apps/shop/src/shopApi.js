@@ -125,6 +125,36 @@ export class ShopApi {
     return response.data;
   }
 
+  async requestPayment(shopUid, orderId, { amount }) {
+    await this.preCheck();
+    const response = await this.api.post(
+      `/shop/${shopUid}/orders/${orderId}/request-payment`,
+      {
+        amount,
+      }
+    );
+    return response.data;
+  }
+
+  async cancelPayment(shopUid, orderId, paymentId) {
+    await this.preCheck();
+    const response = await this.api.post(
+      `/shop/${shopUid}/orders/${orderId}/cancel-payment`,
+      {
+        paymentId,
+      }
+    );
+    return response.data;
+  }
+
+  async deletePayment(shopUid, orderId, paymentId) {
+    await this.preCheck();
+    const response = await this.api.delete(
+      `/shop/${shopUid}/orders/${orderId}/payments/${paymentId}`
+    );
+    return response.data;
+  }
+
   async registerFcmToken(fcmToken) {
     await this.preCheck();
     const response = await this.api.post(`/shop/fcm/register`, {

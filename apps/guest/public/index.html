@@ -25,6 +25,12 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+    <script type="text/javascript">
+      var clientKey = "%REACT_APP_TOSS_CLIENT_KEY%";
+      console.log(clientKey);
+      window.tossPayments = TossPayments(clientKey);
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
