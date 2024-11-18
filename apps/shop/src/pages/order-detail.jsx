@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Container,
+  Grid2,
   Paper,
   Table,
   TableBody,
@@ -156,43 +157,66 @@ export const OrderDetailPage = () => {
           <Typography variant="h6" gutterBottom>
             Actions
           </Typography>
-          <Box style={{ display: 'flex', gap: '8px' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => processOrder(action)}
-              disabled={!action}
+          <Box>
+            <Grid2
+              container
+              sx={{
+                display: 'flex',
+                // rowGap: { xs: '0.5em' },
+              }}
             >
-              Process Order{action && `(action=${action})`}
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => processOrder('cancel')}
-            >
-              Cancel Order
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => deleteOrder()}
-            >
-              Delete Order
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => printOrder()}
-            >
-              Print Order
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => requestPayment()}
-            >
-              Request Payment
-            </Button>
+              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ width: '100%' }}
+                  onClick={() => processOrder(action)}
+                  disabled={!action}
+                >
+                  {action ? action + ' Order' : 'NO ACTION AVAILABLE'}
+                </Button>
+              </Grid2>
+              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ width: '100%' }}
+                  onClick={() => processOrder('cancel')}
+                >
+                  Cancel Order
+                </Button>
+              </Grid2>
+              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  sx={{ width: '100%' }}
+                  onClick={() => deleteOrder()}
+                >
+                  Delete Order
+                </Button>
+              </Grid2>
+              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ width: '100%' }}
+                  onClick={() => printOrder()}
+                >
+                  Print Order
+                </Button>
+              </Grid2>
+              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ width: '100%' }}
+                  onClick={() => requestPayment()}
+                >
+                  Request Payment
+                </Button>
+              </Grid2>
+            </Grid2>
           </Box>
         </Paper>
         <TableContainer component={Paper} sx={{ marginTop: '1em' }}>
