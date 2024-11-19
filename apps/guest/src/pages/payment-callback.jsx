@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import guestApi from "../api/guestApi";
-import { CircularProgress, Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { Helmet } from "react-helmet";
 import { FormattedMessage, useIntl } from "react-intl";
 import { basePath } from "../config";
@@ -54,11 +54,19 @@ export const PaymentCallbackPage = () => {
       <Helmet>
         <title>{intl.formatMessage({ id: "payment-callback.title" })}</title>
       </Helmet>
-      <Container>
-        <Typography variant="h4">
-          <FormattedMessage id="payment-callback.title" />
-        </Typography>
-        <CircularProgress />
+      <Container style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+        <Box
+          alignContent={"center"}
+          sx={{
+            textAlign: "center",
+            flex: 1,
+          }}
+        >
+          <Typography variant="h4">
+            <FormattedMessage id="payment-callback.title" />
+          </Typography>
+          <CircularProgress />
+        </Box>
       </Container>
     </>
   );

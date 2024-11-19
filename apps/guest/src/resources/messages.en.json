@@ -1,6 +1,8 @@
 {
+  "breadcrumb.home": "Home",
+  "breadcrumb.shop": "Shop",
   "breadcrumb.final": "Almost Done",
-  "breadcrumb.home": "Shop",
+  "breadcrumb.payment": "Payment",
   "breadcrumb.reservation": "Reservation",
   "field.countryCode": "Country Code",
   "field.name": "Name",
@@ -16,6 +18,8 @@
   "other": "Other",
   "payment.title": "Payment",
   "payment.order.title": "Order",
+  "payment.order.col1": "Name",
+  "payment.order.col2": "Price",
   "payment.request.title": "Payment request",
   "payment.request.amount": "Amount",
   "payment.request.button": "Pay",

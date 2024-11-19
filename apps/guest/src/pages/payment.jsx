@@ -12,6 +12,13 @@ import {
   Container,
   Divider,
   Grid2,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -64,54 +71,65 @@ export const PaymentPage = () => {
         <Card variant="outlined" style={{ width: "100%" }}>
           <CardHeader
             title={intl.formatMessage({ id: "payment.order.title" })}
+            sx={{ paddingBotton: "0" }}
           />
-          <CardContent>
+          <CardContent sx={{ padding: "0 1em" }}>
             <Box>
-              {order?.items?.map((item, index) => (
-                <>
-                  <Grid2 container key={index}>
-                    <Grid2 item size={8} sx={{ textAlign: "center" }}>
-                      <Typography>
-                        {item.name} x {item.quantity}
-                      </Typography>
-                    </Grid2>
-                    <Grid2 item size={4} sx={{ textAlign: "center" }}>
-                      <Typography>
-                        {item.subtotal.toLocaleString()} 원
-                      </Typography>
-                    </Grid2>
-                  </Grid2>
-                </>
-              ))}
+              <TableContainer component={Paper} sx={{ marginTop: "1em" }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <FormattedMessage id="payment.order.col1" />
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "right" }}>
+                        <FormattedMessage id="payment.order.col2" />
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {order?.items?.map((item, index) => (
+                      <TableRow for={index}>
+                        <TableCell>
+                          <Typography>
+                            {item.name} x {item.quantity}
+                          </Typography>
+                        </TableCell>
+                        <TableCell sx={{ textAlign: "right" }}>
+                          <Typography>
+                            {item.subtotal.toLocaleString()} 원
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Box>
           </CardContent>
-          <CardActionArea>
-            <Grid2 container alignContent={"center"} sx={{ padding: "1em" }}>
-              <Grid2 item alignContent={"center"} size={8}>
-                <Typography variant="h6">
-                  <FormattedMessage id="payment.request.title" />
-                </Typography>
-                <TextField
-                  label={intl.formatMessage({ id: "payment.request.amount" })}
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={order?.payments?.[0]?.amount?.toLocaleString() + " 원"}
-                  disabled
-                />
-              </Grid2>
-              <Grid2
-                item
-                alignContent={"center"}
-                sx={{ padding: "0.5em", textAlign: "center" }}
-                size={4}
+          <CardActions style={{ display: "flex" }}>
+            <Box style={{ flex: 1 }}>
+              <Typography variant="h6">
+                <FormattedMessage id="payment.request.title" />
+              </Typography>
+              <TextField
+                label={intl.formatMessage({ id: "payment.request.amount" })}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={order?.payments?.[0]?.amount?.toLocaleString() + " 원"}
+                disabled
+                slotProps={{ htmlInput: { style: { textAlign: "right" } } }}
+              />
+              <Button
+                variant="contained"
+                style={{ width: "100%" }}
+                onClick={onClickPayment}
               >
-                <Button variant="contained" onClick={onClickPayment}>
-                  <FormattedMessage id="payment.request.button" />
-                </Button>
-              </Grid2>
-            </Grid2>
-          </CardActionArea>
+                <FormattedMessage id="payment.request.button" />
+              </Button>
+            </Box>
+          </CardActions>
         </Card>
         <Divider />
       </Container>
