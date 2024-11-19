@@ -100,7 +100,8 @@ const FinalPage = () => {
                   id="final.enter"
                   values={{ name: "WhatsApp" }}
                 />
-              </Link>
+              </Link>{" "}
+              (Sandbox Join code answer-alive)
             </ListItem>
           )}
         </List>
