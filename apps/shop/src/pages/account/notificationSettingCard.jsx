@@ -17,7 +17,12 @@ import shopApi from '../../shopApi';
 import { getCurrentShopUid } from '../../session';
 
 export const NotificationSettingCard = (props) => {
-  const [notificationSettings, setNotificationSettings] = useState({});
+  const [notificationSettings, setNotificationSettings] = useState({
+    telegramId: '',
+    useTelegram: false,
+    whatsappId: '',
+    useWhatsapp: false,
+  });
 
   const updateShop = () => {
     shopApi
@@ -57,9 +62,9 @@ export const NotificationSettingCard = (props) => {
       }
       if (shop) {
         setNotificationSettings({
-          telegramId: shop.telegramId,
+          telegramId: shop.telegramId || '',
           useTelegram: shop.useTelegram,
-          whatsappId: shop.whatsappId,
+          whatsappId: shop.whatsappId || '',
           useWhatsapp: shop.useWhatsapp,
         });
         console.log(notificationSettings);
@@ -74,14 +79,14 @@ export const NotificationSettingCard = (props) => {
       <CardContent>
         <List>
           <ListItem>
-            <Grid2 container spacing={2}>
-              <Grid2 item size={6}>
+            <Grid2 container spacing={2} style={{ width: '100%' }}>
+              <Grid2 size={6}>
                 <TextField
                   label={'Telegram ID'}
                   size="small"
                   variant="outlined"
                   sx={{ padding: 0 }}
-                  value={notificationSettings.telegramId || ''}
+                  value={notificationSettings.telegramId}
                   onChange={(e) => {
                     setNotificationSettings((prev) => {
                       return {
@@ -100,7 +105,7 @@ export const NotificationSettingCard = (props) => {
                   }}
                 />
               </Grid2>
-              <Grid2 item size={6}>
+              <Grid2 size={6}>
                 <FormLabel>Use</FormLabel>
                 <Switch
                   label={'Use Telegram'}
@@ -120,13 +125,13 @@ export const NotificationSettingCard = (props) => {
           </ListItem>
           <ListItem>
             <Grid2 container spacing={2} style={{ width: '100%' }}>
-              <Grid2 item size={6}>
+              <Grid2 size={6}>
                 <TextField
                   label={'Whatsapp ID'}
                   size="small"
                   variant="outlined"
                   sx={{ padding: 0 }}
-                  value={notificationSettings.whatsappId || ''}
+                  value={notificationSettings.whatsappId}
                   onChange={(e) => {
                     setNotificationSettings((prev) => {
                       return {
@@ -145,12 +150,12 @@ export const NotificationSettingCard = (props) => {
                   }}
                 />
               </Grid2>
-              <Grid2 item size={6}>
+              <Grid2 size={6}>
                 <FormLabel>Use</FormLabel>
                 <Switch
                   label={'Use Whatsapp'}
                   checked={notificationSettings?.useWhatsapp}
-                  disabled={!notificationSettings?.whatsappId}
+                  disabled={!notificationSettings?.whatsappId ? true : false}
                   onChange={(e) => {
                     setNotificationSettings((prev) => {
                       return {

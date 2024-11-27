@@ -47,13 +47,13 @@ export const OrdersPage = () => {
                   }}
                 >
                   <Grid2 container spacing={2} style={{ width: '100%' }}>
-                    <Grid2 item size={4} sx={{ textAlign: 'center' }}>
+                    <Grid2 size={4} sx={{ textAlign: 'center' }}>
                       {order?.customer?.name}
                     </Grid2>
-                    <Grid2 item size={4} sx={{ textAlign: 'center' }}>
+                    <Grid2 size={4} sx={{ textAlign: 'center' }}>
                       {order?.status}
                     </Grid2>
-                    <Grid2 item size={4} sx={{ textAlign: 'center' }}>
+                    <Grid2 size={4} sx={{ textAlign: 'center' }}>
                       {toHumanReadable(order?.createdAt)}
                     </Grid2>
                   </Grid2>

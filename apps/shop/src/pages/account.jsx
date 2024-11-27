@@ -27,6 +27,7 @@ import ShopEditCard from './account/shopCard';
 import { Link } from 'react-router-dom';
 import { NotificationSettingCard } from './account/notificationSettingCard';
 import { MyAccountCard } from './account/myAccountCard';
+import { DescriptionCard } from './account/descriptionCard';
 
 export const AccountPage = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -118,6 +119,13 @@ export const AccountPage = () => {
             }}
           />
         </Box>
+        <DescriptionCard
+          variant="outlined"
+          sx={{
+            marginTop: '1em',
+            width: '100%',
+          }}
+        />
         <Button
           sx={{
             marginTop: 2,

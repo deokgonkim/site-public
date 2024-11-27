@@ -165,7 +165,7 @@ export const OrderDetailPage = () => {
                 // rowGap: { xs: '0.5em' },
               }}
             >
-              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+              <Grid2 sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -176,7 +176,7 @@ export const OrderDetailPage = () => {
                   {action ? action + ' Order' : 'NO ACTION AVAILABLE'}
                 </Button>
               </Grid2>
-              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+              <Grid2 sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
                 <Button
                   variant="contained"
                   color="secondary"
@@ -186,7 +186,7 @@ export const OrderDetailPage = () => {
                   Cancel Order
                 </Button>
               </Grid2>
-              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+              <Grid2 sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
                 <Button
                   variant="contained"
                   color="error"
@@ -196,7 +196,7 @@ export const OrderDetailPage = () => {
                   Delete Order
                 </Button>
               </Grid2>
-              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+              <Grid2 sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
                 <Button
                   variant="contained"
                   color="secondary"
@@ -206,7 +206,7 @@ export const OrderDetailPage = () => {
                   Print Order
                 </Button>
               </Grid2>
-              <Grid2 item sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
+              <Grid2 sx={{ padding: '0.5em' }} size={{ xs: 12, sm: 6 }}>
                 <Button
                   variant="contained"
                   color="primary"
