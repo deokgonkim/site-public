@@ -25,5 +25,6 @@
   "payment.request.button": "Pay",
   "payment-callback.title": "Payment in-progress",
   "payment-callback.paymentProcessed": "Payment processed",
-  "payment-callback.paymentFailed": "Payment failed"
+  "payment-callback.paymentFailed": "Payment failed",
+  "shop.description.header": "{name} is telling about how to order"
 }

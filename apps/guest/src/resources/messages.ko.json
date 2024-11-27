@@ -25,5 +25,6 @@
   "payment.request.button": "결제",
   "payment-callback.title": "결제 진행중",
   "payment-callback.paymentProcessed": "결제 완료",
-  "payment-callback.paymentFailed": "결제 실패"
+  "payment-callback.paymentFailed": "결제 실패",
+  "shop.description.header": "{name}에서 주문하는 방법을 알려드립니다."
 }
