@@ -64,7 +64,13 @@ export const DescriptionCard = (props) => {
     setEditMode(!editMode);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const fetchShop = async () => {
+      const data = await shopApi.getShop(getCurrentShopUid());
+      setMarkdown(data.description);
+    };
+    fetchShop();
+  }, []);
 
   return (
     <Card {...props}>
