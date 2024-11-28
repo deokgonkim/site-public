@@ -78,21 +78,23 @@ const FirstPage = () => {
         <Typography variant="h4">
           {shopUid} - {shop?.shopName}
         </Typography>
-        <Card style={{ marginTop: "1em" }}>
-          <CardHeader
-            title={intl.formatMessage(
-              {
-                id: "shop.description.header",
-              },
-              {
-                name: shop?.shopName,
-              }
-            )}
-          />
-          <CardContent>
-            <Markdown>{shop?.description}</Markdown>
-          </CardContent>
-        </Card>
+        {shop?.description && (
+          <Card style={{ marginTop: "1em" }}>
+            <CardHeader
+              title={intl.formatMessage(
+                {
+                  id: "shop.description.header",
+                },
+                {
+                  name: shop?.shopName,
+                }
+              )}
+            />
+            <CardContent>
+              <Markdown>{shop?.description}</Markdown>
+            </CardContent>
+          </Card>
+        )}
         <Card style={{ marginTop: "1em" }}>
           <CardContent>
             <Typography variant="h4">
