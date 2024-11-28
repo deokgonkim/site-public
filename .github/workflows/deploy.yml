@@ -42,6 +42,7 @@ jobs:
         with:
           name: guest-app-build
           path: apps/guest/build
+          retention-days: 1
 
   build-shop:
     runs-on: ubuntu-latest
@@ -72,6 +73,7 @@ jobs:
         with:
           name: shop-app-build
           path: apps/shop/build
+          retention-days: 1
 
   deploy:
     needs:
