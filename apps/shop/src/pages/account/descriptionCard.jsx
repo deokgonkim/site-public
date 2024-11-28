@@ -32,15 +32,8 @@ import shopApi from '../../shopApi';
 import { getCurrentShopUid } from '../../session';
 import { enqueueSnackbar } from 'notistack';
 
-const initialMarkdown = `
-## Description
-
-- First element
-- Second dlement
-`;
-
 export const DescriptionCard = (props) => {
-  const [markdown, setMarkdown] = useState(initialMarkdown);
+  const [markdown, setMarkdown] = useState('');
   const [editMode, setEditMode] = useState(false);
 
   const ref = useRef(null);
@@ -67,7 +60,7 @@ export const DescriptionCard = (props) => {
   useEffect(() => {
     const fetchShop = async () => {
       const data = await shopApi.getShop(getCurrentShopUid());
-      setMarkdown(data.description);
+      setMarkdown(data.description || '');
     };
     fetchShop();
   }, []);
