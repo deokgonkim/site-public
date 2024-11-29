@@ -16,6 +16,8 @@ import {
 import { TextField, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm"; // to support tables in markdown
+import rehypeRaw from "rehype-raw"; // to support raw HTML like <u> in markdown
 
 import guestApi from "../api/guestApi";
 import { basePath } from "../config";
@@ -91,7 +93,17 @@ const FirstPage = () => {
               )}
             />
             <CardContent>
-              <Markdown>{shop?.description}</Markdown>
+              <Markdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[
+                  () =>
+                    rehypeRaw({
+                      tagfilter: true,
+                    }),
+                ]}
+              >
+                {shop?.description}
+              </Markdown>
             </CardContent>
           </Card>
         )}
