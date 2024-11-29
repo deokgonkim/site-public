@@ -1,0 +1,7 @@
+/**
+ * mdx editor를 modal위에 띄우면, 에디터 내부에 떠야 할 팝업 메뉴들이 정상적으로 띄워지지 않아 사용한 패치이다.
+ * https://github.com/mdx-editor/editor/issues/305#issuecomment-2119076719
+ */
+.mdxeditor-popup-container {
+  z-index: 9999; /* use the value that works for you */
+}
