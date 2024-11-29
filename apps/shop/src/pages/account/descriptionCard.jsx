@@ -13,6 +13,7 @@ import {
   CodeToggle,
   CreateLink,
   InsertImage,
+  InsertTable,
   InsertThematicBreak,
   ListsToggle,
   MDXEditor,
@@ -23,10 +24,13 @@ import {
   linkPlugin,
   listsPlugin,
   quotePlugin,
+  tablePlugin,
   thematicBreakPlugin,
   toolbarPlugin,
 } from '@mdxeditor/editor';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'; // to support tables in markdown
+import rehypeRaw from 'rehype-raw'; // to support raw HTML like <u> in markdown
 import '@mdxeditor/editor/style.css';
 import shopApi from '../../shopApi';
 import { getCurrentShopUid } from '../../session';
@@ -57,6 +61,12 @@ export const DescriptionCard = (props) => {
     setEditMode(!editMode);
   };
 
+  const cancel = () => {
+    if (editMode) {
+      setEditMode(false);
+    }
+  };
+
   useEffect(() => {
     const fetchShop = async () => {
       const data = await shopApi.getShop(getCurrentShopUid());
@@ -81,6 +91,7 @@ export const DescriptionCard = (props) => {
               listsPlugin(),
               quotePlugin(),
               thematicBreakPlugin(),
+              tablePlugin(),
               toolbarPlugin({
                 toolbarContents: () => (
                   <>
@@ -92,19 +103,40 @@ export const DescriptionCard = (props) => {
                     <CreateLink />
                     <ListsToggle />
                     <InsertImage />
+                    <InsertTable />
                   </>
                 ),
               }),
             ]}
           />
         ) : (
-          <Markdown>{markdown}</Markdown>
+          <Markdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[
+              () =>
+                rehypeRaw({
+                  tagfilter: true,
+                }),
+            ]}
+          >
+            {markdown}
+          </Markdown>
         )}
       </CardContent>
       <CardActions>
         <Button variant="contained" size="small" color="primary" onClick={edit}>
           {editMode ? 'Finish' : 'Edit'}
         </Button>
+        {editMode && (
+          <Button
+            variant="contained"
+            size="small"
+            color="warning"
+            onClick={cancel}
+          >
+            Cancel
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
