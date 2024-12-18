@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { basePath } from './api';
-import { isAuthenticated } from './session';
 import LoginPage from './pages/login';
 import ReturnPage from './pages/return';
 import HomePage from './pages/home';
@@ -12,34 +11,38 @@ import { OrdersPage } from './pages/orders';
 import { OrderDetailPage } from './pages/order-detail';
 import { CustomersPage } from './pages/customers';
 import { CustomerDetailPage } from './pages/customer-detail';
+import { useAuth } from './provider/auth';
+import ProtectedRoute from './route/protected';
 
 function App() {
+  const { isAuthenticated } = useAuth();
+  console.log('isAuthenticated', isAuthenticated);
+
   return (
     <BrowserRouter basename={basePath}>
       <Routes>
-        <Route element={isAuthenticated() ? <MainLayout /> : <BlankLayout />}>
-          <Route
-            path="/"
-            element={
-              isAuthenticated() ? (
-                <Navigate replace to="/home" />
-              ) : (
-                <Navigate replace to="/login" />
-              )
-            }
-          />
-          <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="/confirm" element={<ConfirmUserPage />} /> */}
-          <Route
-            path="/home"
-            element={
-              isAuthenticated() ? (
-                <HomePage />
-              ) : (
-                <Navigate replace to="/login" />
-              )
-            }
-          />
+        {/* <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Navigate replace to="/home" />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        /> */}
+        {/* <Route path="/confirm" element={<ConfirmUserPage />} /> */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/return" element={<ReturnPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/home" element={<HomePage />} />
           <Route path="/customers" element={<CustomersPage />} />
           <Route
             path="/:shopUid/customers/:customerId"
@@ -52,10 +55,13 @@ function App() {
           />
           <Route
             path="/account"
-            element={isAuthenticated() ? <AccountPage /> : <LoginPage />}
+            element={isAuthenticated ? <AccountPage /> : <LoginPage />}
           />
-          <Route path="/return" element={<ReturnPage />} />
         </Route>
+        <Route
+          path="*"
+          element={<Navigate to={isAuthenticated ? '/' : '/login'} />}
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -5,6 +5,7 @@ const backendStorage = localStorage;
 /**
  * Checks if the user is authenticated by verifying the presence of an idToken in backendStorage.
  *
+ * @deprecated Use the `useAuth` hook from `src/provider/auth.js` instead.
  * @returns {boolean} True if the user is authenticated, false otherwise.
  */
 export const isAuthenticated = () => {

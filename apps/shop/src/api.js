@@ -20,16 +20,31 @@ export const logout = async () => {
 
 export const isValidAccessToken = () => {
   const accessToken = getItemFromStorage('accessToken');
+  if (!accessToken) {
+    return false;
+  }
   const parsed = parseJwt(accessToken);
   return parsed && parsed.exp * 1000 > Date.now();
 };
 
 export const refresh = async () => {
+  const refreshToken = getItemFromStorage('refreshToken');
+  if (!refreshToken) {
+    clearSession();
+    window.dispatchEvent(
+      new StorageEvent('storage', {
+        key: 'idToken',
+        newValue: null,
+        storageArea: localStorage,
+      })
+    );
+    throw new Error('No refresh token');
+  }
   const url = config.hostedUiUrl + '/oauth2/token';
   const params = new URLSearchParams({
     grant_type: 'refresh_token',
     client_id: config.clientId,
-    refresh_token: getItemFromStorage('refreshToken'),
+    refresh_token: refreshToken,
   });
   const response = await fetch(url, {
     method: 'POST',
@@ -40,6 +55,13 @@ export const refresh = async () => {
   });
   if (response.status >= 400) {
     clearSession();
+    window.dispatchEvent(
+      new StorageEvent('storage', {
+        key: 'idToken',
+        newValue: null,
+        storageArea: localStorage,
+      })
+    );
     throw new Error('Failed to refresh token');
   }
   const body = await response.json();
