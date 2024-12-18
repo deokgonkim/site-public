@@ -60,7 +60,7 @@ function App() {
         </Route>
         <Route
           path="*"
-          element={<Navigate to={isAuthenticated ? '/' : '/login'} />}
+          element={<Navigate to={isAuthenticated ? '/home' : '/login'} />}
         />
       </Routes>
     </BrowserRouter>

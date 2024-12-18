@@ -32,7 +32,7 @@ export const MainLayout = () => {
       icon: <HomeIcon />,
       onClick: () => {
         console.log('Home Clicked');
-        navigate('/');
+        navigate('/home');
       },
     },
     {
