@@ -125,7 +125,7 @@ jobs:
         run: aws s3 sync ./public/ s3://${{ secrets.AWS_S3_BUCKET_PUBLIC }}/ --delete --acl public-read
 
       - name: Deploy to readme
-        run: cd api-doc;npm install rdme@latest && node --version && npx rdme openapi doc.yaml --version=v1.0 --key=${{ secrets.README_KEY }} --id=${{ secrets.README_DOC_ID }}
+        run: cd api-doc;npm install rdme@latest && node --version && npx rdme openapi upload doc.yaml --version=v1.0 --key=${{ secrets.README_KEY }} --id=${{ secrets.README_DOC_ID }}
 
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CF_DISTRIBUTION_ID }} --paths "/*"
