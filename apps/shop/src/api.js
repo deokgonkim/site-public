@@ -38,6 +38,10 @@ export const refresh = async () => {
     },
     body: params.toString(),
   });
+  if (response.status >= 400) {
+    clearSession();
+    throw new Error('Failed to refresh token');
+  }
   const body = await response.json();
   // console.log("Refresh token response: ", body);
   if (body.id_token) {
