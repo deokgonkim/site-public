@@ -5,7 +5,6 @@ import ReturnPage from './pages/return';
 import HomePage from './pages/home';
 import './App.css';
 import { MainLayout } from './layout/layout';
-import { BlankLayout } from './layout/blankLayout';
 import { AccountPage } from './pages/account';
 import { OrdersPage } from './pages/orders';
 import { OrderDetailPage } from './pages/order-detail';
@@ -42,7 +41,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/customers" element={<CustomersPage />} />
           <Route
             path="/:shopUid/customers/:customerId"
@@ -60,7 +59,7 @@ function App() {
         </Route>
         <Route
           path="*"
-          element={<Navigate to={isAuthenticated ? '/home' : '/login'} />}
+          element={<Navigate to={isAuthenticated ? '/' : '/login'} />}
         />
       </Routes>
     </BrowserRouter>

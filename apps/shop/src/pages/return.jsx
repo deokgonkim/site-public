@@ -4,6 +4,7 @@ import { basePath, oauth2Token } from '../api';
 import shopApi from '../shopApi';
 import { Helmet } from 'react-helmet';
 import { setItemToStorage } from '../session';
+import { Box, CircularProgress } from '@mui/material';
 
 const ReturnPage = () => {
   const [searchParams] = useSearchParams();
@@ -21,7 +22,7 @@ const ReturnPage = () => {
           setItemToStorage('refreshToken', response.refresh_token || '');
         }
         shopApi.getProfile().then(() => {
-          window.location.href = `${basePath}/home`;
+          window.location.href = `${basePath}/`;
         });
       });
     }
@@ -33,7 +34,16 @@ const ReturnPage = () => {
         <title>Return Page</title>
         <meta name="description" content="This is a return page" />
       </Helmet>
-      <h1>return</h1>
+      <Box
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
     </>
   );
 };
