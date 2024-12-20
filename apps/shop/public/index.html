@@ -38,54 +38,6 @@
       }
     </style>
   </head>
-  <!-- Listen for the cloudkitloaded event on the window object. -->
-  <script>
-    window.addEventListener('cloudkitloaded', function () {
-      // Now the global namespace CloudKit is defined and you can proceed
-      // to configure your application.
-      CloudKit.configure({
-        containers: [
-          {
-            // Change this to a container identifier you own.
-            containerIdentifier: 'iCloud.net.dgkim.TinyPix',
-
-            apiTokenAuth: {
-              // And generate a web token through CloudKit Dashboard.
-              apiToken:
-                'a232133c98f6b97bc7a91542d3045ff145c27dbad6568ff48d6aa941d6dd594c',
-
-              persist: true, // Sets a cookie.
-
-              signInButton: {
-                id: 'apple-sign-in-button',
-                theme: 'black', // Other options: 'white', 'white-with-outline'.
-              },
-
-              signOutButton: {
-                id: 'apple-sign-out-button',
-                theme: 'black',
-              },
-            },
-
-            environment: 'development',
-          },
-        ],
-      });
-
-      CloudKit.getDefaultContainer()
-        .setUpAuth()
-        .then((user) => {
-          if (user) {
-            console.log('User is signed in:', user);
-          } else {
-            console.log('User is not signed in');
-          }
-        });
-      console.log('cloud kit loaded');
-    });
-  </script>
-  <!-- Include the script with the ‘async’ attribute. -->
-  <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js" async></script>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>

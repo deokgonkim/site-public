@@ -33,11 +33,9 @@ const LoginPage = () => {
           gap: '1em',
         }}
       >
-        <Button type="submit" onClick={() => goHostedUI()}>
+        <Button variant="outlined" type="submit" onClick={() => goHostedUI()}>
           Login
         </Button>
-        <div id="apple-sign-in-button" />
-        <div id="apple-sign-out-button" />
       </Box>
     </Container>
   );
