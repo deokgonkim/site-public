@@ -1,3 +1,4 @@
+import { Box, Button, Container, Typography } from '@mui/material';
 import { basePath, config } from '../api';
 
 const LoginPage = () => {
@@ -13,12 +14,32 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Welcome</h1>
-      <button type="submit" onClick={() => goHostedUI()}>
-        Login
-      </button>
-    </div>
+    <Container
+      style={{
+        padding: '1em',
+        width: '100%',
+        textAlign: 'center',
+      }}
+    >
+      <Typography variant="h5">Welcome</Typography>
+      <Box
+        sx={{
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'wrap',
+          margin: '0 auto',
+          alignContent: 'center',
+          gap: '1em',
+        }}
+      >
+        <Button type="submit" onClick={() => goHostedUI()}>
+          Login
+        </Button>
+        <div id="apple-sign-in-button" />
+        <div id="apple-sign-out-button" />
+      </Box>
+    </Container>
   );
 };
 
