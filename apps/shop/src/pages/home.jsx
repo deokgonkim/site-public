@@ -6,12 +6,17 @@ import {
   Container,
   List,
   ListItem,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
   Typography,
 } from '@mui/material';
 import { getCurrentShopUid, getProfile } from '../session';
 import './home.css';
 import { useEffect, useState } from 'react';
 import shopApi from '../shopApi';
+import { Chat } from '@mui/icons-material';
+import { ChatDialog } from './home/ChatDialog';
 
 const HomePage = () => {
   // const user = currentUser();
@@ -21,6 +26,14 @@ const HomePage = () => {
 
   const currentShopUid = getCurrentShopUid();
   const userProfile = getProfile();
+
+  const [open, setOpen] = useState(false);
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -71,6 +84,27 @@ const HomePage = () => {
             </List>
           </CardContent>
         </Card>
+        <ChatDialog
+          open={open}
+          handleClose={handleClose}
+          // handleSend={handleSend}
+        />
+        <SpeedDial
+          ariaLabel="SpeedDial"
+          icon={<SpeedDialIcon />}
+          sx={{
+            position: 'fixed',
+            bottom: 16,
+            right: 16,
+          }}
+        >
+          <SpeedDialAction
+            key={'chat'}
+            icon={<Chat />}
+            tooltipTitle="Ask AI"
+            onClick={handleOpenDialog}
+          />
+        </SpeedDial>
       </Container>
     </>
   );
