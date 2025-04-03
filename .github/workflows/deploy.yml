@@ -38,7 +38,7 @@ jobs:
           app-folder: apps/guest
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: guest-app-build
           path: apps/guest/build
@@ -69,7 +69,7 @@ jobs:
           app-folder: apps/shop
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: shop-app-build
           path: apps/shop/build
