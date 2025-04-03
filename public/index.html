@@ -80,7 +80,7 @@
   <hr />
   <h2>Send SMS</h2>
   <label>Phone Number</label>
-  <input type="tel" name="phone" />
+  <input type="tel" name="phone" /><a id="callLink" href="tel:">Call</a>
   <br />
   <label>Body</label>
   <textarea name="sms" rows="4" cols="50">Hello, World!</textarea>
@@ -92,6 +92,9 @@
       window.location.href = `sms:/${phoneNumber}&body=${sms}`;
       return false;
     }
+    document.querySelector('input[name=phone]').addEventListener('change', (event) => {
+	    document.querySelector('#callLink').href = `tel:${event.target.value}`;
+});
   </script>
   <button
   onclick="return onvibrate();"
