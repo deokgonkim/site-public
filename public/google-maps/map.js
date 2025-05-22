@@ -110,8 +110,8 @@ const initGoogleMap = (domId, coord, zoomLevel) => {
       info = new google.maps.InfoWindow({
         position: mapsMouseEvent.latLng,
       });
-      document.form1.lat.value = latlng.lat;
-      document.form1.lng.value = latlng.lng;
+      document.querySelector("[name=lat]").value = latlng.lat;
+      document.querySelector("[name=lng]").value = latlng.lng;
       info.setContent(`LAT LNG: ${latlng.lat} ${latlng.lng}`);
       info.open(window.map);
       console.log(latlng);
