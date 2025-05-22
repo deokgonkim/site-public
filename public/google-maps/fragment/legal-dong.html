@@ -1,0 +1,16 @@
+<!-- 법정동 폴리곤을 보여주기 위한 것. 현재 법정동 데이터 API 안만들어져있음. -->
+<form name="form1" onsubmit="showLegalDongAround(this); return false;">
+  <ul>
+    <li>LAT : <input type="text" name="lat" value="" /></li>
+    <li>LNG : <input type="text" name="lng" value="" /></li>
+    <li>Distance : <input type="text" name="distance" value="1000" /></li>
+    <li>Scale : <input type="text" name="scale" value="0.001" /></li>
+    <li>
+      Adjacent :
+      <input type="radio" name="merge" value="false" checked="checked" />
+      Separate /
+      <input type="radio" name="merge" value="true" /> Merge
+    </li>
+  </ul>
+  <input type="submit" />
+</form>

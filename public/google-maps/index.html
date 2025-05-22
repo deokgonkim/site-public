@@ -1,109 +1,104 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Google Maps test</title>
     <script src="./map.js"></script>
     <script type="text/javascript">
-        window.addEventListener('error', function (e) {
-            console.log(e);
-            debugger;
-        });
+      window.addEventListener("error", function (e) {
+        console.log(e);
+        debugger;
+      });
     </script>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8D142ZGBQ"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-F8D142ZGBQ"
+    ></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-    gtag('config', 'G-F8D142ZGBQ');
+      gtag("config", "G-F8D142ZGBQ");
     </script>
-</head>
+  </head>
 
-<body style="border: 0; margin: 0;">
-    <script type="text/javascript">
-    </script>
-    <table style="width: 100%; height: 100vh;">
-
-        <body>
-            <tr>
-                <td width="20%">
-                    <button onclick="toggleEditable(); return false;">Toggle Editable</button>
-                    <button onclick="clearMap(); return false;">Clear Map</button>
-                    <h2>draw mode</h2>
-                    Dong <input type="radio" name="drawmode" value="dong" checked="checked" /> Polygon <input
-                        type="radio" name="drawmode" value="polygon" />
-                    <ul>
-                        <li>
-                            <button onclick="savePolygon(); return false;">Save Polygon(var coords)</button>
-                        </li>
-                        <li>
-                            <button onclick="addPolygonToMap(); return false;">Show Polygon(Using var coords)</button>
-                        </li>
-                    </ul>
-                    <hr />
-                    <form name="form1" onsubmit="showLegalDongAround(this); return false;">
-                        <ul>
-                            <li>
-                                LAT : <input type="text" name="lat" value="" />
-                            </li>
-                            <li>
-                                LNG : <input type="text" name="lng" value="" />
-                            </li>
-                            <li>
-                                Distance : <input type="text" name="distance" value="1000" />
-                            </li>
-                            <li>
-                                Scale : <input type="text" name="scale" value="0.001" />
-                            </li>
-                            <li>
-                                Adjacent : <input type="radio" name="merge" value="false" checked="checked"> Separate /
-                                <input type="radio" name="merge" value="true"> Merge
-                            </li>
-                        </ul>
-                        <!--input type="submit" /-->
-                    </form>
-                    <hr />
-                    <form name="form4" method="post" onsubmit="return false;">
-                        <textarea name="textarea">
+  <body style="border: 0; margin: 0">
+    <script type="text/javascript"></script>
+    <div style="width: 100%; height: 100vh; display: flex; flex-direction: row">
+      <div style="width: 20vw; padding: 0.5em">
+        <button onclick="toggleEditable(); return false;">
+          Toggle Editable
+        </button>
+        <button onclick="clearMap(); return false;">Clear Map</button>
+        <h2>draw mode</h2>
+        Dong
+        <input type="radio" name="drawmode" value="dong" checked="checked" />
+        Polygon <input type="radio" name="drawmode" value="polygon" />
+        <ul>
+          <li>
+            <button onclick="savePolygon(); return false;">
+              Save Polygon(var coords)
+            </button>
+          </li>
+          <li>
+            <button onclick="addPolygonToMap(); return false;">
+              Show Polygon(Using var coords)
+            </button>
+          </li>
+        </ul>
+        <hr />
+        <form name="form4" method="post" onsubmit="return false;">
+          <textarea name="textarea" style="width: 100%" rows="10">
 { "id": "807", "type": "Feature", "properties": { "EMD_CD": "27260104", "EMD_ENG_NM": "Suseong-dong 2(i)-ga", "EMD_KOR_NM": "\uc218\uc131\ub3d92\uac00" }, "geometry": { "type": "Polygon", "coordinates": [[[128.6132732784135, 35.85113899945861], [128.61410788409898, 35.859773498500566], [128.61763129693347, 35.85959554439207], [128.61676622240017, 35.850922109231455], [128.6132732784135, 35.85113899945861]]] } }
-                        </textarea>
-                        <br />
-                        Interval <input type="text" value="0" name="interval" style="width: 80px;" onkeydown="intervalKey(event);"/> ms
-                        <button onclick="increaseInterval()">+</button>
-                        <button onclick="decreaseInterval()">-</button>
-                        <br />
-                        <input type="button"
-                            onclick="return showGeoJson(JSON.parse(document.form4.textarea.value)); return false;"
-                            value="Display" />
-                        <button onclick="togglePause();">Pause / Resume</button>
-                    </form>
-                </td>
-                <td width="80%">
-                    <div id="map-canvas" style="width:100%;height:100%;"></div>
-                </td>
-            </tr>
-        </body>
-    </table>
+                      </textarea
+          >
+          <br />
+          Interval
+          <input
+            type="text"
+            value="0"
+            name="interval"
+            style="width: 80px"
+            onkeydown="intervalKey(event);"
+          />
+          ms
+          <button onclick="increaseInterval()">+</button>
+          <button onclick="decreaseInterval()">-</button>
+          <br />
+          <input
+            type="button"
+            onclick="return showGeoJson(JSON.parse(document.form4.textarea.value)); return false;"
+            value="Display"
+          />
+          <button onclick="togglePause();">Pause / Resume</button>
+        </form>
+      </div>
+      <div style="flex: 1">
+        <div id="map-canvas" style="height: 100%"></div>
+      </div>
+    </div>
     <script type="text/javascript">
-        function start() {
-            const coord = {
-                lng: 126.839926,
-                lat: 37.565157
-            }
-            const zoomLevel = 7
-            initGoogleMap('map-canvas', coord, zoomLevel)
-        }
-        fetch('/config.json').then(async (response) => {
-            const config = await response.json()
-            const script_google_maps = document.createElement('script')
-            script_google_maps.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${config.GAK}`
-            script_google_maps.addEventListener('load', (event) => {
-                console.log('Google Script loaded')
-                start()
-            })
-            document.head.appendChild(script_google_maps)
-        })
+      function start() {
+        const coord = {
+          lng: 126.839926,
+          lat: 37.565157,
+        };
+        const zoomLevel = 7;
+        initGoogleMap("map-canvas", coord, zoomLevel);
+      }
+      fetch("/config.json").then(async (response) => {
+        const config = await response.json();
+        const script_google_maps = document.createElement("script");
+        script_google_maps.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${config.GAK}`;
+        script_google_maps.addEventListener("load", (event) => {
+          console.log("Google Script loaded");
+          start();
+        });
+        document.head.appendChild(script_google_maps);
+      });
     </script>
-</body>
+  </body>
 </html>
