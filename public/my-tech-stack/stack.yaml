@@ -1,0 +1,192 @@
+tools:
+  - id: dgkim
+    label: DGKIM
+    type: root
+
+  # skills
+  - id: development
+    label: Development
+
+  - id: cloud
+    label: Cloud
+
+  - id: backend
+    label: backend
+    type: skill
+
+  - id: frontend
+    label: Frontend
+    type: skill
+
+  - id: design
+    label: Design
+    type: skill
+
+  - id: organization
+    label: Organization
+    type: skill
+
+  # languages
+  - id: python
+    label: Python
+    type: language
+    tags: [backend]
+
+  - id: javascript
+    label: JavaScript
+    type: language
+    tags: [backend, frontend]
+
+  - id: typescript
+    label: TypeScript
+    type: language
+    tags: [backend, frontend]
+
+  # frameworks
+  - id: django
+    label: Django
+    type: framework
+    tags: [backend]
+  - id: nestjs
+    label: Nest.js
+    type: framework
+    tags: [backend]
+  - id: nextjs
+    label: Next.js
+    type: framework
+    tags: [frontend]
+
+  - id: nodejs
+    label: Node.js
+    type: runtime
+    tags: [backend]
+
+  # cloud
+  - id: aws
+    label: AWS
+    type: cloud
+  - id: gcp
+    label: GCP
+    type: cloud
+  - id: ecs
+    label: AWS ECS
+    type: cloud
+  - id: rds
+    label: AWS RDS
+    type: database
+    tags: [mysql, postgresql]
+  - id: dynamodb
+    label: DynamoDB
+    type: database
+
+  # tools
+  - id: notion
+    label: Notion
+    type: document
+
+  - id: obsidian
+    label: Obsidian
+    type: document
+
+  - id: vscode
+    label: VSCode
+    type: tool
+
+  - id: codex
+    label: OpenAI CodeX
+    type: ai
+
+  - id: jupyternotebook
+    label: Jupyter Notebook
+    type: tool
+  - id: googlecolab
+    label: Google Colab
+    type: tool
+
+  # design
+  - id: figma
+    label: Figma
+    type: design
+
+  - id: drawio
+    label: Draw.io
+    type: design
+
+  - id: freecad
+    label: FreeCAD
+    type: design
+
+  - id: kicad
+    label: KiCad
+    type: design
+
+  - id: bitwarden
+    label: Bitwarden
+    type: security
+
+edges:
+  - from: aws
+    to: dynamodb
+  - from: aws
+    to: ecs
+  - from: aws
+    to: rds
+  - from: development
+    to: vscode
+  - from: development
+    to: codex
+
+  - from: cloud
+    to: aws
+  - from: cloud
+    to: gcp
+
+  - from: backend
+    to: python
+  - from: backend
+    to: nodejs
+  - from: backend
+    to: nestjs
+
+  - from: frontend
+    to: nextjs
+
+  - from: nodejs
+    to: javascript
+  - from: nodejs
+    to: typescript
+
+  - from: django
+    to: python
+
+  - from: design
+    to: figma
+  - from: design
+    to: drawio
+  - from: design
+    to: freecad
+  - from: design
+    to: kicad
+
+  - from: python
+    to: jupyternotebook
+  - from: python
+    to: googlecolab
+
+  - from: organization
+    to: obsidian
+  - from: organization
+    to: notion
+
+  - from: dgkim
+    to: development
+  - from: dgkim
+    to: cloud
+  - from: dgkim
+    to: backend
+  - from: dgkim
+    to: frontend
+  - from: dgkim
+    to: design
+  - from: dgkim
+    to: organization
