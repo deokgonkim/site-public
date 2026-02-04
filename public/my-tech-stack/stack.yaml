@@ -6,9 +6,11 @@ tools:
   # skills
   - id: development
     label: Development
+    type: skill
 
   - id: cloud
     label: Cloud
+    type: skill
 
   - id: backend
     label: backend
@@ -123,8 +125,63 @@ tools:
   - id: bitwarden
     label: Bitwarden
     type: security
+    url: https://bitwarden.com/
+
+  # Sites
+  ## AI
+  - id: ai
+    label: AI
+  - id: chatgpt
+    label: ChatGPT
+    type: ai
+    url: https://chatgpt.com/
+  - id: gemini
+    label: Gemini
+    type: ai
+    url: https://gemini.google.com/
+  - id: claude
+    label: Claude
+    type: ai
+    url: https://claude.ai/
+  ## tool
+  - id: docker
+    label: Docker
+    type: runtime
+    url: https://www.docker.com/
+  - id: ubuntu
+    label: Ubuntu
+    type: runtime
+    url: https://ubuntu.com/
+  ## github sites
+  - id: githubdeokgonkim
+    label: DeokgonKim GitHub
+    type: github
+    url: https://github.com/deokgonkim
+  - id: githubdgkimnet
+    label: dgkimnet GitHub
+    type: github
+    url: https://github.com/dgkimnet
+  ## Others
+  - id: slack
+    label: Slack
+    type: communication
+    url: https://slack.com/
+  - id: telegram
+    label: Telegram
+    type: communication
+    url: https://telegram.org/
+  - id: zabbix
+    label: Zabbix
+    type: monitoring
+    url: https://www.zabbix.com/
 
 edges:
+  - from: ai
+    to: chatgpt
+  - from: ai
+    to: claude
+  - from: ai
+    to: gemini
   - from: aws
     to: dynamodb
   - from: aws
@@ -147,6 +204,11 @@ edges:
     to: nodejs
   - from: backend
     to: nestjs
+
+  - from: development
+    to: githubdeokgonkim
+  - from: development
+    to: githubdgkimnet
 
   - from: frontend
     to: nextjs

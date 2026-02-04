@@ -229,6 +229,7 @@
             .join("circle")
             .attr("r", 18)
             .attr("fill", (d) => colorByType[d.type] || defaultColor)
+            .style("cursor", (d) => (d.url ? "pointer" : "grab"))
             .call(
               d3
                 .drag()
@@ -250,6 +251,7 @@
             .on("mousemove", (event, d) => {
               const tags =
                 d.tags && d.tags.length ? `<br>tags: ${d.tags.join(", ")}` : "";
+              const url = d.url ? `<br>url: ${d.url}` : "";
               tooltip
                 .style("opacity", 1)
                 .style("left", `${event.clientX}px`)
@@ -257,11 +259,21 @@
                 .html(
                   `<strong>${d.label}</strong><br>type: ${
                     d.type || "unknown"
-                  }${tags}`
+                  }${tags}${url}`
                 );
             })
             .on("mouseleave", () => {
               tooltip.style("opacity", 0);
+            })
+            .on("click", (event, d) => {
+              if (event.defaultPrevented || !d.url) {
+                return;
+              }
+
+              const popup = window.open(d.url, "_blank", "noopener,noreferrer");
+              if (popup) {
+                popup.opener = null;
+              }
             });
 
           simulation.on("tick", () => {
