@@ -1,176 +1,313 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="thumbnail" content="https://www.dgkim.net/favicon/favicon-32x32.png" />
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="manifest" href="manifest.json"/>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8D142ZGBQ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-F8D142ZGBQ');
-  </script>
-  <script type="text/javascript">
-    function goUrl() {
-      window.location.href = document.querySelector('input[name=url]').value;
-      return false;
-    }
-    const onvibrate = () => {
-      if (navigator.vibrate) {
-        // navigator.vibrate(200);
-        navigator.vibrate([200, 100, 200, 100, 200, 100, 200]);
-      } else {
-        alert('Vibration not supported');
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="thumbnail"
+      content="https://www.dgkim.net/favicon/favicon-32x32.png"
+    />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="manifest.json" />
+    <title>dgkim.net</title>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-F8D142ZGBQ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-    }
-  </script>
-</head>
+      gtag("js", new Date());
+      gtag("config", "G-F8D142ZGBQ");
+    </script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-<body bgcolor="#FFFFFF" text="#000000">
-  <h1>Updated at Feb 04 2026</h1>
-  <ul>
-    <li><a href="my-tech-stack/index.html">My Tech Stack</a></li>
-    <li><a href="google-maps/index.html">Google Maps</a></li>
-    <li><a href="mapbox/index.html">Mapbox</a></li>
-    <li><a href="sign/index.html">Browser Sign</a></li>
-  </ul>
-  <hr />
-  <ul>
-    <li><a href="api-doc/swagger/">API DOC Swagger</a></li>
-  </ul>
-  <hr />
-  <ul>
-    <li><a href="https://file.dgkim.net/procexp.exe">Process Explorer</a></li>
-    <li><a href="https://file.dgkim.net/Tcpview.exe">TCPView</a></li>
-    <li><a href="https://file.dgkim.net/HangulPuTTY-0.58.h2.exe">한글 Putty 0.58.h2</a></li>
-    <li><a href="https://file.dgkim.net/gvim73_46.exe">GVIM 7.3</a></li>
-    <li><a href="https://file.dgkim.net/gvim72.exe">GVIM 7.2</a></li>
-    <li><a href="https://file.dgkim.net/vim72.zip">GVIM 7.2 for Windows 64bit(수동설치 - 설치할 경로에 풀고 vim72/install.exe 실행)</a></li>
-    <li><a href="https://file.dgkim.net/unzip.exe">unzip.exe</a></li>
-    <li><a href="https://file.dgkim.net/openvpn-2.0.9-gui-1.0.3-install.exe">openvpn gui</a></li>
-    <li><a href="https://file.dgkim.net/Fiddler2Setup.exe">Fiddler2</a></li>
-  </ul>
-  <ul>
-    <li><a href="https://file.dgkim.net/Videos/%EC%9D%BC%EC%83%81%EC%A0%90%EA%B2%80/Video-2018-09-21-16-13-16_2205-masked.mp4">일상점검 2.2 Video</a></a></li>
-    <li><a href="https://file.dgkim.net/Videos/%EC%9D%BC%EC%83%81%EC%A0%90%EA%B2%80/IMG_0107-masked.mp4">일상점검 2.8 Video</a></a></li>
-  </ul>
-  <ul>
-    <li><a href="autocomplete.html">Auto completion test</a></li>
-    <li><a href="autocomplete-without-email.html">Auto completion test (without email)</a></li>
-  </ul>
-  <ul>
-    <li><a href="Pandion _ Plug-Ins.htm">Pandion _ Plug-Ins</a></a></li>
-  </ul>
-  <hr />
-  <form onsubmit="return goUrl();">
-    <input type="text" name="url" />
-    <input type="submit" />
-  </form>
-  <hr />
-  <label>username</label>
-  <form>
-    <input name="username" value=""/>
-    <input name="fcmSubmit" type="submit" />
-  </form>
-  <hr />
-  <h2>Send SMS</h2>
-  <label>Phone Number</label>
-  <input type="tel" name="phone" /><a id="callLink" href="tel:">Call</a>
-  <br />
-  <label>Body</label>
-  <textarea name="sms" rows="4" cols="50">Hello, World!</textarea>
-  <a href="sms:/" onclick="return sendSms();">Send</a>
-  <script type="text/javascript">
-    function sendSms() {
-      const phoneNumber = document.querySelector('input[name=phone]').value;
-      const sms = document.querySelector('textarea[name=sms]').value;
-      window.location.href = `sms:/${phoneNumber}&body=${sms}`;
-      return false;
-    }
-    document.querySelector('input[name=phone]').addEventListener('change', (event) => {
-	    document.querySelector('#callLink').href = `tel:${event.target.value}`;
-});
-  </script>
-  <button
-  onclick="return onvibrate();"
-  >
-    Vibrate
-  </button>
-  <a href="https://t.me/dgkimnet_bot">Link to Telegram Bot</a>
-  <a href="https://t.me/+821000000000">Link to Root User of South Korea Mobile</a>
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js";
-    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-messaging.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: #f0f4f8;
+        min-height: 100vh;
+        padding: 24px 16px 40px;
+      }
 
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAE2VdG2Cy9FazviYV2cAK3jXBVuC-wl54",
-      authDomain: "public-dgkim-net.firebaseapp.com",
-      projectId: "public-dgkim-net",
-      storageBucket: "public-dgkim-net.appspot.com",
-      messagingSenderId: "146213314861",
-      appId: "1:146213314861:web:d27b37bf3b4a22d9c133a4",
-      measurementId: "G-27P1NDX90N"
-    };
+      .page-header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const messaging = getMessaging(app);
+      .page-header h1 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #1a1a2e;
+      }
 
-    console.log("Firebase initialized");
+      .page-header p {
+        font-size: 0.82rem;
+        color: #999;
+        margin-top: 4px;
+      }
 
-    document.querySelector('input[name=fcmSubmit]').addEventListener('click', () => {
-      const username = document.querySelector('input[name=username]').value;
-      console.log('clicked');
-      localStorage.setItem('username', username);
-      Notification.requestPermission().then((permission) => {
-        if (permission !== "granted") {
-          // 푸시 거부됐을 때 처리할 내용
-          alert('push not granted');
-        } else {
-          // Add the public key generated from the console here.
-          getToken(messaging, { vapidKey: "BOxvbl4f6mMCIgEkmITsHODNUjxJIwdmDvjIaSiCSvDtssGNS9moI3hRNxpPNTY6OfgcJW0LNYPr2HVilEoWLJ0" }).then((currentToken) => {
-            if (currentToken) {
-              // Send the token to your server and update the UI if necessary
-              console.log('GotToken', currentToken);
-              fetch('https://public-api.dgkim.net/v1/fcm-tokens', {
-                method: 'POST',
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                  datetime: new Date().toISOString(),
-                  fcmToken: currentToken,
-                  username: localStorage.getItem('username')
-                })
-              }).then((response) => {
-                console.log(response);
-              })
-            } else {
-              // Show permission request UI
-              console.log('No registration token available. Request permission to generate one.');
-              // ...
-            }
-          }).catch((err) => {
-            console.log('An error occurred while retrieving token. ', err);
-            // ...
-          });;
-        }
-      });
-    });
-    document.querySelector('input[name=username]').value = localStorage.getItem('username');
-  </script>
-</body>
+      .card {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        padding: 20px 20px 12px;
+        max-width: 480px;
+        margin: 0 auto 20px;
+      }
+
+      .card-title {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #aaa;
+        margin-bottom: 12px;
+      }
+
+      .link-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .link-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        background: #f8fafc;
+        border: 1.5px solid #dde1e7;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #1a1a2e;
+        font-size: 0.93rem;
+        font-weight: 500;
+        transition: background 0.2s, border-color 0.2s, transform 0.1s;
+      }
+
+      .link-item:hover {
+        background: #eef2ff;
+        border-color: #6c63ff;
+      }
+      .link-item:active {
+        transform: scale(0.98);
+      }
+
+      .link-item .icon {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+      .link-item .label {
+        flex: 1;
+      }
+      .link-item .arrow {
+        color: #bbb;
+        font-size: 0.9rem;
+      }
+
+      /* Go-to-URL form */
+      .url-form {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .url-form input[type="text"] {
+        flex: 1;
+        padding: 11px 14px;
+        border: 1.5px solid #dde1e7;
+        border-radius: 12px;
+        font-size: 0.93rem;
+        color: #1a1a2e;
+        background: #f8fafc;
+        outline: none;
+        font-family: inherit;
+        transition: border-color 0.2s;
+      }
+
+      .url-form input[type="text"]:focus {
+        border-color: #6c63ff;
+        background: #fff;
+      }
+
+      .url-form button {
+        padding: 11px 18px;
+        background: linear-gradient(135deg, #6c63ff, #48c6ef);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 0.93rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: opacity 0.2s, transform 0.1s;
+        white-space: nowrap;
+      }
+
+      .url-form button:hover {
+        opacity: 0.9;
+      }
+      .url-form button:active {
+        transform: scale(0.97);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-header">
+      <h1>🏠 public.dgkim.net</h1>
+      <p>Updated Mar 25 2026</p>
+    </div>
+
+    <!-- Tools -->
+    <div class="card">
+      <div class="card-title">Tools</div>
+      <div class="link-list">
+        <a class="link-item" href="my-tech-stack/index.html">
+          <span class="icon">🛠️</span><span class="label">My Tech Stack</span
+          ><span class="arrow">›</span>
+        </a>
+        <a class="link-item" href="google-maps/index.html">
+          <span class="icon">🗺️</span><span class="label">Google Maps</span
+          ><span class="arrow">›</span>
+        </a>
+        <a class="link-item" href="mapbox/index.html">
+          <span class="icon">📍</span><span class="label">Mapbox</span
+          ><span class="arrow">›</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Samples</div>
+      <div class="link-list">
+        <a class="link-item" href="links/index.html">
+          <span class="icon">🔗</span><span class="label">Links</span
+          ><span class="arrow">›</span>
+        </a>
+        <a class="link-item" href="webapi-test/index.html">
+          <span class="icon">🧪</span><span class="label">Web API Test</span
+          ><span class="arrow">›</span>
+        </a>
+        <a class="link-item" href="webapi-test/autocomplete.html">
+          <span class="icon">⌨️</span
+          ><span class="label">Auto completion test</span
+          ><span class="arrow">›</span>
+        </a>
+        <a class="link-item" href="webapi-test/autocomplete-without-email.html">
+          <span class="icon">⌨️</span
+          ><span class="label">Auto completion test (without email)</span
+          ><span class="arrow">›</span>
+        </a>
+        <a class="link-item" href="sms/index.html">
+          <span class="icon">💬</span><span class="label">Send SMS</span
+          ><span class="arrow">›</span>
+        </a>
+        <a class="link-item" href="fcm/index.html">
+          <span class="icon">🔔</span
+          ><span class="label">FCM Token Registration</span
+          ><span class="arrow">›</span>
+        </a>
+        <hr />
+        <a class="link-item" href="sign/index.html">
+          <span class="icon">✍️</span
+          ><span class="label"><strike>Browser Sign</strike></span
+          ><span class="arrow">›</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Docs -->
+    <div class="card">
+      <div class="card-title">Docs</div>
+      <div class="link-list">
+        <a class="link-item" href="api-doc/swagger/">
+          <span class="icon">📄</span><span class="label">API DOC Swagger</span
+          ><span class="arrow">›</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Downloads -->
+    <div class="card">
+      <div class="card-title">Downloads</div>
+      <div class="link-list">
+        <a
+          class="link-item"
+          href="https://file.dgkim.net/StageForWin/procexp.exe"
+        >
+          <span class="icon">💾</span><span class="label">Process Explorer</span
+          ><span class="arrow">›</span>
+        </a>
+        <a
+          class="link-item"
+          href="https://file.dgkim.net/StageForWin/Tcpview.exe"
+        >
+          <span class="icon">💾</span><span class="label">TCPView</span
+          ><span class="arrow">›</span>
+        </a>
+        <a
+          class="link-item"
+          href="https://file.dgkim.net/StageForWin/arping.zip"
+        >
+          <span class="icon">💾</span><span class="label">arping.zip</span
+          ><span class="arrow">›</span>
+        </a>
+        <hr />
+        <a
+          class="link-item"
+          href="https://file.dgkim.net/Videos/%EC%9D%BC%EC%83%81%EC%A0%90%EA%B2%80/Video-2018-09-21-16-13-16_2205-masked.mp4"
+        >
+          <span class="icon">🎬</span
+          ><span class="label">일상점검 2.2 Video</span
+          ><span class="arrow">›</span>
+        </a>
+        <a
+          class="link-item"
+          href="https://file.dgkim.net/Videos/%EC%9D%BC%EC%83%81%EC%A0%90%EA%B2%80/IMG_0107-masked.mp4"
+        >
+          <span class="icon">🎬</span
+          ><span class="label">일상점검 2.8 Video</span
+          ><span class="arrow">›</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Archives -->
+    <div class="card">
+      <div class="card-title">Archives</div>
+      <div class="link-list">
+        <a class="link-item" href="Pandion _ Plug-Ins.htm">
+          <span class="icon">🔌</span><span class="label">Pandion Plug-Ins</span
+          ><span class="arrow">›</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Go to URL -->
+    <div class="card">
+      <div class="card-title">Go to URL</div>
+      <form class="url-form" onsubmit="return goUrl();">
+        <input type="text" name="url" placeholder="https://…" />
+        <button type="submit">Go</button>
+      </form>
+    </div>
+
+    <script>
+      function goUrl() {
+        window.location.href = document.querySelector("input[name=url]").value;
+        return false;
+      }
+    </script>
+  </body>
 </html>

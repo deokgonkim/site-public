@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Send SMS</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: #f0f4f8;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        padding: 32px 28px;
+        width: 100%;
+        max-width: 420px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+
+      .field {
+        margin-bottom: 18px;
+      }
+
+      label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .phone-row {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      input[name="phone"] {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1.5px solid #dde1e7;
+        border-radius: 12px;
+        font-size: 1rem;
+        color: #1a1a2e;
+        outline: none;
+        transition: border-color 0.2s;
+        background: #f8fafc;
+      }
+
+      input[name="phone"]:focus {
+        border-color: #6c63ff;
+        background: #fff;
+      }
+
+      #callLink {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 18px;
+        background: #e8f5e9;
+        color: #2e7d32;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background 0.2s;
+      }
+
+      #callLink:hover {
+        background: #c8e6c9;
+      }
+
+      textarea[name="sms"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1.5px solid #dde1e7;
+        border-radius: 12px;
+        font-size: 1rem;
+        color: #1a1a2e;
+        resize: vertical;
+        min-height: 110px;
+        outline: none;
+        background: #f8fafc;
+        font-family: inherit;
+        transition: border-color 0.2s;
+      }
+
+      textarea[name="sms"]:focus {
+        border-color: #6c63ff;
+        background: #fff;
+      }
+
+      #sendBtn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #6c63ff, #48c6ef);
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        margin-top: 8px;
+        letter-spacing: 0.03em;
+        transition: opacity 0.2s, transform 0.1s;
+      }
+
+      #sendBtn:hover {
+        opacity: 0.92;
+      }
+      #sendBtn:active {
+        transform: scale(0.98);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>📱 Send SMS</h2>
+
+      <div class="field">
+        <label>Phone Number</label>
+        <div class="phone-row">
+          <input type="tel" name="phone" placeholder="+1 555 000 0000" />
+          <a id="callLink" href="tel:">📞 Call</a>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Message</label>
+        <textarea name="sms">Hello, World!</textarea>
+      </div>
+
+      <a id="sendBtn" href="sms:/" onclick="return sendSms();">Send SMS</a>
+    </div>
+
+    <script>
+      function sendSms() {
+        const phoneNumber = document.querySelector("input[name=phone]").value;
+        const sms = document.querySelector("textarea[name=sms]").value;
+        window.location.href = `sms:/${phoneNumber}&body=${sms}`;
+        return false;
+      }
+      document
+        .querySelector("input[name=phone]")
+        .addEventListener("change", (event) => {
+          document.querySelector(
+            "#callLink"
+          ).href = `tel:${event.target.value}`;
+        });
+    </script>
+  </body>
+</html>
