@@ -174,6 +174,37 @@
     const usernameInput = document.querySelector('input[name=username]');
     const statusBox = document.getElementById('statusBox');
 
+    async function ensureActiveServiceWorker() {
+      if (!('serviceWorker' in navigator)) {
+        throw new Error('This browser does not support service workers.');
+      }
+
+      const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+
+      if (registration.active) {
+        return registration;
+      }
+
+      await new Promise((resolve, reject) => {
+        const worker = registration.installing || registration.waiting;
+
+        if (!worker) {
+          reject(new Error('Service worker registration did not create a worker.'));
+          return;
+        }
+
+        worker.addEventListener('statechange', () => {
+          if (worker.state === 'activated') {
+            resolve();
+          } else if (worker.state === 'redundant') {
+            reject(new Error('Service worker became redundant before activation.'));
+          }
+        });
+      });
+
+      return registration;
+    }
+
     // Restore last username
     usernameInput.value = localStorage.getItem('username') || '';
 
@@ -198,11 +229,16 @@
         return;
       }
 
-      showStatus('info', '⏳ Fetching FCM token…');
+      showStatus('info', '⏳ Preparing push service…');
 
       try {
+        const serviceWorkerRegistration = await ensureActiveServiceWorker();
+
+        showStatus('info', '⏳ Fetching FCM token…');
+
         const currentToken = await getToken(messaging, {
-          vapidKey: "BOxvbl4f6mMCIgEkmITsHODNUjxJIwdmDvjIaSiCSvDtssGNS9moI3hRNxpPNTY6OfgcJW0LNYPr2HVilEoWLJ0"
+          vapidKey: "BOxvbl4f6mMCIgEkmITsHODNUjxJIwdmDvjIaSiCSvDtssGNS9moI3hRNxpPNTY6OfgcJW0LNYPr2HVilEoWLJ0",
+          serviceWorkerRegistration
         });
 
         if (!currentToken) {
