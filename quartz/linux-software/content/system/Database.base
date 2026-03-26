@@ -1,0 +1,16 @@
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.folder != "system"
+        - file.folder != "system/template"
+    groupBy:
+      property: file.folder
+      direction: ASC
+    order:
+      - file.name
+      - Category
+      - InstallMethod
+      - tags
+    sort: []

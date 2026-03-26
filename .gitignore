@@ -1,3 +1,4 @@
 .env
 public/config.json
+public/linux-software
 node_modules

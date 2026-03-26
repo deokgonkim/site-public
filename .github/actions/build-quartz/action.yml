@@ -1,0 +1,24 @@
+name: build-quartz
+description: Build Quartz static site
+inputs:
+  quartz-folder:
+    description: Folder containing the Quartz project to be built
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+
+    - name: Install dependencies
+      working-directory: ${{ inputs.quartz-folder }}
+      shell: bash
+      run: npm ci
+
+    - name: Build Quartz site
+      working-directory: ${{ inputs.quartz-folder }}
+      shell: bash
+      run: npx quartz build
