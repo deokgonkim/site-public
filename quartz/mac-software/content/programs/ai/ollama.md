@@ -1,8 +1,9 @@
 ---
 category:
+  - LocalLLM
 install-method: sh
 tags:
   - AI
-URL:
-InstallMethod: sh
+  - Development
 ---
+- URL: https://ollama.com/

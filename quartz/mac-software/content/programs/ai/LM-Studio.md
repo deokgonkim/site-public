@@ -1,7 +1,9 @@
 ---
 category:
+  - AI
 install-method: dmg
 tags:
   - AI
-URL:
+  - Development
 ---
+- URL: https://lmstudio.ai/

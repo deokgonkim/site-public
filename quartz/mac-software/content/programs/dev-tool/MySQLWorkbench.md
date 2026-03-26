@@ -1,9 +1,9 @@
 ---
 category:
-  - IDE
+  - DevTool
 install-method:
   - dmg
 tags:
   - Development
 ---
-- URL: https://code.visualstudio.com/download
+- URL: https://dev.mysql.com/downloads/workbench/
