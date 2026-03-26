@@ -8,3 +8,8 @@ tags:
 ---
 
 - URL: https://geminicli.com/
+### Install
+
+```bash
+npm install -g @google/gemini-cli
+```

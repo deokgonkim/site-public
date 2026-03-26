@@ -7,3 +7,8 @@ tags:
   - AI
 ---
 - URL: https://ollama.com/
+### Install
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```

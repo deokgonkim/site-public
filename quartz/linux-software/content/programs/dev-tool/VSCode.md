@@ -2,7 +2,7 @@
 category:
   - IDE
 install-method:
-  - Development
+  - deb
 tags:
   - Development
 ---

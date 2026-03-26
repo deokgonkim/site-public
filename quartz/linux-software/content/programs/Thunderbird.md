@@ -7,3 +7,8 @@ tags:
   - Productivity
 ---
 - URL: https://www.thunderbird.net/
+### Install
+
+```shell
+snap install thunderbird
+```

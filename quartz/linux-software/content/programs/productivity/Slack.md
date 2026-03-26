@@ -7,3 +7,8 @@ tags:
   - Productivity
 ---
 - URL: https://slack.com/
+### Install
+
+```shell
+snap install slack
+```

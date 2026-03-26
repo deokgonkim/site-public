@@ -8,3 +8,8 @@ tags:
   - Base
 ---
 - URL: https://www.firefox.com/
+### Install
+
+```shell
+snap install firefox
+```

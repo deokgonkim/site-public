@@ -8,3 +8,8 @@ tags:
 ---
 
 - URL: https://openai.com/codex/
+### Install
+
+```bash
+npm install -g @openai/codex
+```
