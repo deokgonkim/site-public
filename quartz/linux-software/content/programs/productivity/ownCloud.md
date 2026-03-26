@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Productivity
-InstallMethod:
+install-method:
   - apt
 tags:
   - Productivity
-URL:
 ---
+- URL: https://owncloud.com/

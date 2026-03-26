@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Video
-InstallMethod:
+install-method:
   - flatpak
 tags:
   - Design
-URL:
 ---
+- URL: https://kdenlive.org/

@@ -1,9 +1,10 @@
 ---
-Category:
+category:
   - Browser
-InstallMethod:
+install-method:
   - snap
 tags:
   - Browser
-URL:
+  - Base
 ---
+- URL: https://www.firefox.com/

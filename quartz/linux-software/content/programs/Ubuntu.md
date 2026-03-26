@@ -1,8 +1,9 @@
 ---
-Category:
+category:
   - OS
-InstallMethod:
+install-method:
   - iso
 tags:
-URL: https://ubuntu.com/
+  - OS
 ---
+- URL: https://ubuntu.com/

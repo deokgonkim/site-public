@@ -10,7 +10,7 @@ views:
       direction: ASC
     order:
       - file.name
-      - Category
-      - InstallMethod
+      - category
+      - install-method
       - tags
     sort: []

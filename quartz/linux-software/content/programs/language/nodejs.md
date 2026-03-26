@@ -1,11 +1,12 @@
 ---
-Category:
+category:
   - Language
-InstallMethod:
+install-method:
   - tool
 tags:
   - Development
-URL:
 ---
+- URL: https://nodejs.org/
 ## Installation
+
 - Installation is managed by [[nvm]]

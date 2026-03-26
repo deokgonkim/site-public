@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - DevTool
-InstallMethod:
+install-method:
   - sh
 tags:
   - Development
-URL:
 ---
+- URL: https://github.com/nvm-sh/nvm

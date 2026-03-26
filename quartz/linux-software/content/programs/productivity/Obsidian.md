@@ -1,7 +1,7 @@
 ---
-Category: Productivity
+category: Productivity
 tags:
   - Productivity
-InstallMethod: flatpak
-URL: https://obsidian.md/
+install-method: flatpak
 ---
+- URL: https://obsidian.md/

@@ -1,7 +1,9 @@
 ---
-Category:
-InstallMethod:
+category:
+  - Design
+install-method:
   - flatpak
 tags:
-URL:
+  - Design
 ---
+- URL: https://www.kicad.org/

@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Language
-InstallMethod:
+install-method:
   - apt
 tags:
   - Development
-URL:
 ---
+- URL: https://www.python.org/

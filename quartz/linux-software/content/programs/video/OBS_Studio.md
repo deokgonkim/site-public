@@ -1,8 +1,9 @@
 ---
-Category:
+category:
   - Video
-InstallMethod:
+install-method:
   - flatpak
 tags:
-URL:
+  - Video
 ---
+- URL: https://obsproject.com/

@@ -1,10 +1,10 @@
 ---
-Category:
+category:
   - AI-Agent
-InstallMethod:
+install-method:
   - npm
 tags:
   - AI
-URL:
 ---
+
 - URL: https://openai.com/codex/

@@ -1,8 +1,9 @@
 ---
-Category:
-InstallMethod:
+category:
+  - Productivity
+install-method:
   - flatpak
 tags:
   - Productivity
-URL:
 ---
+- URL: https://github.com/deskflow/deskflow

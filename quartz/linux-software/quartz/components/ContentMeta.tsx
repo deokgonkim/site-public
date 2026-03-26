@@ -29,6 +29,14 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
     if (text) {
       const segments: (string | JSX.Element)[] = []
 
+      // dgkim customization
+      const category = fileData.frontmatter?.category
+      if (category) {
+        segments.push()
+      }
+      const installMethod = fileData.frontmatter?.["install-method"]
+      // dgkim customization
+
       if (fileData.dates) {
         segments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
       }
@@ -43,9 +51,21 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       }
 
       return (
-        <p show-comma={options.showComma} class={classNames(displayClass, "content-meta")}>
-          {segments}
-        </p>
+        <>
+          <p show-comma={options.showComma} class={classNames(displayClass, "content-meta")}>
+            {segments}
+          </p>
+          {/* dgkim customization */}
+          <div>
+            {installMethod && (
+              <span style="background-color: lightgreen; border-radius: 5px; padding: 5px;">
+                {String(installMethod)}
+              </span>
+            )}
+            {category && <span style="margin: 5px;">{String(category)}</span>}
+          </div>
+          {/* dgkim customization */}
+        </>
       )
     } else {
       return null

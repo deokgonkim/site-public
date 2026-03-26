@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Language
-InstallMethod:
+install-method:
   - snap
 tags:
   - Development
-URL:
 ---
+- URL: https://go.dev/

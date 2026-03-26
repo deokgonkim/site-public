@@ -2,3 +2,6 @@
 public/config.json
 public/linux-software
 node_modules
+
+# symbolic link for obsidian
+quartz/linux-software/linux-software

@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Design
-InstallMethod:
+install-method:
   - snap
 tags:
   - Design
-URL:
 ---
+- URL: https://www.freecad.org/

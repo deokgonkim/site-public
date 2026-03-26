@@ -1,8 +1,9 @@
 ---
-Category:
+category:
   - IDE
-InstallMethod:
+install-method:
   - Development
 tags:
-URL: https://code.visualstudio.com/
+  - Development
 ---
+- URL: https://code.visualstudio.com/

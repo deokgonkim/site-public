@@ -1,11 +1,12 @@
 ---
-Category:
+category:
   - Language
-InstallMethod:
+install-method:
   - tool
 tags:
   - Development
-URL:
 ---
+- URL: https://rust-lang.org/
 ## Installation Method
+
 - Installation managed by [[rustup]]

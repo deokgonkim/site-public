@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - DevTool
-InstallMethod:
+install-method:
   - apt
 tags:
   - Development
-URL:
 ---
+- URL: https://git-scm.com/

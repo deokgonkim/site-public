@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Local-LLM
-InstallMethod:
+install-method:
   - deb
 tags:
   - AI
-URL:
 ---
+- URL: https://lmstudio.ai/

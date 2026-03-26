@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Communication
-InstallMethod:
+install-method:
   - snap
 tags:
   - Productivity
-URL:
 ---
+- URL: https://slack.com/

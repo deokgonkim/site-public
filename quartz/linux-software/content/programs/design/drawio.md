@@ -1,11 +1,9 @@
 ---
-Category:
+category:
   - Design
-InstallMethod:
+install-method:
   - deb
 tags:
   - Design
-URL:
 ---
 - URL: https://app.diagrams.net/
-

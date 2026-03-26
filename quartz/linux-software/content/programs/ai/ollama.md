@@ -1,9 +1,9 @@
 ---
-Category:
+category:
   - Local-LLM
-InstallMethod:
+install-method:
   - sh
 tags:
   - AI
-URL: https://ollama.com/
 ---
+- URL: https://ollama.com/
