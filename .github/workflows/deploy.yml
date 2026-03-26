@@ -75,7 +75,7 @@ jobs:
           path: apps/shop/build
           retention-days: 1
 
-  build-quartz:
+  build-quartz-linux-software:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -93,11 +93,30 @@ jobs:
           path: quartz/linux-software/public
           retention-days: 1
 
+  build-quartz-mac-software:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Quartz site
+        uses: "./.github/actions/build-quartz"
+        with:
+          quartz-folder: quartz/mac-software
+
+      - name: Upload Quartz build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: quartz-mac-software-build
+          path: quartz/mac-software/public
+          retention-days: 1
+
   deploy:
     needs:
       - build-guest
       - build-shop
-      - build-quartz
+      - build-quartz-linux-software
+      - build-quartz-mac-software
     runs-on: ubuntu-latest
     environment: aws
     steps:
@@ -135,6 +154,12 @@ jobs:
         with:
           name: quartz-linux-software-build
           path: public/linux-software
+
+      - name: Download Quartz mac-software build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: quartz-mac-software-build
+          path: public/mac-software
 
       - name: Build API DOC
         run: cd api-doc;npm ci;npm run build;cp doc.yaml ../public/api-doc/

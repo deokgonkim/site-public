@@ -1,7 +1,9 @@
 .env
 public/config.json
 public/linux-software
+public/mac-software
 node_modules
 
 # symbolic link for obsidian
 quartz/linux-software/linux-software
+quartz/mac-software/mac-software
