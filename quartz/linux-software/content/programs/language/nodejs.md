@@ -2,11 +2,19 @@
 category:
   - Language
 install-method:
-  - tool
+  - nvm
+  - apt
 tags:
   - Development
 ---
 - URL: https://nodejs.org/
 ## Installation
 
-- Installation is managed by [[nvm]]
+```shell
+nvm install 24
+```
+
+### Note
+
+- Install via [[nvm]] on developer's workstation
+- You might prefer install via `nodesource` on production server.
