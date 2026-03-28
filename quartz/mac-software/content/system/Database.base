@@ -4,13 +4,15 @@ views:
     filters:
       and:
         - file.folder != "system"
-        - file.folder != "system/template"
+        - file.folder != "system/templates"
+        - '!file.folder.contains("system/trash")'
+        - file.name != "index"
     groupBy:
       property: file.folder
       direction: ASC
     order:
       - file.name
-      - Category
-      - InstallMethod
+      - category
+      - install-method
       - tags
       - URL
