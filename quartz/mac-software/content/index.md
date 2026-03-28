@@ -4,7 +4,7 @@ title: "Mac Softwares"
 
 ### As a Software Engineer, I usually install many development tools.
 
-My current IDE is [[programs/dev-tool/VSCode]]. and use [[programs/language/nodejs]](`JavaScript` and `TypeScript`)  and [[programs/languages/python]] as my primary programming languages. I am also interested in `Swift`, `Rust` and `Go` language.(but not good at)
+My current IDE is [[programs/dev-tool/VSCode]]. and use [[programs/language/nodejs]](`JavaScript` and `TypeScript`)  and [[programs/language/python]] as my primary programming languages. I am also interested in `Swift`, `Rust` and `Go` language.(but not good at)
 
 I use [[programs/dev-tool/DockerDesktop]] for developing backend server. I usually uses `AWS` as my primary cloud service.
 (On Linux, I additionally use `lxc` and `libvirt` for testing)
