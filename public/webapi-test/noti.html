@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Notification Test</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: #f0f4f8;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        padding: 32px 28px;
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        color: #6c63ff;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+
+      .subtitle {
+        font-size: 0.85rem;
+        color: #888;
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 14px 18px;
+        border: none;
+        border-radius: 14px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.1s;
+        font-family: inherit;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-permission {
+        background: #f59e0b;
+        color: #fff;
+      }
+      .btn-permission:hover:not(:disabled) {
+        background: #d97706;
+      }
+
+      .btn-notify {
+        background: #6c63ff;
+        color: #fff;
+      }
+      .btn-notify:hover:not(:disabled) {
+        background: #574fd6;
+      }
+
+      label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 4px;
+      }
+
+      .input-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid #dde1e7;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        background: #f8fafc;
+        color: #1a1a2e;
+        transition: border-color 0.2s;
+        outline: none;
+      }
+      input[type="text"]:focus {
+        border-color: #6c63ff;
+        background: #fff;
+      }
+      input[type="text"]:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .fields-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1.5px solid #eee;
+        margin: 4px 0 8px;
+      }
+
+      .section-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+      }
+
+      .status-box {
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 0.88rem;
+        display: none;
+      }
+      .status-box.show {
+        display: block;
+      }
+      .status-box.success {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1.5px solid #a5d6a7;
+      }
+      .status-box.error {
+        background: #fce4ec;
+        color: #c62828;
+        border: 1.5px solid #ef9a9a;
+      }
+      .status-box.info {
+        background: #e8eaf6;
+        color: #3949ab;
+        border: 1.5px solid #9fa8da;
+      }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #323232;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        white-space: nowrap;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s, transform 0.3s;
+        pointer-events: none;
+        z-index: 1000;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      #toast.error {
+        background: #c62828;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toast"></div>
+    <div class="card">
+      <a class="back-link" href="index.html">← 뒤로</a>
+      <h2>🛎️ Web Notification</h2>
+      <p class="subtitle">브라우저 알림 기능을 테스트합니다</p>
+
+      <div class="section">
+        <button id="requestPermissionButton" class="btn btn-permission">
+          알림 권한 요청
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="section">
+        <p class="section-title">메시지 필드</p>
+        <div class="fields-grid">
+          <input type="text" id="test1" placeholder="필드 1" />
+          <input type="text" id="test2" placeholder="필드 2" />
+          <input type="text" id="test3" placeholder="필드 3" />
+          <input type="text" id="test4" placeholder="필드 4" />
+        </div>
+
+        <label for="notificationMessage">알림 메시지</label>
+        <input
+          id="notificationMessage"
+          type="text"
+          placeholder="메시지를 입력하세요"
+          disabled
+        />
+
+        <button id="notificationButton" class="btn btn-notify" disabled>
+          알림 보내기
+        </button>
+      </div>
+
+      <div id="statusBox" class="status-box"></div>
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script>
+      var requestPermissionButton = document.getElementById(
+        "requestPermissionButton"
+      );
+      var notificationButton = document.getElementById("notificationButton");
+      var notificationMessage = document.getElementById("notificationMessage");
+      var statusBox = document.getElementById("statusBox");
+
+      // var iconDataURI =
+      //   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKBJREFUeNpiYBjpgBFd4P///wJAaj0QO9DEQiAg5ID9tLIcmwMYsDgABhqoaTHMUHRxpsGYBv5TGqTIZsDkYWLo6gc8BEYdMOqAUQeMOoAqDgAWcgZAfB9EU63SIAGALH8PZb+H8v+jVz64KiOK6wIg+ADEArj4hOoCajiAqMpqtDIadcCoA0YdQIoDDtCqQ4KtBY3NAYG0csQowAYAAgwAgSqbls5coPEAAAAASUVORK5CYII=";
+      var iconDataURI = "https://www.dgkim.net/favicon/favicon-32x32.png";
+
+      function showStatus(type, message) {
+        statusBox.className = "status-box show " + type;
+        statusBox.textContent = message;
+      }
+
+      var _toastTimer;
+      function showToast(message, type) {
+        var toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.className = "show" + (type ? " " + type : "");
+        clearTimeout(_toastTimer);
+        _toastTimer = setTimeout(function () {
+          toast.className = "";
+        }, 3500);
+      }
+
+      requestPermissionButton.addEventListener("click", function () {
+        Notification.requestPermission(function (result) {
+          if (result === "denied") {
+            showStatus("error", "🚫 알림 권한이 거부되었습니다.");
+            return;
+          }
+          requestPermissionButton.disabled = true;
+          notificationMessage.disabled = false;
+          notificationButton.disabled = false;
+          showStatus("success", "✅ 알림 권한이 허용되었습니다.");
+        });
+      });
+
+      notificationButton.addEventListener("click", function () {
+        var message =
+          document.getElementById("test1").value +
+          document.getElementById("test2").value +
+          document.getElementById("test3").value +
+          document.getElementById("test4").value;
+
+        if (!message) message = notificationMessage.value;
+
+        if (message && message.length > 0) {
+          var notification = new Notification("주문신청내역", {
+            body: message,
+            icon: iconDataURI,
+          });
+          setTimeout(function () {
+            notification.close();
+          }, 50000);
+          showStatus("info", "📨 알림을 전송했습니다.");
+        } else {
+          showStatus("error", "⚠️ 메시지를 입력해주세요.");
+        }
+      });
+    </script>
+
+    <script>
+      window.dataUrl = "noti-data.json";
+      window.count = 3;
+      (function poll() {
+        function showNotification(title, options) {
+          if (Notification.permission !== "granted") {
+            showToast("🔕 알림 권한이 허용되지 않았습니다.", "error");
+            return;
+          } else {
+            showToast("🔔 새로운 알림이 도착했습니다!", "success");
+          }
+          var notification = new Notification(title, options);
+          setTimeout(function () {
+            notification.close();
+          }, 2000);
+        }
+        setTimeout(function () {
+          $.ajax({
+            url: window.dataUrl,
+            success: function (data) {
+              showNotification(`Auto notification ${window.count}`, {
+                body: data.data,
+                icon: iconDataURI,
+              });
+            },
+            dataType: "json",
+            complete: () => {
+              if (window.count > 0) {
+                window.count--;
+                poll();
+              }
+            },
+          });
+        }, 5000);
+      })();
+    </script>
+  </body>
+</html>
