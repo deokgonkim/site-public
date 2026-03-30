@@ -85,21 +85,40 @@
       </div>
     </div>
     <script type="text/javascript">
-      function start() {
-        const coord = {
-          lng: 126.839926,
-          lat: 37.565157,
-        };
-        const zoomLevel = 7;
+      function start(coord) {
+        const zoomLevel = 14;
         initGoogleMap("map-canvas", coord, zoomLevel);
       }
+
+      const fallbackCoord = { lng: -122.009033, lat: 37.3349 };
+
+      function initWithGeolocation(onReady) {
+        if (!navigator.geolocation) {
+          onReady(fallbackCoord);
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            onReady({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          function (err) {
+            console.log("Geolocation error:", err);
+            onReady(fallbackCoord);
+          },
+          { maximumAge: 0, enableHighAccuracy: true, timeout: 1000 }
+        );
+      }
+
       fetch("/config.json").then(async (response) => {
         const config = await response.json();
         const script_google_maps = document.createElement("script");
         script_google_maps.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${config.GAK}`;
-        script_google_maps.addEventListener("load", (event) => {
+        script_google_maps.addEventListener("load", () => {
           console.log("Google Script loaded");
-          start();
+          initWithGeolocation(start);
         });
         document.head.appendChild(script_google_maps);
       });
