@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Geocoding API 테스트</title>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script> -->
+    <script>
+      (() => {
+        fetch("/config.json").then(async (response) => {
+          const config = await response.json();
+          const script_google_maps = document.createElement("script");
+          script_google_maps.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${config.GAK}`;
+          script_google_maps.addEventListener("load", () => {
+            console.log("Google Script loaded");
+          });
+          document.head.appendChild(script_google_maps);
+        });
+      })();
+      function copyToClipboard(text) {
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            alert("좌표가 클립보드에 복사되었습니다: " + text);
+          })
+          .catch((err) => {
+            alert("클립보드 복사 실패: " + err);
+          });
+      }
+      function geocoding() {
+        const geocoder = new google.maps.Geocoder();
+        const address = document.getElementById("address").value;
+
+        geocoder.geocode({ address: address }, function (results, status) {
+          if (status === "OK") {
+            const lat = results[0].geometry.location.lat();
+            const lng = results[0].geometry.location.lng();
+
+            const coordYml = `coord:\\n  lat: ${lat}\\n  lon: ${lng}\\n`;
+            const copyToClipboardHtml = `<button onclick="copyToClipboard('${coordYml}')">좌표 복사</button>`;
+
+            document.getElementById("result").innerHTML =
+              `주소: ${results[0].formatted_address}<br>` +
+              `위도: ${lat}<br>경도: ${lng}<br />
+              ${copyToClipboardHtml}`;
+          } else {
+            alert("Geocode 실패 사유: " + status);
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <h2>간단한 Geocoding 도구</h2>
+    <form onsubmit="geocoding(); return false;">
+      <input
+        type="text"
+        id="address"
+        placeholder="주소를 입력하세요"
+        style="width: 300px"
+      />
+      <input type="submit" value="변환하기" />
+    </form>
+    <div id="result" style="margin-top: 20px"></div>
+  </body>
+</html>
