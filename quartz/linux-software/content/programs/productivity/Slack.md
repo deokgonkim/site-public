@@ -2,6 +2,7 @@
 category:
   - Communication
 install-method:
+  - flatpak
   - snap
 tags:
   - Productivity
@@ -10,5 +11,8 @@ tags:
 ### Install
 
 ```shell
-snap install slack
+flatpak install --user com.slack.Slack
+# Current version(4.46.99) on snap has a hangul problem.
+# So, I recommend flatpak version instead
+#snap install slack
 ```
