@@ -2,8 +2,8 @@
 category:
   - Base
 install-method:
-  - pkg
+  - dmg
 tags:
   - Productivity
 ---
-- URL: https://owncloud.com/desktop-app/
+- URL: https://www.dropbox.com/

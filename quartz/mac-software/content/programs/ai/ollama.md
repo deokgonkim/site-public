@@ -7,3 +7,9 @@ tags:
   - Development
 ---
 - URL: https://ollama.com/
+
+### Install
+
+```shell
+curl -fsSL https://ollama.com/install.sh | sh
+```

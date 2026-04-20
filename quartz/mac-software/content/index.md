@@ -16,7 +16,7 @@ Use `Chrome` as default browser, and use `Firefox` as my daily driver.
  
 Mostly command line tools are installed via [[programs/base/homebrew]]. but these days many tools can be installed using `npm`
 
-These days, I also install [[programs/ai|AI]] tools to experiment AI softwares.
+These days, I also install [[programs/ai/|AI]] tools to experiment AI softwares.
 
 ### As Hobby
 
