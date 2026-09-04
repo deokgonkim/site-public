@@ -32,6 +32,21 @@
         font-family: "Open Sans", sans-serif;
       }
 
+      #coordinate-menu {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #bbb;
+      }
+
+      #coordinate-input {
+        width: 155px;
+      }
+
+      #coordinate-status {
+        margin-top: 5px;
+        max-width: 260px;
+      }
+
       #right_menu {
         top: 120px;
         right: 0;
@@ -77,6 +92,18 @@
       <label for="streets-v11">streets</label>
       <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" />
       <label for="outdoors-v11">outdoors</label>
+      <form id="coordinate-menu" onsubmit="return goToCoordinate();">
+        <label for="coordinate-input">Coordinate</label><br />
+        <input
+          id="coordinate-input"
+          type="text"
+          placeholder="lat, lng or lng, lat"
+          aria-label="Latitude and longitude"
+        />
+        <button type="submit">Go</button>
+        <div id="coordinate-status" role="status" aria-live="polite"></div>
+        <small>Pairs with a value outside ±90 are detected automatically.</small>
+      </form>
     </div>
     <!--
     <div id="right_menu">
@@ -85,6 +112,81 @@
     -->
     <script type="text/javascript">
       const fallbackCoord = [-122.009033, 37.3349]; // Apple Park
+
+      function parseCoordinatePair(value) {
+        const values = String(value || "")
+          .trim()
+          .split(/[\s,]+/)
+          .filter(Boolean)
+          .map(Number);
+
+        if (
+          values.length !== 2 ||
+          values.some((number) => !Number.isFinite(number))
+        ) {
+          throw new Error("Enter two numbers separated by a comma or space.");
+        }
+
+        const [first, second] = values;
+        const firstCanBeLat = Math.abs(first) <= 90;
+        const secondCanBeLat = Math.abs(second) <= 90;
+        const firstCanBeLng = Math.abs(first) <= 180;
+        const secondCanBeLng = Math.abs(second) <= 180;
+
+        if (!firstCanBeLng || !secondCanBeLng) {
+          throw new Error("Longitude must be between -180 and 180.");
+        }
+        if (!firstCanBeLat && secondCanBeLat) {
+          return { lat: second, lng: first, order: "lng, lat" };
+        }
+        if (firstCanBeLat && !secondCanBeLat) {
+          return { lat: first, lng: second, order: "lat, lng" };
+        }
+        if (firstCanBeLat && secondCanBeLat) {
+          return { lat: first, lng: second, order: "lat, lng (assumed)" };
+        }
+
+        throw new Error("Latitude must be between -90 and 90.");
+      }
+
+      function setCoordinateStatus(message, isError) {
+        const status = document.getElementById("coordinate-status");
+        status.textContent = message;
+        status.style.color = isError ? "#b00020" : "#176b2c";
+      }
+
+      function goToCoordinate() {
+        if (!window.map) {
+          setCoordinateStatus("The map is still loading. Please try again.", true);
+          return false;
+        }
+
+        try {
+          const coordinate = parseCoordinatePair(
+            document.getElementById("coordinate-input").value
+          );
+          const center = [coordinate.lng, coordinate.lat];
+
+          window.map.flyTo({ center, zoom: Math.max(window.map.getZoom(), 14) });
+          if (window.coordinateMarker) {
+            window.coordinateMarker.remove();
+          }
+          window.coordinateMarker = new mapboxgl.Marker()
+            .setLngLat(center)
+            .setPopup(
+              new mapboxgl.Popup().setText(
+                `LAT: ${coordinate.lat}, LNG: ${coordinate.lng}`
+              )
+            )
+            .addTo(window.map);
+          setCoordinateStatus(
+            `Moved to ${coordinate.lat}, ${coordinate.lng} (${coordinate.order}).`
+          );
+        } catch (error) {
+          setCoordinateStatus(error.message, true);
+        }
+        return false;
+      }
 
       function initWithGeolocation(onReady) {
         if (!navigator.geolocation) {
