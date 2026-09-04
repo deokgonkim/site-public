@@ -8,6 +8,98 @@ const data = {
 let info;
 let pause = false;
 
+/**
+ * Parse a coordinate pair and return the pair as Google Maps expects it.
+ * A pair is normally entered as "lat, lng", but values outside the latitude
+ * range make the "lng, lat" order unambiguous.
+ */
+function parseCoordinatePair(value) {
+  const values = String(value || "")
+    .trim()
+    .split(/[\s,]+/)
+    .filter(Boolean)
+    .map(Number);
+
+  if (
+    values.length !== 2 ||
+    values.some((number) => !Number.isFinite(number))
+  ) {
+    throw new Error("Enter two numbers separated by a comma or space.");
+  }
+
+  const [first, second] = values;
+  const firstCanBeLat = Math.abs(first) <= 90;
+  const secondCanBeLat = Math.abs(second) <= 90;
+  const firstCanBeLng = Math.abs(first) <= 180;
+  const secondCanBeLng = Math.abs(second) <= 180;
+
+  if (!firstCanBeLng || !secondCanBeLng) {
+    throw new Error("Longitude must be between -180 and 180.");
+  }
+
+  // If only one order is valid, use that order. If both are valid, use the
+  // conventional lat,lng order because numeric values alone are ambiguous.
+  if (!firstCanBeLat && secondCanBeLat) {
+    return { lat: second, lng: first, order: "lng, lat" };
+  }
+  if (firstCanBeLat && !secondCanBeLat) {
+    return { lat: first, lng: second, order: "lat, lng" };
+  }
+  if (firstCanBeLat && secondCanBeLat) {
+    return { lat: first, lng: second, order: "lat, lng (assumed)" };
+  }
+
+  throw new Error("Latitude must be between -90 and 90.");
+}
+
+function goToCoordinate() {
+  if (!window.map) {
+    setCoordinateStatus("The map is still loading. Please try again.", true);
+    return false;
+  }
+
+  const combinedInput = document.getElementById("coordinate-input");
+  const latInput = document.getElementById("lat-input");
+  const lngInput = document.getElementById("lng-input");
+  const value = combinedInput.value.trim() || `${latInput.value}, ${lngInput.value}`;
+
+  try {
+    const coordinate = parseCoordinatePair(value);
+    const position = { lat: coordinate.lat, lng: coordinate.lng };
+
+    window.map.setCenter(position);
+    window.map.setZoom(Math.max(window.map.getZoom() || 14, 14));
+
+    if (window.coordinateMarker) {
+      window.coordinateMarker.setMap(null);
+      window.markers = window.markers.filter(
+        (marker) => marker !== window.coordinateMarker
+      );
+    }
+    window.coordinateMarker = new google.maps.Marker({
+      map: window.map,
+      position,
+      title: `LAT: ${coordinate.lat}, LNG: ${coordinate.lng}`,
+    });
+    window.markers.push(window.coordinateMarker);
+
+    latInput.value = coordinate.lat;
+    lngInput.value = coordinate.lng;
+    setCoordinateStatus(`Moved to ${coordinate.lat}, ${coordinate.lng} (${coordinate.order}).`);
+    return false;
+  } catch (error) {
+    setCoordinateStatus(error.message, true);
+    return false;
+  }
+}
+
+function setCoordinateStatus(message, isError) {
+  const status = document.getElementById("coordinate-status");
+  if (!status) return;
+  status.textContent = message;
+  status.style.color = isError ? "#b00020" : "#176b2c";
+}
+
 const intervalKey = (event) => {
   let currentInterval = Number(
     document.querySelector("input[name=interval]").value
@@ -94,6 +186,7 @@ const initGoogleMap = (domId, coord, zoomLevel) => {
   info.open(map);
 
   window.markers = [];
+  window.coordinateMarker = null;
   window.map.data.setStyle({
     fillColor: "#00FF00",
     editable: false,
@@ -190,6 +283,8 @@ function clearMap(dataonly) {
     window.map.data.remove(feature);
   });
   window.markers.map((marker) => marker.setMap(null));
+  window.markers = [];
+  window.coordinateMarker = null;
   if (dataonly) {
     return;
   }
